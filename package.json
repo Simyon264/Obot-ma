@@ -1,0 +1,16 @@
+{
+  "name": "interstellar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "keywords": [],
+  "author": "Simyon, Joshua zacek",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "colours": "^0.6.0-2",
+    "discord.js": "^12.4.1"
+  }
+}

@@ -1,0 +1,20 @@
+{
+    "bot": {
+        "version": "In-dev",
+        "Authors": "Simyon, Joshuazacek",
+        "generalPrefix": "v!",
+        "description": "Lmao a bot ig"
+    },
+    "special": {
+        "owner": "327840918482714626"
+    },
+    "messageColours": {
+        "info": "0x0754c6",
+    	"warn": "0xe02702"
+    },
+    "commands": {
+        "categories": [
+            "general"
+        ]
+    }
+}
