@@ -1,0 +1,20 @@
+{
+	"name": "interstellar-bot",
+	"version": "1.0.0-indev",
+	"description": "The discord bot from interstellar space.",
+	"main": "main.js",
+	"scripts": {
+		"start": "node ."
+	},
+	"repository": "https://github.com/Simyon264/Interstellar-Bot",
+	"keywords": [
+		"Interstellar",
+		"Bot"
+	],
+	"author": "Simyon, Joshua Zacek",
+	"license": "GPL-3.0",
+	"dependencies": {
+		"discord.js": "12.4.1",
+		"dotenv": "8.2.0"
+	}
+}
