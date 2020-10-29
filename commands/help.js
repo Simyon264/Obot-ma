@@ -10,7 +10,7 @@ module.exports = {
 	description: 'Gives a list of commands available in the bot',
 	category: 'general',
 	usage: '[command]',
-	roles: 'everyone',
+	perms: '',
 	run: function(message, prefix, args) {
 		if (args.length == 1) {
 			var categories = functions.config().commands.categories
@@ -35,7 +35,7 @@ module.exports = {
 
 				embed.addField(categoryName, categoryArray.join(", "));
 			}
-			
+			embed.addField("Help For Specific Commands","To get help for any command, do `" + prefix + "help [command name]`")
 			message.channel.send(embed);
 		} else if (args.length >= 2) {
 			fs.stat(`./commands/${args[1]}.js`, function(err, stat) {
@@ -46,7 +46,7 @@ module.exports = {
 					var cmdDesc = commandFile['description'];
 					var cmdCategory = commandFile['category'];
 					var cmdUsage = commandFile['usage'];
-					var cmdRoles = commandFile['roles'];
+					var cmdRoles = commandFile['perms'];
 
 					cmdName = cmdName.charAt(0).toUpperCase() + cmdName.slice(1);
 					cmdCategory = cmdCategory.charAt(0).toUpperCase() + cmdCategory.slice(1);
@@ -58,7 +58,7 @@ module.exports = {
 						.addField("Description", cmdDesc || "*none*")
 						.addField("Category", cmdCategory || "*none*")
 						.addField("Usage", cmdUsage || "*none*")
-						.addField("Roles", cmdRoles || "*none*");
+						.addField("Permissions", cmdRoles || "*none*");
 						
 					message.channel.send(embed);
 				} else if (err.code === 'ENOENT') {

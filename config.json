@@ -2,19 +2,22 @@
     "bot": {
         "version": "In-dev",
         "Authors": "Simyon, Joshuazacek",
-        "generalPrefix": "v!",
-        "description": "Lmao a bot ig"
+        "generalPrefix": "s!",
+        "description": "Lmao a bot ig",
+        "invite": "https://discord.com/api/oauth2/authorize?client_id=771102718713528361&permissions=379904&scope=bot"
     },
     "special": {
         "owner": "327840918482714626"
     },
     "messageColours": {
-        "info": "0x0754c6",
-    	"warn": "0xe02702"
+        "info": "0x0099ff",
+        "warn": "0xf54242",
+        "done": "0x00ff95"
     },
     "commands": {
         "categories": [
-            "general"
+            "general",
+            "server"
         ]
     }
 }

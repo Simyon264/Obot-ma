@@ -10,7 +10,7 @@ module.exports = {
 	description: 'About the bot',
 	category: 'general',
 	usage: '',
-	roles: 'everyone',
+	perms: '',
     run: function (message, prefix,args,client) {
 		let embed = new discord.MessageEmbed()
 			.setTitle("About")
@@ -18,8 +18,8 @@ module.exports = {
 			.setDescription(functions.config().bot.description)
 			.addField("Version", functions.config().bot.version)
             .addField("Author", functions.config().bot.Authors)
-            .setThumbnail(client.user.avatarURL())
-
+			.setThumbnail(client.user.avatarURL())
+			.addField("Invite", `[Here](${functions.config().bot.invite} 'Click me to invite me!')`)
 		message.channel.send(embed);
 	}
 }
