@@ -11,6 +11,7 @@ module.exports = {
 	category: 'general',
 	usage: '[command]',
 	perms: '',
+	cooldown: 1,
 	run: function(message, prefix, args) {
 		if (args.length == 1) {
 			var categories = functions.config().commands.categories
@@ -47,6 +48,7 @@ module.exports = {
 					var cmdCategory = commandFile['category'];
 					var cmdUsage = commandFile['usage'];
 					var cmdRoles = commandFile['perms'];
+					let cooldown = commandFile['cooldown']
 
 					cmdName = cmdName.charAt(0).toUpperCase() + cmdName.slice(1);
 					cmdCategory = cmdCategory.charAt(0).toUpperCase() + cmdCategory.slice(1);
@@ -59,6 +61,7 @@ module.exports = {
 						.addField("Category", cmdCategory || "*none*")
 						.addField("Usage", cmdUsage || "*none*")
 						.addField("Permissions", cmdRoles || "*none*");
+					embed.addField("Cooldown",cooldown || "*none*")
 						
 					message.channel.send(embed);
 				} else if (err.code === 'ENOENT') {

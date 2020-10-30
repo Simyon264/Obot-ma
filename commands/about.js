@@ -11,6 +11,7 @@ module.exports = {
 	category: 'general',
 	usage: '',
 	perms: '',
+	cooldown: 1,
     run: function (message, prefix,args,client) {
 		let embed = new discord.MessageEmbed()
 			.setTitle("About")

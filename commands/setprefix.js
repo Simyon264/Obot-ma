@@ -11,7 +11,8 @@ module.exports = {
 	description: 'Sets the prefix for the server!',
 	category: 'server',
 	usage: '<code>',
-	perms: 'MANAGE_GUILD',
+    perms: 'MANAGE_GUILD',
+    cooldown: 1,
     run: function (message, prefix, args, client) {
         let file = JSON.parse(fs.readFileSync(`./files/serverConfigs/${message.guild.id}.json`))
 		if (args.length !== 2) {

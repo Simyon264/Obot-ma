@@ -16,3 +16,12 @@ exports.embed = function(channel, title, colour, message) {
 		
 	channel.send(embed);
 }
+
+exports.getServerConfig = function (guildID) {
+    try {
+        let file = JSON.parse(fs.readFileSync(`./files/serverConfigs/${guildID}.json`))
+        return file;
+    } catch (error) {
+        return JSON.parse(fs.readFileSync("./files/serverConfigs/template.json"))
+    }
+}

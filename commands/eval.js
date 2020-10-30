@@ -10,7 +10,8 @@ module.exports = {
 	description: 'Does some JS shit',
 	category: 'owner',
 	usage: '<code>',
-	perms: 'owner',
+    perms: 'owner',
+    cooldown: 1,
     run: function (message, prefix,args,client) {
         if (message.author.id == functions.config().special.owner) {
             const args = message.content.split(" ").slice(1);

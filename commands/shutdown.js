@@ -9,7 +9,8 @@ module.exports = {
 	description: 'Shuts the bot down.',
 	category: 'owner',
 	usage: '',
-	perms: 'owner',
+    perms: 'owner',
+    cooldown: 1,
     run: function (message, prefix,args,client) {
         if (message.author.id == functions.config().special.owner) {
             message.channel.send("Shutting down! :clap:").then(function () {
