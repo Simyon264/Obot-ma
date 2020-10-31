@@ -19,8 +19,9 @@
     "commands": {
         "categories": [
             "general",
-            "server",
-            "fun"
+            "moderation",
+            "fun",
+            "server"
         ]
     }
 }
