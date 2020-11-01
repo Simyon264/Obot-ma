@@ -91,7 +91,64 @@ try {
                                             FUCKING_WORK_AHHHHHH = true
                                         }
                                         if (FUCKING_WORK_AHHHHHH) return;
-                                        functions.embed(message.channel, "", colourWarn, "Command does not exist");
+                                        try {
+                                            let dir = fs.readdirSync("./commands/")
+                                            let commandFile2
+                                            let found = false
+                                            for (let index = 0; index < dir.length; index++) {
+                                                commandFile2 = require(`../commands/${dir[index]}`);
+                                                if (commandFile2['alias'].includes(args[0].toLowerCase())) {
+                                                    found = true;
+                                                    final = index
+                                                    index = dir.length;
+                                                }
+                                            }
+                                            if (found) {
+                                                var commandFile = require(`../commands/${dir[final]}`);
+                                                let commandName = commandFile['name']
+                                                let comandCooldown = commandFile['cooldown']
+                                                if (!cooldowns.has(commandName)) {
+                                                    cooldowns.set(commandName, new Discord.Collection());
+                                                }
+                                                const now = Date.now();
+                                                const timestamps = cooldowns.get(commandName);
+                                                const cooldownAmount = (comandCooldown || 3) * 1000;
+                                                if (timestamps.has(message.author.id)) {
+                                                    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+                                                    if (now < expirationTime) {
+                                                        const timeLeft = (expirationTime - now) / 1000;
+                                                        functions.embed(message.channel, "", colourWarn, `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`);
+                                                    }
+                                                } else {
+                                                    timestamps.set(message.author.id, now);
+                                                    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+                                                    //perms check so you dont have to do it in the file lmao
+                                                    var cmdRoles = commandFile['perms'];
+                                                    if (cmdRoles !== "") {
+                                                        if (message.member.permissions.has(cmdRoles)) {
+                                                            commandFile['run'](message, prefix, args, client)
+                                                        } else {
+                                                            functions.embed(message.channel, "Error", colourWarn, "You are missing the permission: `" + cmdRoles + "`!")
+                                                        }
+                                                    } else {
+                                                        commandFile['run'](message, prefix, args, client)
+                                                    }
+                                                }
+                                            } else {
+                                                functions.embed(message.channel, "", colourWarn, "Command does not exist");
+                                            }
+                                        } catch (error) {
+                                            functions.embed(message.channel, "", colourWarn, "An error occured!");
+                                            //error logging
+                                            const path = require('path');
+
+                                            let date = new Date()
+
+                                            let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
+                                            fs.writeFileSync(`./files/log/commandLogs/${finnal}.txt`, `Message: ${message.content}\n\nError: ` + err)
+                                            console.log(colors.red(`An error occured! The error can be found in ./files/log/commandLogs/${finnal}.txt`))
+                                        }
+
                                     });
                                 } else {
                                     console.log(err);
