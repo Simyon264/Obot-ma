@@ -12,6 +12,7 @@ module.exports = {
     category: 'server',
     usage: '<code>',
     perms: 'MANAGE_GUILD',
+    alias: ["prefix"],
     cooldown: 1,
     run: function (message, prefix, args, client) {
         let file = JSON.parse(fs.readFileSync(`./files/serverConfigs/${message.guild.id}.json`))

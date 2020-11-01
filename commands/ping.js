@@ -10,6 +10,7 @@ module.exports = {
     category: 'general',
     usage: '',
     perms: '',
+    alias: ["uptime"],
     cooldown: 10,
     run: function (message, prefix, args, client) {
 
@@ -26,7 +27,7 @@ module.exports = {
         }
 
         message.channel.send("〽️ Pinging").then((m) => {
-            let ping = m.createdTimestamp - Date.now()
+            let ping = Date.now() - m.createdTimestamp
             let embed = new discord.MessageEmbed()
                 .setTitle("Pong! :ping_pong:")
                 .addField("Bot latency: ", ping + "ms")

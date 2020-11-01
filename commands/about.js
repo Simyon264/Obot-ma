@@ -10,6 +10,7 @@ module.exports = {
 	category: 'general',
 	usage: '',
 	perms: '',
+	alias: [],
 	cooldown: 1,
 	run: function (message, prefix, args, client) {
 		let days = Math.floor(client.uptime / 86400000);

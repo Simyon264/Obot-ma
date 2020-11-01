@@ -12,6 +12,7 @@ module.exports = {
     category: 'general',
     usage: '',
     perms: '',
+    alias: [],
     cooldown: 1,
     run: function (message, prefix, args) {
         let embed = new discord.MessageEmbed()
@@ -19,8 +20,8 @@ module.exports = {
             .setDescription("Other code and npm packages used")
             .setColor(colourDone)
             .addField("VylBot", "[VylBot on github](https://github.com/GetGravitySoft/VylBot 'Click me >.<')", false)
-            .addField("Discord.js docs","[Docs](https://discordjs.guide/ 'Click me >.<')")
-            .addField("NPM Packages","[Colours](https://www.npmjs.com/package/colors 'Click me >.<') , [Discord.js](https://www.npmjs.com/package/discord.js 'Click me >.<')")
+            .addField("Discord.js docs", "[Docs](https://discordjs.guide/ 'Click me >.<')")
+            .addField("NPM Packages", "[Colours](https://www.npmjs.com/package/colors 'Click me >.<') , [Discord.js](https://www.npmjs.com/package/discord.js 'Click me >.<') , [random-puppy](https://www.npmjs.com/package/random-puppy 'Click me >.<')")
         message.channel.send(embed)
     }
 }

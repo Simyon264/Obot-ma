@@ -12,6 +12,7 @@ module.exports = {
 	category: 'fun',
 	usage: '<the thing you want to yeet>',
 	perms: '',
+	alias: ["yeeeeeeeeeet"],
 	cooldown: 1,
 	run: function (message, prefix, args, client) {
 		if (args.length > 1) {

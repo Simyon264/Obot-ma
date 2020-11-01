@@ -11,6 +11,7 @@ module.exports = {
     category: 'moderation',
     usage: '<amount of messages>',
     perms: 'MANAGE_MESSAGES',
+    alias: ["clear", "massdelete"],
     cooldown: 25,
     run: function (message, prefix, args, client) {
         client.guilds.fetch(message.guild.id).then((guild) => {

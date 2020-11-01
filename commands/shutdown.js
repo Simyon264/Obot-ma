@@ -5,13 +5,14 @@ var colourInfo = functions.config().messageColours.info;
 var colourWarn = functions.config().messageColours.warn;
 
 module.exports = {
-	name: 'shutdown',
-	description: 'Shuts the bot down.',
-	category: 'owner',
-	usage: '',
+    name: 'shutdown',
+    description: 'Shuts the bot down.',
+    category: 'owner',
+    usage: '',
     perms: 'owner',
     cooldown: 1,
-    run: function (message, prefix,args,client) {
+    alias: ["sd"],
+    run: function (message, prefix, args, client) {
         if (message.author.id == functions.config().special.owner) {
             message.channel.send("Shutting down! :clap:").then(function () {
                 console.log("Discord command: Shutdown")
@@ -19,7 +20,7 @@ module.exports = {
                 process.exit(0)
             });
         } else {
-            functions.embed(message.channel,"Error",colourWarn,"You do not have the Permission to execute this command!")
+            functions.embed(message.channel, "Error", colourWarn, "You do not have the Permission to execute this command!")
         }
-	}
+    }
 }

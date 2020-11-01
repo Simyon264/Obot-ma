@@ -11,6 +11,7 @@ module.exports = {
     category: 'fun',
     usage: '',
     perms: '',
+    alias: ["m"],
     cooldown: 5,
     run: function (message, prefix, args, client) {
         function lol() {
