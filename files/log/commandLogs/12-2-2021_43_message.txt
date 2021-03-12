@@ -1,0 +1,7 @@
+Message: s!meme
+
+Error: TypeError: subreddits.length is not a function
+TypeError: subreddits.length is not a function
+    at Object.run (C:\Users\simyo\OneDrive\Desktop\Ein Ordner mit Irgendwas\Interstellar-Bot\commands\meme.js:18:68)
+    at C:\Users\simyo\OneDrive\Desktop\Ein Ordner mit Irgendwas\Interstellar-Bot\eventhandler\message.js:73:67
+    at FSReqCallback.oncomplete (fs.js:169:5)

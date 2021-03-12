@@ -1,9 +1,9 @@
 {
     "bot": {
-        "version": "In-dev",
+        "version": "1.0.0",
         "Authors": "Simyon#6969",
         "generalPrefix": "s!",
-        "description": "Lmao a bot ig",
+        "description": "The bot for the discord of JCIgaming",
         "invite": "You cant lol"
     },
     "special": {

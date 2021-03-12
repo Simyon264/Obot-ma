@@ -4,7 +4,13 @@ try {
         run: function (client) {
             try {
                 client.once('ready', () => {
-                    console.log('Started!')
+                    client.user.setPresence({
+                            activity: {
+                                name: 'Obama simulator 2021'
+                            },
+                            status: 'dnd'
+                        })
+                        .then(client.user.setStatus('dnd').then(console.log('Started!')))
                 });
             } catch (error) {
                 const colors = require("colours")

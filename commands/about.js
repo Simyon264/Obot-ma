@@ -26,7 +26,7 @@ module.exports = {
 			.addField("Author", functions.config().bot.Authors)
 			.setThumbnail(client.user.avatarURL())
 			.addField("Uptime", `${days}d ${hours}h ${minutes}m ${seconds}s`)
-			.addField("Invite", `[Here](${functions.config().bot.invite} 'Click me to invite me!')`)
+			//.addField("Invite", `[Here](${functions.config().bot.invite} 'Click me to invite me!')`)
 		message.channel.send(embed);
 	}
 }
