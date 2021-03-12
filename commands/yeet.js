@@ -13,7 +13,7 @@ module.exports = {
 	usage: '<the thing you want to yeet>',
 	perms: '',
 	alias: ["yeeeeeeeeeet"],
-	cooldown: 1,
+	cooldown: 2,
 	run: function (message, prefix, args, client) {
 		if (args.length > 1) {
 			let reasonArgs = args;

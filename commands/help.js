@@ -78,7 +78,7 @@ module.exports = {
 				} else {
 					console.log(err);
 
-					functions.embed(message.channel, "", colourWarn, "An error has occured. If you believe this to be an error, please report it using the report command");
+					functions.embed(message.channel, "", colourWarn, "An error has occured. It has been logged to fix it.");
 				}
 			});
 		}

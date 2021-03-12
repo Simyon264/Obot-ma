@@ -6,7 +6,7 @@ var colourWarn = functions.config().messageColours.warn;
 
 module.exports = {
     name: 'ping',
-    description: 'Gives ',
+    description: 'Gives the bot ping',
     category: 'general',
     usage: '',
     perms: '',
@@ -25,24 +25,18 @@ module.exports = {
         } else {
             colour = 0x26e08d
         }
-
         message.channel.send("〽️ Pinging").then((m) => {
-            let ping = Date.now() - m.createdTimestamp
+            let d = Date.now()
+            let ping = d - m.createdTimestamp
             let embed = new discord.MessageEmbed()
                 .setTitle("Pong! :ping_pong:")
                 .addField("Bot latency: ", ping + "ms")
                 .addField("API: ", client.ws.ping + "ms")
                 .addField("Uptime: ", `${days}d ${hours}h ${minutes}m ${seconds}s`)
                 .setColor(colour)
-            m.edit(embed).then((m) => {
-                m.edit("").catch((err) => {
-                    if (err.code == "50006") {
-                        m.edit(`:rotating_light: WARNING :rotating_light:\nI need **embed links** permission!\nBot: ${ping}ms\nAPI: ${client.ws.ping}ms\nUptime: ${days}d ${hours}h ${minutes}m ${seconds}s`)
-                    }
-                })
-            })
+            m.edit(embed)
         }).catch((err) => {
-
+            console.log(err)
         });
     }
 }

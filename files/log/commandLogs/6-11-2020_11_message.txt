@@ -1,0 +1,10 @@
+Message: s!avatar <@!327840918482714626>
+
+Error: RangeError [IMAGE_SIZE]: Invalid image size: 1000
+RangeError [IMAGE_SIZE]: Invalid image size: 1000
+    at makeImageUrl (C:\Users\simyo\OneDrive\Desktop\Interstellar-Bot\node_modules\discord.js\src\util\Constants.js:112:56)
+    at Object.Avatar (C:\Users\simyo\OneDrive\Desktop\Interstellar-Bot\node_modules\discord.js\src\util\Constants.js:133:16)
+    at User.avatarURL (C:\Users\simyo\OneDrive\Desktop\Interstellar-Bot\node_modules\discord.js\src\structures\User.js:169:33)
+    at Object.run (C:\Users\simyo\OneDrive\Desktop\Interstellar-Bot\commands\avatar.js:22:32)
+    at C:\Users\simyo\OneDrive\Desktop\Interstellar-Bot\eventhandler\message.js:73:67
+    at FSReqCallback.oncomplete (fs.js:169:5)

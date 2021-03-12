@@ -1,0 +1,4 @@
+TypeError: Cannot read property 'includes' of undefined
+
+TypeError: Cannot read property 'includes' of undefined
+    at C:\Users\simyo\OneDrive\Desktop\Interstellar-Bot\eventhandler\message.js:100:75
