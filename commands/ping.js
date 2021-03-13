@@ -20,18 +20,15 @@ module.exports = {
         let seconds = Math.floor(client.uptime / 1000) % 60;
 
         let colour
-        if (client.ws.ping > 500) {
+        if (client.ws.ping > 150) {
             colour = 0xff2121
         } else {
             colour = 0x26e08d
         }
         message.channel.send("〽️ Pinging").then((m) => {
-            let d = Date.now()
-            let ping = d - m.createdTimestamp
             let embed = new discord.MessageEmbed()
                 .setTitle("Pong! :ping_pong:")
-                .addField("Bot latency: ", ping + "ms")
-                .addField("API: ", client.ws.ping + "ms")
+                .addField("Ping: ", client.ws.ping + "ms")
                 .addField("Uptime: ", `${days}d ${hours}h ${minutes}m ${seconds}s`)
                 .setColor(colour)
             m.edit(embed)
