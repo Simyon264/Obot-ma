@@ -16,7 +16,13 @@ module.exports = {
         if (args.length == 2) {
             let user = message.mentions.users.first();
             if (!user) {
-                user = client.users.cache.get(args[1])
+                try {
+                    user = client.users.cache.get(args[1])
+                } catch (e) {
+                    functions.embed(message.channel, "Error", colourWarn, "Please specify a user!")
+                    return;
+                }
+                
             }
             let embed = new discord.MessageEmbed()
                 .setImage(user.avatarURL({
