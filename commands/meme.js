@@ -14,7 +14,7 @@ module.exports = {
     alias: ["m"],
     cooldown: 5,
     run: function (message, prefix, args, client) {
-        const subreddits = ["memes", "dankmemes", "funny", "ComedyCemetery", "PrequelMemes", "okbuddyretard", "4PanelCringe", "FellowKids", "terriblefacebookmemes", "comedyhomicide", "Cringetopia", "HolUp", "HistoryMemes", "antimeme", "wholesomememes", "MakeMeSuffer", "MinecraftMemes", "woooosh", "madlads", "ihadastroke", "facepalm", "suicidebywords", "bonehurtingjuice", "SuddenlyGay", "comedyheaven", "MurderedByWordsS"]
+        const subreddits = ["memes", "dankmemes", "funny", "ComedyCemetery", "PrequelMemes", "okbuddyretard", "4PanelCringe", "FellowKids", "terriblefacebookmemes", "comedyhomicide", "Cringetopia", "HolUp", "HistoryMemes", "antimeme", "wholesomememes", "MakeMeSuffer", "MinecraftMemes", "woooosh", "ihadastroke", "facepalm", "suicidebywords", "bonehurtingjuice", "SuddenlyGay", "comedyheaven", "MurderedByWords"]
         const randomNumber = Math.floor(Math.random() * subreddits.length)
         randomBunny(subreddits[randomNumber], 'new', res => {
             const randomColor = Math.floor(Math.random() * 16777215).toString(16)
