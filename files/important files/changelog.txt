@@ -1,3 +1,7 @@
-Version 1.0.0! WOOOOOOOOO!!!! After just some days i got the bot working!!!!
-What changed:
-- Bro idk
+Version 1.2.0!
+- Added 8ball command
+- Fixed the meme command and added a new alias
+- Fixed the ping command
+- Added the howgay command
+- Added the simp command
+- Added the whowouldwin command
