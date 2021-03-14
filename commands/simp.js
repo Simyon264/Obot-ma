@@ -14,7 +14,7 @@ module.exports = {
     cooldown: 2,
     run: function (message, prefix, args, client) {
         if (args.length <= 1) {
-            const randomNumber = Math.floor(Math.random() * 100)
+            const randomNumber = Math.floor(Math.random() * 101)
             const randomColor = Math.floor(Math.random() * 16777215).toString(16)
             if (randomNumber == 100) {
                 message.channel.send("100% simp, you like Okool.")
