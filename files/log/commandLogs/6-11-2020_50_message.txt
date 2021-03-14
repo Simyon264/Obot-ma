@@ -1,7 +1,0 @@
-Message: s!avatar <@!327840918482714626>
-
-Error: ReferenceError: truem is not defined
-ReferenceError: truem is not defined
-    at Object.run (C:\Users\simyo\OneDrive\Desktop\Interstellar-Bot\commands\avatar.js:23:30)
-    at C:\Users\simyo\OneDrive\Desktop\Interstellar-Bot\eventhandler\message.js:73:67
-    at FSReqCallback.oncomplete (fs.js:169:5)
