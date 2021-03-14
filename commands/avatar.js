@@ -32,7 +32,14 @@ module.exports = {
                 .setTitle(`${user.username}'s avatar`)
             message.channel.send(embed)
         } else {
-            functions.embed(message.channel, "Error", colourWarn, "Please specify a user!")
+            let user = message.author;
+            let embed = new discord.MessageEmbed()
+                .setImage(user.avatarURL({
+                    dynamic: true,
+                    size: 4096
+                }))
+                .setTitle(`${user.username}'s avatar`)
+            message.channel.send(embed)
         }
     }
 }
