@@ -43,34 +43,39 @@ try {
                             fs.stat(`./commands/${args[0]}.js`, function (err, stat) {
                                 if (err == null) {
                                     try {
-                                        var commandFile = require(`../commands/${args[0]}`);
-                                        let commandName = commandFile['name']
-                                        let comandCooldown = commandFile['cooldown']
-                                        if (!cooldowns.has(commandName)) {
-                                            cooldowns.set(commandName, new Discord.Collection());
-                                        }
-                                        const now = Date.now();
-                                        const timestamps = cooldowns.get(commandName);
-                                        const cooldownAmount = (comandCooldown || 3) * 1000;
-                                        if (timestamps.has(message.author.id)) {
-                                            const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-                                            if (now < expirationTime) {
-                                                const timeLeft = (expirationTime - now) / 1000;
-                                                functions.embed(message.channel, "", colourWarn, `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`);
-                                            }
+                                        if (message.author.id == functions.config().special.owner) {
+                                            let commandFile = require(`../commands/${args[0]}`);
+                                            commandFile['run'](message, prefix, args, client)
                                         } else {
-                                            timestamps.set(message.author.id, now);
-                                            setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-                                            //perms check so you dont have to do it in the file lmao
-                                            var cmdRoles = commandFile['perms'];
-                                            if (cmdRoles !== "") {
-                                                if (message.member.permissions.has(cmdRoles)) {
-                                                    commandFile['run'](message, prefix, args, client)
-                                                } else {
-                                                    functions.embed(message.channel, "Error", colourWarn, "You are missing the permission: `" + cmdRoles + "`!")
+                                            var commandFile = require(`../commands/${args[0]}`);
+                                            let commandName = commandFile['name']
+                                            let comandCooldown = commandFile['cooldown']
+                                            if (!cooldowns.has(commandName)) {
+                                                cooldowns.set(commandName, new Discord.Collection());
+                                            }
+                                            const now = Date.now();
+                                            const timestamps = cooldowns.get(commandName);
+                                            const cooldownAmount = (comandCooldown || 3) * 1000;
+                                            if (timestamps.has(message.author.id)) {
+                                                const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+                                                if (now < expirationTime) {
+                                                    const timeLeft = (expirationTime - now) / 1000;
+                                                    functions.embed(message.channel, "", colourWarn, `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`);
                                                 }
                                             } else {
-                                                commandFile['run'](message, prefix, args, client)
+                                                timestamps.set(message.author.id, now);
+                                                setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+                                                //perms check so you dont have to do it in the file lmao
+                                                var cmdRoles = commandFile['perms'];
+                                                if (cmdRoles !== "") {
+                                                    if (message.member.permissions.has(cmdRoles)) {
+                                                        commandFile['run'](message, prefix, args, client)
+                                                    } else {
+                                                        functions.embed(message.channel, "Error", colourWarn, "You are missing the permission: `" + cmdRoles + "`!")
+                                                    }
+                                                } else {
+                                                    commandFile['run'](message, prefix, args, client)
+                                                }
                                             }
                                         }
                                     } catch (err) {
@@ -104,7 +109,11 @@ try {
                                                 }
                                             }
                                             if (found) {
-                                                var commandFile = require(`../commands/${dir[final]}`);
+                                                let commandFile = require(`../commands/${dir[final]}`);
+                                                if (message.author.id == functions.config().special.owner) {
+                                                    commandFile['run'](message, prefix, args, client)
+                                                    return;
+                                                }
                                                 let commandName = commandFile['name']
                                                 let comandCooldown = commandFile['cooldown']
                                                 if (!cooldowns.has(commandName)) {
@@ -157,7 +166,7 @@ try {
                                     });
                                 } else {
                                     console.log(err);
-                                    functions.embed(message.channel, "", colourWarn, "An unexpected error has occured. Please contact the bot owner");
+                                    functions.embed(message.channel, "", colourWarn, "An unexpected error has occured. Please contact the bot owner (Simyon#6969)");
                                 }
                             });
                         });
