@@ -22,37 +22,46 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 - Avatar
     > Returns the avatar of a mentioned user.
     > **Usage** `avatar <userID | mentioned user>`
+- Care
+    > Check who cared
+    > **Usage** `care [anything]`
+- Cap
+    > Check how cap something is
+    > **Usage** `cap [anything]`
+- Dice
+    > Roll the dice.
+    > **Usage** `dice [min],[max]`
 - Changelog
     > Gives you the most recent changelog.
-- eval
+- Eval
     > Executes JavaScript. *NOTE: Only the owner can use this command. Define the owner in the config file.*
-- help
+- Help
     > Gives you a list of all commands or help for a specific command.
     > **Usage** `help [command]`
-- howgay
+- Wowgay
     > Look how gay someone is.
     > **Usage** `howgay [anything]`
-- meme
+- Meme
     > Gives you a random meme from a list of subreddits.
-- ping
+- Ping
     > Gives you the bot ping.
-- purge
+- Purge
     > Deletes a max of 500 messages.
     > **Usage** `purge <amount of messages>`
-- setlogchannel
+- Setlogchannel
     > Sets the log channel for the server.
     > **Usage** `setlogchannel <new log channel>`
-- setprefix
+- Setprefix
     > Sets the prefix for the server.
     > **Usage** `setprefix <newprefix>`
-- shutdown
+- Shutdown
     > Stops the bot. *NOTE: Only the owner can use this command. Define the owner in the config file.*
-- simp
+- Simp
     > How simp is someone? Find out by running this command.
     > **Usage** `simp [anything]`
-- whowouldwin
+- Whowouldwin
     > Do you have a fight you need to break up? Break it up by running this command.
     > **Usage** `whowouldwin <person1>,<person2>`
-- yeet
+- Yeet
     > Yeets someone.
     > **Usage** `yeet <anything or anyone>`
