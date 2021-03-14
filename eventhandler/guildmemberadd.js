@@ -22,7 +22,11 @@ try {
                             type: 'png',
                             dynamic: true
                         }));
-                    client.channels.cache.find(channel => channel.id === functions.getServerConfig(guild.id).logging).send(embed)
+                    
+                    const query = client.channels.cache.find(channel => channel.id === functions.getServerConfig(guild.id).logging)
+                    if (typeof query !== 'undefined' && query) {
+                        query.send(embed)
+                    }
                 } catch (error) {
                     const colors = require("colours")
                     const fs = require('fs')

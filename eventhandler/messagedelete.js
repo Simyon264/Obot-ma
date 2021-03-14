@@ -19,7 +19,9 @@ try {
                         .addField("Content", `\`\`\`${message.content || "*none*"}\`\`\``)
                         .setThumbnail(message.author.displayAvatarURL);
 
-                    message.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(message.guild.id).logging).send(embed);
+                    if (typeof message.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(message.guild.id).logging) !== 'undefined' && message.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(message.guild.id).logging)) {
+                        message.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(message.guild.id).logging).send(embed);
+                    }
                 } catch (error) {
                     const colors = require("colours")
                     const fs = require('fs')

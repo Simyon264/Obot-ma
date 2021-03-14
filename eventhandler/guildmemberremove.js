@@ -18,7 +18,11 @@ try {
                         .setFooter(`User ID: ${member.user.id}`)
                         .setThumbnail(member.user.displayAvatarURL);
 
-                    member.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(member.guild.id).logging).send(embed);
+                    const query = member.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(member.guild.id).logging)
+                    if (typeof query !== 'undefined' && query) {
+                        query.send(embed)
+                    }
+                    
                 } catch (error) {
                     const colors = require("colours")
                     const fs = require('fs')

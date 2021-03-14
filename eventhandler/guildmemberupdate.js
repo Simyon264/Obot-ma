@@ -23,7 +23,12 @@ try {
                             .setFooter(`User ID: ${newMember.user.id}`)
                             .setThumbnail(newMember.user.displayAvatarURL);
 
-                        newMember.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(newMember.guild.id).logging).send(embed);
+                        
+                        const query = newMember.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(newMember.guild.id).logging)
+                        if (typeof query !== 'undefined' && query) {
+                            query.send(embed)
+                        }
+
                     }
                 } catch (error) {
                     const colors = require("colours")
