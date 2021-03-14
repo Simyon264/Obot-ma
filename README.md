@@ -48,6 +48,8 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 - Purge
     > Deletes a max of 500 messages.
     > **Usage** `purge <amount of messages>`
+- Servericon
+    > Gives you the server icon.
 - Setlogchannel
     > Sets the log channel for the server.
     > **Usage** `setlogchannel <new log channel>`
