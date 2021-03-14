@@ -8,7 +8,7 @@ module.exports = {
     name: 'whowouldwin',
     description: 'Find out who would win between two people.',
     category: 'fun',
-    usage: '<person1>,<person2>',
+    usage: 'whowouldwin <person1>,<person2>',
     perms: '',
     alias: ["www"],
     cooldown: 2,

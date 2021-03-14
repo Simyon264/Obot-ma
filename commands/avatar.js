@@ -8,7 +8,7 @@ module.exports = {
     name: 'avatar',
     description: 'Displays the avatar of the mentioned user',
     category: 'fun',
-    usage: '<user>',
+    usage: 'avatar <user>',
     perms: '',
     alias: ["av", "pfp", "profilepicture"],
     cooldown: 1,

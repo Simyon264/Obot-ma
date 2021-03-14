@@ -10,7 +10,7 @@ module.exports = {
     name: 'setLogChannel',
     description: 'Sets the log channel for the server!',
     category: 'server',
-    usage: '<channel>',
+    usage: 'setlogchannel <channel>',
     perms: 'MANAGE_GUILD',
     alias: ["slc", "logchannel"],
     cooldown: 1,

@@ -8,7 +8,7 @@ module.exports = {
     name: 'howgay',
     description: 'See how gay something is!',
     category: 'fun',
-    usage: '[anything]',
+    usage: 'howgay [anything]',
     perms: '',
     alias: ["hg", "gay"],
     cooldown: 2,
