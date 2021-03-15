@@ -8,13 +8,21 @@ exports.config = function (config) {
     }
 }
 
-exports.embed = function (channel, title, colour, message) {
-    var embed = new discord.MessageEmbed()
-        .setTitle(title)
-        .setColor(colour)
-        .setDescription(message);
+exports.embed = function (channel, title, colour, message, returnEmbedOnly) {
+    if (!returnEmbedOnly) {
+        var embed = new discord.MessageEmbed()
+            .setTitle(title)
+            .setColor(colour)
+            .setDescription(message);
 
-    channel.send(embed);
+        channel.send(embed);
+    } else {
+        var embed = new discord.MessageEmbed()
+            .setTitle(title)
+            .setColor(colour)
+            .setDescription(message);
+        return embed;
+    }
 }
 
 
