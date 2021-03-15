@@ -1,5 +1,15 @@
-Version 1.3.2!
-- Changed the Avatar command so that it now shows your pfp if you dont give any args
-- Fixed a bug in the dice command
-- Changed cooldown to ignore the owner
-- Added the servericon command
+Version 1.4.2!
+- Added the vibecheck command
+- The howgay command now has a speical message for 100%
+- Added the setbotchannel command
+- When a bot channel is defined only modderator commands can be used in any other channel.
+- Fixed a bug in setlogchannel
+- Fixed a perms bug in the eval command
+- Added the say command
+- Fixed a bug in the care command.
+- Bots no longer get ignored if a message gets deleted
+- Theres now a speical outcome in the vibecheck
+- Added the whoasked command
+- Ping command now removes the pinging message after ping is revieced
+- Failed vibecheck now removes the last vibeckeck message before sending the embed.
+- Functions.js now has a randomInt function
