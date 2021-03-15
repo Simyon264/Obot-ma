@@ -23,7 +23,7 @@ module.exports = {
                 functions.embed(message.channel, "", randomColor, `${message.author.username} is ${randomNumber}% simp.`)
             }
         } else {
-            const randomNumber = Math.floor(Math.random() * 100)
+            const randomNumber = Math.floor(Math.random() * 101)
             const randomColor = Math.floor(Math.random() * 16777215).toString(16)
             functions.embed(message.channel, "", randomColor, `${args[1]} is ${randomNumber}% simp.`)
         }
