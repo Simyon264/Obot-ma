@@ -9,6 +9,7 @@ module.exports = {
     name: 'meme',
     description: 'Gives you a meme!',
     category: 'fun',
+    modcommand: false,
     usage: '',
     perms: '',
     alias: ["m"],

@@ -8,6 +8,7 @@ module.exports = {
     name: 'cap',
     description: 'See how cap something is!',
     category: 'fun',
+    modcommand: false,
     usage: 'cap [anything]',
     perms: '',
     alias: ["hc", "howcap"],

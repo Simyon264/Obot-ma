@@ -10,6 +10,7 @@ module.exports = {
     name: 'setprefix',
     description: 'Sets the prefix for the server!',
     category: 'server',
+    modcommand: true,
     usage: 'setprefix <new prefix>',
     perms: 'MANAGE_GUILD',
     alias: ["prefix"],

@@ -9,6 +9,7 @@ module.exports = {
     name: 'changelog',
     description: 'Displays the changelog',
     category: 'general',
+    modcommand: false,
     usage: '',
     perms: '',
     alias: [],

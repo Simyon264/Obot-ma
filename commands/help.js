@@ -9,6 +9,7 @@ module.exports = {
 	name: 'help',
 	description: 'Gives a list of commands available in the bot',
 	category: 'general',
+	modcommand: false,
 	usage: 'help [command]',
 	perms: '',
 	alias: ["h"],

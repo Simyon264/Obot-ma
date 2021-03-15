@@ -8,6 +8,7 @@ module.exports = {
     name: 'simp',
     description: 'Checks if a user is a simp.',
     category: 'fun',
+    modcommand: false,
     usage: 'simp [anything]',
     perms: '',
     alias: ["smp", "howsimp","hs"],

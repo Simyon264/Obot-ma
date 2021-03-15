@@ -9,6 +9,7 @@ module.exports = {
     description: 'Shows the server icon',
     category: 'server',
     usage: 'servericon',
+    modcommand: false,
     perms: '',
     alias: ["icon", "si"],
     cooldown: 5,

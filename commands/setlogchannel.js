@@ -10,6 +10,7 @@ module.exports = {
     name: 'setLogChannel',
     description: 'Sets the log channel for the server!',
     category: 'server',
+    modcommand: true,
     usage: 'setlogchannel <channel>',
     perms: 'MANAGE_GUILD',
     alias: ["slc", "logchannel"],
@@ -19,13 +20,17 @@ module.exports = {
         if (args.length !== 2) {
             functions.embed(message.channel, "Error", colourWarn, "Please specify the log channel!")
         } else {
-            let channelID = message.mentions.channels.first().id
-            if (channelID) {
-                let s = "`"
-                file.logging = channelID;
-                fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(file))
-                functions.embed(message.channel, "Done!  :clap:", colourDone, `The log channel on ${s}${message.guild.name}${s} is now ${s}${message.mentions.channels.first().name}${s}!`)
-            } else {
+            try {
+                let channelID = message.mentions.channels.first().id
+                if (channelID) {
+                    let s = "`"
+                    file.logging = channelID;
+                    fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(file))
+                    functions.embed(message.channel, "Done!  :clap:", colourDone, `The log channel on ${s}${message.guild.name}${s} is now ${s}${message.mentions.channels.first().name}${s}!`)
+                } else {
+                    functions.embed(message.channel, "Error", colourWarn, "Please specify the log channel!")
+                }
+            } catch (error) {
                 functions.embed(message.channel, "Error", colourWarn, "Please specify the log channel!")
             }
         }

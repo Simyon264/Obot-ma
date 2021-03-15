@@ -8,6 +8,7 @@ module.exports = {
 	name: 'about',
 	description: 'About the bot',
 	category: 'general',
+	modcommand: false,
 	usage: '',
 	perms: '',
 	alias: [],

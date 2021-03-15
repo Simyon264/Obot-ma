@@ -8,6 +8,7 @@ module.exports = {
     name: 'howgay',
     description: 'See how gay something is!',
     category: 'fun',
+    modcommand: false,
     usage: 'howgay [anything]',
     perms: '',
     alias: ["hg", "gay"],
@@ -22,9 +23,13 @@ module.exports = {
                 functions.embed(message.channel, "", randomColor, `${message.author.username} is ${randomNumber}% gay`)
             }   
         } else {
-            const randomNumber = Math.floor(Math.random() * 100)
+            const randomNumber = Math.floor(Math.random() * 101)
             const randomColor = Math.floor(Math.random() * 16777215).toString(16)
-            functions.embed(message.channel, "", randomColor, `${args[1]} is ${randomNumber}% gay`)
+            if (randomNumber == 100) {
+                functions.embed(message.channel, "", randomColor, `${args[1]} likes valorant, 100% gay.`)
+            } else {
+                functions.embed(message.channel, "", randomColor, `${args[1]} is ${randomNumber}% gay`)
+            }
         }
     }
 }

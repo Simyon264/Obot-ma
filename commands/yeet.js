@@ -10,6 +10,7 @@ module.exports = {
 	name: 'yeet',
 	description: 'Yeet something out of existence!',
 	category: 'fun',
+	modcommand: false,
 	usage: 'yeet <the thing you want to yeet>',
 	perms: '',
 	alias: ["yeeeeeeeeeet"],

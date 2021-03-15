@@ -8,6 +8,7 @@ module.exports = {
     name: 'ping',
     description: 'Gives the bot ping',
     category: 'general',
+    modcommand: false,
     usage: '',
     perms: '',
     alias: ["uptime"],

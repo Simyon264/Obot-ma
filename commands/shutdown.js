@@ -8,6 +8,7 @@ module.exports = {
     name: 'shutdown',
     description: 'Shuts the bot down.',
     category: 'owner',
+    modcommand: true,
     usage: '',
     perms: 'owner',
     cooldown: 1,

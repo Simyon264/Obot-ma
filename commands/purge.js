@@ -9,6 +9,7 @@ module.exports = {
     name: 'purge',
     description: 'Deletes a set amount of messages',
     category: 'moderation',
+    modcommand: true,
     usage: 'purge <amount of messages>',
     perms: 'MANAGE_MESSAGES',
     alias: ["clear", "massdelete"],

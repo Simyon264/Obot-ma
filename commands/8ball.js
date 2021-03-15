@@ -8,6 +8,7 @@ module.exports = {
     name: '8ball',
     description: 'Ask a question and the magic 8ball will answer you!',
     category: 'fun',
+    modcommand: false,
     usage: '8ball <question>',
     perms: '',
     alias: ["8b","ball"],

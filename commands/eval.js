@@ -9,6 +9,7 @@ module.exports = {
     name: 'eval',
     description: 'Does some JS shit',
     category: 'owner',
+    modcommand: true,
     usage: '<code>',
     perms: 'owner',
     alias: ["e"],

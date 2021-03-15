@@ -8,6 +8,7 @@ module.exports = {
     name: 'dice',
     description: 'Roll the dice.',
     category: 'fun',
+    modcommand: false,
     usage: 'dice [min],[max]',
     perms: '',
     alias: ["randomnumber", "rn"],

@@ -12,6 +12,7 @@ module.exports = {
     name: 'care',
     description: 'Check how many cares something has.',
     category: 'fun',
+    modcommand: false,
     usage: 'care [anything]',
     perms: '',
     alias: ["cares"],
