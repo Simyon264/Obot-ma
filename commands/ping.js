@@ -33,6 +33,7 @@ module.exports = {
                 .addField("Uptime: ", `${days}d ${hours}h ${minutes}m ${seconds}s`)
                 .setColor(colour)
             m.edit(embed)
+            m.edit("")
         }).catch((err) => {
             console.log(err)
         });
