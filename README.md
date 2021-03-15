@@ -48,6 +48,9 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 - Purge
     > Deletes a max of 500 messages.
     > **Usage** `purge <amount of messages>`
+- Say
+    > Make the bot say something.
+    > **Usage** `say <what you want the bot to say>`
 - Servericon
     > Gives you the server icon.
 - Setlogchannel
