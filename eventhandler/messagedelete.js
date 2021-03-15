@@ -9,7 +9,7 @@ try {
         run: function (client) {
             client.on('messageDelete', (message) => {
                 try {
-                    if (message.author.bot) return;
+                    //if (message.author.bot) return;
 
                     var embed = new discord.MessageEmbed()
                         .setTitle("Message Deleted")
