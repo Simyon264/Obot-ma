@@ -11,7 +11,7 @@ module.exports = {
     category: 'owner',
     modcommand: true,
     usage: '<code>',
-    perms: 'owner',
+    perms: '',
     alias: ["e"],
     cooldown: 1,
     run: function (message, prefix, args, client) {
