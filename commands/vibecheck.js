@@ -40,6 +40,10 @@ module.exports = {
                                                     const youfailed = client.emojis.cache.get("820956980759363606").toString()
                                                     sendMessage.edit(`${person} failed the vibe check with ${randomNumber}%. ${youfailed}`)
                                                 } else {
+                                                    if (randomInteger(1, 200) == 69) {
+                                                        const youAreSpecial = client.emojis.cache.get("788456334852096041").toString()
+                                                        sendMessage.edit(`${person} passed the vibe check with xX420Xx%. ${youAreSpecial}`)
+                                                    }
                                                     const pass = client.emojis.cache.get("820956980755693568").toString()
                                                     sendMessage.edit(`${person} passed the vibe check with ${randomNumber}%. ${pass}`)
                                                 }
