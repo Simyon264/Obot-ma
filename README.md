@@ -64,6 +64,8 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 - Simp
     > How simp is someone? Find out by running this command.
     > **Usage** `simp [anything]`
+- Whoasked
+    > Check you the fuck asked.
 - Whowouldwin
     > Do you have a fight you need to break up? Break it up by running this command.
     > **Usage** `whowouldwin <person1>,<person2>`
