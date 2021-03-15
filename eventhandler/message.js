@@ -45,10 +45,16 @@ try {
                                     try {
                                         if (message.author.id == functions.config().special.owner) {
                                             let commandFile = require(`../commands/${args[0]}`);
+                                            let isMod = commandFile['modcommand']
+                                            if (functions.getServerConfig(message.guild.id).bot != message.channel.id && !isMod) return;
                                             commandFile['run'](message, prefix, args, client)
                                         } else {
                                             var commandFile = require(`../commands/${args[0]}`);
                                             let commandName = commandFile['name']
+                                            let isMod = commandFile['modcommand']
+
+                                            
+
                                             let comandCooldown = commandFile['cooldown']
                                             if (!cooldowns.has(commandName)) {
                                                 cooldowns.set(commandName, new Discord.Collection());
@@ -69,6 +75,8 @@ try {
                                                 var cmdRoles = commandFile['perms'];
                                                 if (cmdRoles !== "") {
                                                     if (message.member.permissions.has(cmdRoles)) {
+                                                        //console.log(isMod)
+                                                        if (functions.getServerConfig(message.guild.id).bot != message.channel.id && !isMod) return;
                                                         commandFile['run'](message, prefix, args, client)
                                                     } else {
                                                         functions.embed(message.channel, "Error", colourWarn, "You are missing the permission: `" + cmdRoles + "`!")
@@ -112,10 +120,16 @@ try {
                                                 let commandFile = require(`../commands/${dir[final]}`);
                                                 if (message.author.id == functions.config().special.owner) {
                                                     commandFile['run'](message, prefix, args, client)
+                                                    let isMod = commandFile['modcommand']
+                                                    if (functions.getServerConfig(message.guild.id).bot != message.channel.id && !isMod) return;
                                                     return;
                                                 }
                                                 let commandName = commandFile['name']
+                                                let isMod = commandFile['modcommand']
                                                 let comandCooldown = commandFile['cooldown']
+
+                                                
+
                                                 if (!cooldowns.has(commandName)) {
                                                     cooldowns.set(commandName, new Discord.Collection());
                                                 }
@@ -135,6 +149,8 @@ try {
                                                     var cmdRoles = commandFile['perms'];
                                                     if (cmdRoles !== "") {
                                                         if (message.member.permissions.has(cmdRoles)) {
+                                                            //console.log(isMod)
+                                                            if (functions.getServerConfig(message.guild.id).bot != message.channel.id && !isMod) return;
                                                             commandFile['run'](message, prefix, args, client)
                                                         } else {
                                                             functions.embed(message.channel, "Error", colourWarn, "You are missing the permission: `" + cmdRoles + "`!")
