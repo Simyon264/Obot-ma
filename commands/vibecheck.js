@@ -50,6 +50,7 @@ module.exports = {
                                             } else {
                                                 let embed = functions.embed(message.channel, "`🚨WARNING🚨`", colourWarn, `${person}'s Vibe has been identified in the VibeChecker™ database.\n${person} has missed their Vibe Court date multiple times. The Vibe Police will be here shortly.`,true)
                                                 sendMessage.edit(embed)
+                                                sendMessage.edit("")
                                             }
                                         }, randomInteger(1500, 2300))
                                     });
