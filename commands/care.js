@@ -31,7 +31,7 @@ module.exports = {
                                             if (randomNumber == 0) {
                                                 const messages = [`You got like -100 cares jk jk you got 0`, `cringe dude 0 cares????`, `you need more frineds dude`, `Obama didn't even care like bro you have 0 people who care`, `0 cares`, `1 care jk jk im capping you have -100 cares`, `even if you were god 0 people would have cared`, `not even the ping command would return something for you`]
                                                 const randomCare = Math.floor(Math.random() * messages.length)
-                                                sendMessage.edit(randomCare)
+                                                sendMessage.edit(messages[randomCare])
                                             } else {
                                                 if (selfcare) {
                                                     sendMessage.edit(`whoa dude crazy you got ${randomNumber} cares!!!!!!`)
