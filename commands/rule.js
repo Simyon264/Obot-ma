@@ -8,7 +8,7 @@ let colourDone = functions.config().messageColours.done;
 
 module.exports = {
     name: 'rule',
-    description: 'Adds/removes/resends the rules.',
+    description: 'Resends the rules.',
     category: 'server',
     modcommand: true,
     usage: 'rule',
