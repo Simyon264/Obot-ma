@@ -29,6 +29,15 @@ try {
                     if (message.author.bot) return;
 
                     var content = message.content;
+
+                    if (content.includes("rigged")) {
+                        let randomInt = functions.randomInt(1, 200)
+                        if (randomInt == 69) {
+                            message.channel.send("its rigged")
+                        } else {
+                            message.channel.send("its not rigged")
+                        }
+                    }
                     if (content.substring(0, prefix.length).toLowerCase() == prefix.toLowerCase()) {
                         var FUCKING_WORK_AHHHHHH = false
                         client.guilds.fetch(message.guild.id).then((guild) => {
@@ -160,7 +169,7 @@ try {
                                                     }
                                                 }
                                             } else {
-                                                functions.embed(message.channel, "", colourWarn, "Command does not exist");
+                                                //functions.embed(message.channel, "", colourWarn, "Command does not exist");
                                             }
                                         } catch (error) {
                                             functions.embed(message.channel, "", colourWarn, "An error occured!");
@@ -176,7 +185,7 @@ try {
                                             let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
                                             //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
                                             fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-                                            console.log(colors.red(`An error occured! The error can be found in ./files/log/${finnal}.txt`))
+                                            console.log(colors.red(`An error occured! The error can be found in ./files/log/commandLogs/${finnal}.txt`))
                                         }
 
                                     });
