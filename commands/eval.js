@@ -45,7 +45,7 @@ module.exports = {
                             //functions.embed(message.channel,"Error",colourWarn,"The eval return vaule could not be displayed because the eval return vaule was over 1024 characters!")
                             
                             let embed = new discord.MessageEmbed()
-                                .addField("`EVAL`", "```xl\n" + "The eval return vaule could not be displayed because the eval return vaule was over 1024 characters! Im going to attach it!" + "\n```")
+                                .addField("`EVAL`", "```xl\n" + "The eval return vaule could not be displayed because the eval return vaule was over 1024 characters! Im going to send the return as its own file!" + "\n```")
                                 .addField("`TIME`", "`" + (((stop[0] * 1e9) + stop[1])) / 1e6 + " ms.`")
                                 .setColor(colourWarn)
                             message.channel.send(embed)
