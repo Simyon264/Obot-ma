@@ -28,6 +28,9 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 - Cap
     > Check how cap something is
     > **Usage** `cap [anything]`
+- Config
+    > Changes or reads a config
+    > **Usage** `config <read <config>>`
 - Dice
     > Roll the dice.
     > **Usage** `dice [min],[max]`
@@ -38,7 +41,7 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 - Help
     > Gives you a list of all commands or help for a specific command.
     > **Usage** `help [command]`
-- Wowgay
+- Howgay
     > Look how gay someone is.
     > **Usage** `howgay [anything]`
 - Meme
@@ -48,6 +51,8 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 - Purge
     > Deletes a max of 500 messages.
     > **Usage** `purge <amount of messages>`
+- Serverinfo
+    > Shows the server info.
 - Say
     > Make the bot say something.
     > **Usage** `say <what you want the bot to say>`
