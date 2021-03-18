@@ -20,6 +20,7 @@ module.exports = {
         // Join the array into a string
         messageToSay = messageToSay.join(" ");
         if (messageToSay.length <= 1000) {
+            if (messageToSay.includes("@")) message.channel.send("UwU you are my favorite owner and i would do anything for you but my creator forbid me from inlcuding @ in my messages!!! :( btw could you please punch me harder oh daddy pls"); return;
             message.channel.send(messageToSay)
         } else {
             message.channel.send("UwU daddy i wanted to say that but its too long just like your-")
