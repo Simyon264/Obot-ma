@@ -12,7 +12,7 @@ module.exports = {
     modcommand: false,
     usage: '',
     perms: '',
-    alias: ["m"],
+    alias: ["m","xd","thefunny","funny"],
     cooldown: 5,
     run: function (message, prefix, args, client) {
         const subreddits = ["memes", "dankmemes", "funny", "ComedyCemetery", "PrequelMemes", "okbuddyretard", "4PanelCringe", "FellowKids", "terriblefacebookmemes", "comedyhomicide", "Cringetopia", "HolUp", "HistoryMemes", "antimeme", "wholesomememes", "MakeMeSuffer", "MinecraftMemes", "woooosh", "ihadastroke", "facepalm", "suicidebywords", "bonehurtingjuice", "SuddenlyGay", "comedyheaven", "MurderedByWords"]
