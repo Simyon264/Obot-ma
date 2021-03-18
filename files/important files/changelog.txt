@@ -1,15 +1,8 @@
-Version 1.4.2!
-- Added the vibecheck command
-- The howgay command now has a speical message for 100%
-- Added the setbotchannel command
-- When a bot channel is defined only modderator commands can be used in any other channel.
-- Fixed a bug in setlogchannel
-- Fixed a perms bug in the eval command
-- Added the say command
-- Fixed a bug in the care command.
-- Bots no longer get ignored if a message gets deleted
-- Theres now a speical outcome in the vibecheck
-- Added the whoasked command
-- Ping command now removes the pinging message after ping is revieced
-- Failed vibecheck now removes the last vibeckeck message before sending the embed.
-- Functions.js now has a randomInt function
+Version 1.4.3!
+- Added the serverinfo command
+- The help command now works with aliases
+- When a command triggered by an alias errors, the log now gets put in the commandLogs folder
+- Added rigged stuff
+- Eval now returns a file if the return is over 1024
+- New alias for the meme command
+- Added the config command
