@@ -11,7 +11,7 @@ module.exports = {
     modcommand: false,
     usage: '',
     perms: '',
-    alias: ["uptime"],
+    alias: ["uptime","ut"],
     cooldown: 10,
     run: function (message, prefix, args, client) {
 
