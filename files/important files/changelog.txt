@@ -1,8 +1,3 @@
-Version 1.4.3!
-- Added the serverinfo command
-- The help command now works with aliases
-- When a command triggered by an alias errors, the log now gets put in the commandLogs folder
-- Added rigged stuff
-- Eval now returns a file if the return is over 1024
-- New alias for the meme command
-- Added the config command
+Version 1.4.4!
+- The whoasked has gotten diffrent chances
+- New alias for the ping command
