@@ -22,6 +22,14 @@ try {
                     //defining the prefix after config check so i dont try to get something from a file that may not even be there
                     var prefix = JSON.parse(fs.readFileSync(`./files/serverConfigs/${message.guild.id}.json`)).prefix;
                     if (client.user == message.mentions.users.first()) {
+                        if (typeof functions.getServerConfig(message.guild.id).blockedUsers !== 'undefined') {
+                            let userArray = functions.getServerConfig(message.guild.id).blockedUsers
+                            let found = false
+                            for (let index = 0; index < userArray.length; index++) {
+                                if (userArray[index].id == message.author.id) found = true;
+                            }
+                            if (found) return;
+                        }
                         functions.embed(message.channel, "Ping-Pong!", colourInfo, "The bot prefix is `" + prefix + "`!")
                         return;
                     }
