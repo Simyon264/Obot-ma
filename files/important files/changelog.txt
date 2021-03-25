@@ -1,3 +1,4 @@
-Version 1.4.4!
-- The whoasked has gotten diffrent chances
-- New alias for the ping command
+Version 1.4.5!
+- Added the block command
+- Added the unblock command
+- Blocked users now cant execute commands
