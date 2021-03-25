@@ -22,6 +22,9 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 - Avatar
     > Returns the avatar of a mentioned user.
     > **Usage** `avatar <userID | mentioned user>`
+- Block
+    > Block someone
+    > **Usage** `block <user>`
 - Care
     > Check who cared
     > **Usage** `care [anything]`
@@ -69,6 +72,9 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 - Simp
     > How simp is someone? Find out by running this command.
     > **Usage** `simp [anything]`
+- Unblock
+    > Unblock someone
+    > **Usage** `unblock <user>`
 - Whoasked
     > Check you the fuck asked.
 - Whowouldwin
