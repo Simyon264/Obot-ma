@@ -76,7 +76,7 @@ try {
                                             const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
                                             if (now < expirationTime) {
                                                 const timeLeft = (expirationTime - now) / 1000;
-                                                functions.embed(message.channel, "", colourWarn, `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`);
+                                                message.channel.send(`Please wait **${timeLeft.toFixed(1)}** more second(s) before reusing the \`${commandName}\` command.`)
                                             }
                                         } else {
                                             timestamps.set(message.author.id, now);
@@ -155,7 +155,7 @@ try {
                                                     const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
                                                     if (now < expirationTime) {
                                                         const timeLeft = (expirationTime - now) / 1000;
-                                                        functions.embed(message.channel, "", colourWarn, `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`);
+                                                        message.channel.send(`Please wait **${timeLeft.toFixed(1)}** more second(s) before reusing the \`${commandName}\` command.`)
                                                     }
                                                 } else {
                                                     timestamps.set(message.author.id, now);
