@@ -21,8 +21,8 @@ module.exports = {
         let seconds = Math.floor(client.uptime / 1000) % 60;
 
         let embed = new discord.MessageEmbed()
-            .setTitle("**Uptime**")
-            .setDescription("Uptime: ", `${days}:${hours}:${minutes}:${seconds}`)
+            .setTitle("**Bot Uptime**")
+            .setDescription(`\`${days}:${hours}:${minutes}:${seconds}\``)
             .setColor(0xff2121)
         message.channel.send(embed)
     }
