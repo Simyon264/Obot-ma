@@ -75,6 +75,8 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 - Unblock
     > Unblock someone
     > **Usage** `unblock <user>`
+- Uptime
+    > Gives the uptime
 - Whoasked
     > Check you the fuck asked.
 - Whowouldwin
