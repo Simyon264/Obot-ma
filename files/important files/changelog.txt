@@ -1,4 +1,6 @@
-Version 1.4.5!
-- Added the block command
-- Added the unblock command
-- Blocked users now cant execute commands
+Version 1.4.6!
+- Added the uptime command
+- Removed ut and uptime alias from the ping command
+- Eval is now a block command
+- New message for cooldown
+- Fixed some other shit
