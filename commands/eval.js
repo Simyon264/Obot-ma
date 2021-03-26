@@ -10,6 +10,7 @@ module.exports = {
     description: 'Does some JS shit',
     category: 'owner',
     modcommand: true,
+    blockCMD: true,
     usage: '<code>',
     perms: '',
     alias: ["e"],

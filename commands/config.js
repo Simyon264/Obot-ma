@@ -10,14 +10,14 @@ module.exports = {
     description: 'Read a config!',
     category: '',
     modcommand: true,
-    usage: 'config <read [config]>',
+    usage: 'config <config>',
     perms: 'MANAGE_GUILD',
     alias: [],
     cooldown: 2,
     run: function (message, prefix, args, client) {
         if (args.length >= 2) {
-            if (args[1] == "read") {
-                if (args[2] == "config") {
+            if (true) {
+                if (args[1] == "config") {
                     if (message.author.id == functions.config().special.owner) {
                         let config = fs.readFileSync('./files/important files/config.json', 'utf-8')
                         let embed = new discord.MessageEmbed()
@@ -28,8 +28,8 @@ module.exports = {
                         message.channel.send("im so sorry, but i cant do that for you")
                     }
                 } else {
-                    if (args[2] == message.guild.id) {
-                        const config = fs.readFileSync(`./files/serverConfigs/${args[2]}.json`, 'utf-8')
+                    if (args[1] == message.guild.id) {
+                        const config = fs.readFileSync(`./files/serverConfigs/${args[1]}.json`, 'utf-8')
                         let embed = new discord.MessageEmbed()
                             .addField("`CONFIG`", "```xl\n" + config + "\n```")
                             .setColor(colourInfo)
@@ -37,7 +37,7 @@ module.exports = {
                     } else {
                         if (message.author.id == functions.config().special.owner) {
                             try {
-                                const config = fs.readFileSync(`./files/serverConfigs/${args[2]}.json`, 'utf-8')
+                                const config = fs.readFileSync(`./files/serverConfigs/${args[1]}.json`, 'utf-8')
                                 let embed = new discord.MessageEmbed()
                                     .addField("`CONFIG`", "```xl\n" + config + "\n```")
                                     .setColor(colourInfo)
@@ -50,10 +50,6 @@ module.exports = {
                         }
                     }
                 }
-            } else if (args[1] == "change") {
-                
-            } else {
-                message.channel.send("realllyyyyy funnnnnyyyyy now please tell me if you want it changed or read")
             }
         } else {
             message.channel.send("damn bro you're really funny not telling me what you need")

@@ -9,7 +9,7 @@ module.exports = {
     description: 'Shuts the bot down.',
     category: 'owner',
     modcommand: true,
-    usage: '',
+    usage: 'shutdown',
     perms: 'owner',
     cooldown: 1,
     alias: ["sd"],

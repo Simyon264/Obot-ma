@@ -12,7 +12,7 @@ module.exports = {
     category: 'moderation',
     modcommand: true,
     blockCMD: true,
-    usage: 'block <user> <admin block(true,false)>',
+    usage: 'unblock <user> <admin block(true,false)>',
     perms: 'MANAGE_GUILD',
     alias: [],
     cooldown: 10,

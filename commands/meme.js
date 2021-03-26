@@ -10,12 +10,12 @@ module.exports = {
     description: 'Gives you a meme!',
     category: 'fun',
     modcommand: false,
-    usage: '',
+    usage: 'meme',
     perms: '',
     alias: ["m","xd","thefunny","funny"],
     cooldown: 5,
     run: function (message, prefix, args, client) {
-        const subreddits = ["memes", "dankmemes", "funny", "ComedyCemetery", "PrequelMemes", "okbuddyretard", "4PanelCringe", "FellowKids", "terriblefacebookmemes", "comedyhomicide", "Cringetopia", "HolUp", "HistoryMemes", "antimeme", "wholesomememes", "MakeMeSuffer", "MinecraftMemes", "woooosh", "ihadastroke", "facepalm", "suicidebywords", "bonehurtingjuice", "SuddenlyGay", "comedyheaven", "MurderedByWords"]
+        const subreddits = ["memes", "dankmemes", "funny", "ComedyCemetery", "PrequelMemes", "okbuddyretard", "4PanelCringe", "FellowKids", "terriblefacebookmemes", "comedyhomicide", "Cringetopia", "HolUp", "HistoryMemes", "antimeme", "wholesomememes", "MakeMeSuffer", "MinecraftMemes", "suicidebywords", "bonehurtingjuice", "comedyheaven", "MurderedByWords"]
         const randomNumber = Math.floor(Math.random() * subreddits.length)
         randomBunny(subreddits[randomNumber], 'new', res => {
             const randomColor = Math.floor(Math.random() * 16777215).toString(16)

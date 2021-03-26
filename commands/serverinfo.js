@@ -9,7 +9,7 @@ module.exports = {
     description: 'Displays the server info.',
     category: 'general',
     modcommand: false,
-    usage: 'server',
+    usage: 'serverinfo',
     perms: '',
     alias: ["sinfo", "server", "server-info"],
     cooldown: 3,

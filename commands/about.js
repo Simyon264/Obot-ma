@@ -9,7 +9,7 @@ module.exports = {
 	description: 'About the bot',
 	category: 'general',
 	modcommand: false,
-	usage: '',
+	usage: 'about',
 	perms: '',
 	alias: [],
 	cooldown: 1,

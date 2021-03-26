@@ -10,7 +10,7 @@ module.exports = {
     description: 'Displays the changelog',
     category: 'general',
     modcommand: false,
-    usage: '',
+    usage: 'changelog',
     perms: '',
     alias: [],
     cooldown: 1,
