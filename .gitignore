@@ -2,5 +2,6 @@ node_modules
 token.txt
 .vscode
 /files/serverConfigs/*.json
+/files/log/commandLogs/*.txt
 !/files/serverConfigs/template.json
 .DS_store
