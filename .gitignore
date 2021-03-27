@@ -1,3 +1,4 @@
 node_modules
 token.txt
 .vscode
+/files/serverConfigs/*.json
