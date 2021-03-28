@@ -1,106 +1,186 @@
-try {
-    const fs = require("fs");
-    const colors = require("colours")
-    const functions = require("../functions.js");
-    const Discord = require('discord.js')
-    const cooldowns = new Discord.Collection();
+// Imports
+const fs = require("fs");
+const colors = require("colours")
+const functions = require("../functions.js");
+const Discord = require('discord.js')
+const path = require('path');
+const cooldowns = new Discord.Collection();
 
-    module.exports = {
-        run: function (client) {
-            client.on('message', (message) => {
+function error_handler(err, type, message) {
+    message = (typeof message === 'undefined') ? '' : message; // Defaults to blank in no message parameter is passed
+    let error = `${type}\n\n${message}\n\n${err}\n\n${err.stack}`
+    let date = new Date()
+    let iso_date = date.toISOString()
+    let log_filename = `${iso_date}_${module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3)}`
+
+    fs.writeFileSync(`./files/log/${log_filename}.txt`, error)
+    console.log(colors.red(`An error occured! The error can be found in /files/log/${log_filename}.txt`))
+}
+
+module.exports = {
+    run: function (client) {
+        const colourInfo = functions.config().messageColours.info;
+        const colourWarn = functions.config().messageColours.warn;
+        client.on('message', (message) => {
+            try {
+                if (!message.guild) return; // Check if a message is a guild, and ignores it
+                if (message.author.bot) return; // Check if message is from a bot, and ignores it
+
+                //Read the server config file, and if it's missing, create one.
+                let guildConfig;
                 try {
-                    var colourInfo = functions.config().messageColours.info;
-                    var colourWarn = functions.config().messageColours.warn;
-                    //If the guild config file is there
-                    try {
-                        fs.readFileSync(`./files/serverConfigs/${message.guild.id}.json`)
-                    } catch (error) {
-                        console.log(colors.red(`Error: Guild config file for ` + colors.yellow(`${message.guild.name}`) + colors.red(` is missing, creating file...`)))
-                        fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(JSON.parse(fs.readFileSync("./files/serverConfigs/template.json"))))
-                        console.log(colors.green(`Success: Guild config file for ${colors.yellow(`${message.guild.name}`)}` + colors.green(` was written!`)))
-                    }
-                    //defining the prefix after config check so i dont try to get something from a file that may not even be there
-                    var prefix = JSON.parse(fs.readFileSync(`./files/serverConfigs/${message.guild.id}.json`)).prefix;
-                    if (client.user == message.mentions.users.first()) {
-                        if (typeof functions.getServerConfig(message.guild.id).blockedUsers !== 'undefined') {
-                            let userArray = functions.getServerConfig(message.guild.id).blockedUsers
-                            let found = false
-                            for (let index = 0; index < userArray.length; index++) {
-                                if (userArray[index].id == message.author.id) found = true;
-                            }
-                            if (found) return;
-                        }
-                        functions.embed(message.channel, "Ping-Pong!", colourInfo, "The bot prefix is `" + prefix + "`!")
-                        return;
-                    }
-                    if (!message.guild) return;
-                    if (message.author.bot) return;
+                    guildConfig = JSON.parse(fs.readFileSync(`./files/serverConfigs/${message.guild.id}.json`, "utf-8"))
+                } catch (err) {
+                    console.log(`${colors.red('Error: Guild config file for')} ${colors.yellow(message.guild.name)} ${colors.red('is missing, creating file...')}`)
+                    let serverConfigTemplate = fs.readFileSync("./files/serverConfigs/template.json", "utf-8")
+                    fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, serverConfigTemplate)
+                    console.log(`${colors.green('Success: Guild config file for')} ${colors.yellow(message.guild.name)} ${colors.green('was written!')}`)
+                }
 
-                    var content = message.content;
-
-                    if (content.includes("rigged")) {
-                        let randomInt = functions.randomInt(1, 200)
-                        if (randomInt == 69) {
-                            message.channel.send("its rigged")
-                        } else {
-                            message.channel.send("its not rigged")
+                // If the bot if pinged, respond with the server prefix, according to the server config
+                let prefix = guildConfig.prefix;
+                let blockedUsers = guildConfig.blockedUsers
+                if (client.user == message.mentions.users.first()) {
+                    if (typeof blockedUsers !== 'undefined') {
+                        for (let i = 0; i < blockedUsers.length; i++) {
+                            if (blockedUsers[i].id == message.author.id) return; // Don't send a repsonse
                         }
                     }
-                    if (content.substring(0, prefix.length).toLowerCase() == prefix.toLowerCase()) {
-                        var FUCKING_WORK_AHHHHHH = false
-                        client.guilds.fetch(message.guild.id).then((guild) => {
-                            if (!guild.me.permissions.has("EMBED_LINKS")) {
-                                if (guild.me.permissions.has("SEND_MESSAGES")) {
-                                    message.channel.send("The bot is missing the `EMBED_LINKS` permission, the command will not execute.")
+                    functions.embed(message.channel, "Hey!", colourInfo, `My prefix is **${prefix}**`)
+                    return;
+                }
+
+                const content = message.content;
+
+                // Respond to messages containing "rigged"
+                if (content.includes("rigged")) {
+                    let randomNumber = functions.randomInt(1, 200)
+                    if (randomNumber == 69) {
+                        message.channel.send("its rigged")
+                    } else {
+                        message.channel.send("its not rigged")
+                    }
+                }
+
+                // Check if prefix matches one in guild config
+                if (content.substring(0, prefix.length).toLowerCase() == prefix.toLowerCase()) {
+                    let args = content.substring(prefix.length).split(" ");
+                    fs.stat(`./commands/${args[0]}.js`, function (err, stat) {
+                        // Look for the command file using the name of the command
+                        if (!err) {
+                            try {
+                                const commandFile = require(`../commands/${args[0]}`);
+                                const commandName = commandFile['name']
+                                const isMod = commandFile['modcommand']
+                                const comandCooldown = commandFile['cooldown']
+
+                                if (!cooldowns.has(commandName)) {
+                                    cooldowns.set(commandName, new Discord.Collection());
                                 }
-                                FUCKING_WORK_AHHHHHH = true
-                            }
-                            if (FUCKING_WORK_AHHHHHH) return;
-                            var args = content.substring(prefix.length).split(" ");
-                            fs.stat(`./commands/${args[0]}.js`, function (err, stat) {
-                                if (err == null) {
-                                    try {
-                                        const commandFile = require(`../commands/${args[0]}`);
-                                        let commandName = commandFile['name']
-                                        let isMod = commandFile['modcommand']
 
-                                        let comandCooldown = commandFile['cooldown']
+                                const now = Date.now();
+                                const timestamps = cooldowns.get(commandName);
+                                const cooldownAmount = (comandCooldown || 3) * 1000; // Use comand cooldown, or default to 3 seconds, and then convert it to milliseconds
+                                
+                                // Check if user is on the cooldown list
+                                if (timestamps.has(message.author.id)) {
+                                    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+                                    if (now < expirationTime) {
+                                        const timeLeft = (expirationTime - now) / 1000;
+                                        message.channel.send(`You're using **${commandName}** too quickly. Wait another ${timeLeft.toFixed(1)} seconds to use this command again.`)
+                                    }
+                                } else { // Run the command
+                                    timestamps.set(message.author.id, now);
+                                    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
+                                    // Check if the user is blocked
+                                    if (guildConfig.blockedUsers) {
+                                        let blockCMD = commandFile['blockCMD']
+                                        let blockedUsers = guildConfig.blockedUsers
+                                        for (let i = 0; i < blockedUsers.length; index++) {
+                                            if (blockedUsers[i].id == message.author.id) {
+                                                if (!blockCMD) return; // If the command is not suppossed to be executed when a user is blocked, sned no repsonse
+                                            }
+                                        }
+                                    }
+
+                                    // Check if the member sending the message has appropiate permissions to run a command
+                                    let commandPermissions = commandFile['perms'];
+                                    if (commandPermissions) {
+                                        if (message.member.permissions.has(commandPermissions)) {
+                                            if (guildConfig.bot != message.channel.id && !isMod) return; // If the command is requested outside the command channel and is not a moderation command, send no response
+                                            commandFile['run'](message, prefix, args, client)
+                                        } else {
+                                            functions.embed(message.channel, "Error", colourWarn, `You are missing the permission: ${commandPermissions}`)
+                                        }
+                                    } else {
+                                        if (functions.getServerConfig(message.guild.id).bot != message.channel.id && !isMod) return;
+                                        commandFile['run'](message, prefix, args, client)
+                                    }
+                                }
+                            } catch (err) {
+                                functions.embed(message.channel, "", colourWarn, "An error occured!");
+                                error_handler(err, "Command Error!", `Message: ${message.content}`)
+                            }
+                        } else if (err.code === 'ENOENT') { // If the command couldn't be found by it's name, use aliases
+                            // I just copy pasted this code because I was tired. Sorry - Joshua
+                            try {
+                                let dir = fs.readdirSync("./commands/")
+                                let commandFile
+                                let found = false
+                                for (let i = 0; i < dir.length; i++) {
+                                    commandFile = require(`../commands/${dir[i]}`);
+                                    if (commandFile['alias'].includes(args[0].toLowerCase())) {
+                                        found = true;
+                                        final = i
+                                        i = dir.length;
+                                    }
+                                }
+                                if (found) {
+                                    try {
+                                        const commandFile = require(`../commands/${dir[final]}`);
+                                        const commandName = commandFile['name']
+                                        const isMod = commandFile['modcommand']
+                                        const comandCooldown = commandFile['cooldown']
+
                                         if (!cooldowns.has(commandName)) {
                                             cooldowns.set(commandName, new Discord.Collection());
                                         }
 
                                         const now = Date.now();
                                         const timestamps = cooldowns.get(commandName);
-                                        const cooldownAmount = (comandCooldown || 3) * 1000;
+                                        const cooldownAmount = (comandCooldown || 3) * 1000; // Use comand cooldown, or default to 3 seconds, and then convert it to milliseconds
+                                        
+                                        // Check if user is on the cooldown list
                                         if (timestamps.has(message.author.id)) {
                                             const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
                                             if (now < expirationTime) {
                                                 const timeLeft = (expirationTime - now) / 1000;
-                                                message.channel.send(`Please wait **${timeLeft.toFixed(1)}** more second(s) before reusing the \`${commandName}\` command.`)
+                                                message.channel.send(`You're using **${commandName}** too quickly. Wait another ${timeLeft.toFixed(1)} seconds to use this command again.`)
                                             }
-                                        } else {
+                                        } else { // Run the command
                                             timestamps.set(message.author.id, now);
                                             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-                                            //perms check so you dont have to do it in the file lmao
-                                            if (typeof functions.getServerConfig(message.guild.id).blockedUsers !== 'undefined') {
+
+                                            // Check if the user is blocked
+                                            if (guildConfig.blockedUsers) {
                                                 let blockCMD = commandFile['blockCMD']
-                                                let userArray = functions.getServerConfig(message.guild.id).blockedUsers
-                                                let found = false
-                                                for (let index = 0; index < userArray.length; index++) {
-                                                    if (userArray[index].id == message.author.id) found = true;
-                                                    continue;
+                                                let blockedUsers = guildConfig.blockedUsers
+                                                for (let i = 0; i < blockedUsers.length; index++) {
+                                                    if (blockedUsers[i].id == message.author.id) {
+                                                        if (!blockCMD) return; // If the command is not suppossed to be executed when a user is blocked, sned no repsonse
+                                                    }
                                                 }
-                                                if (typeof blockCMD == 'undefined') blockCMD = false
-                                                if (found && blockCMD == false) return;
                                             }
-                                            var cmdRoles = commandFile['perms'];
-                                            if (cmdRoles !== "") {
-                                                if (message.member.permissions.has(cmdRoles)) {
-                                                    //console.log(isMod)
-                                                    if (functions.getServerConfig(message.guild.id).bot != message.channel.id && !isMod) return;
+
+                                            // Check if the member sending the message has appropiate permissions to run a command
+                                            let commandPermissions = commandFile['perms'];
+                                            if (commandPermissions) {
+                                                if (message.member.permissions.has(commandPermissions)) {
+                                                    if (guildConfig.bot != message.channel.id && !isMod) return; // If the command is requested outside the command channel and is not a moderation command, send no response
                                                     commandFile['run'](message, prefix, args, client)
                                                 } else {
-                                                    functions.embed(message.channel, "Error", colourWarn, "You are missing the permission: `" + cmdRoles + "`!")
+                                                    functions.embed(message.channel, "Error", colourWarn, `You are missing the permission: ${commandPermissions}`)
                                                 }
                                             } else {
                                                 if (functions.getServerConfig(message.guild.id).bot != message.channel.id && !isMod) return;
@@ -109,140 +189,24 @@ try {
                                         }
                                     } catch (err) {
                                         functions.embed(message.channel, "", colourWarn, "An error occured!");
-                                        //error logging
-                                        const path = require('path');
-
-                                        let date = new Date()
-
-                                        let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-                                        fs.writeFileSync(`./files/log/commandLogs/${finnal}.txt`, `Message: ${message.content}\n\nError: ${err}\n${err.stack}`)
-                                        console.log(colors.red(`An error occured! The error can be found in ./files/log/commandLogs/${finnal}.txt`))
+                                        error_handler(err, "Command Error!", `Message: ${message.content}`)
                                     }
-                                } else if (err.code === 'ENOENT') {
-                                    var FUCKING_WORK_AHHHHHH = false
-                                    client.guilds.fetch(message.guild.id).then((guild) => {
-                                        if (!guild.me.permissions.has("EMBED_LINKS")) {
-                                            FUCKING_WORK_AHHHHHH = true
-                                        }
-                                        if (FUCKING_WORK_AHHHHHH) return;
-                                        try {
-                                            let dir = fs.readdirSync("./commands/")
-                                            let commandFile2
-                                            let found = false
-                                            for (let index = 0; index < dir.length; index++) {
-                                                commandFile2 = require(`../commands/${dir[index]}`);
-                                                if (commandFile2['alias'].includes(args[0].toLowerCase())) {
-                                                    found = true;
-                                                    final = index
-                                                    index = dir.length;
-                                                }
-                                            }
-                                            if (found) {
-                                                let commandFile = require(`../commands/${dir[final]}`);
-                                                let commandName = commandFile['name']
-                                                let isMod = commandFile['modcommand']
-                                                let comandCooldown = commandFile['cooldown']
-
-
-
-                                                if (!cooldowns.has(commandName)) {
-                                                    cooldowns.set(commandName, new Discord.Collection());
-                                                }
-                                                const now = Date.now();
-                                                const timestamps = cooldowns.get(commandName);
-                                                const cooldownAmount = (comandCooldown || 3) * 1000;
-                                                if (timestamps.has(message.author.id)) {
-                                                    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-                                                    if (now < expirationTime) {
-                                                        const timeLeft = (expirationTime - now) / 1000;
-                                                        message.channel.send(`Please wait **${timeLeft.toFixed(1)}** more second(s) before reusing the \`${commandName}\` command.`)
-                                                    }
-                                                } else {
-                                                    timestamps.set(message.author.id, now);
-                                                    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-                                                    //perms check so you dont have to do it in the file lmao
-                                                    var cmdRoles = commandFile['perms'];
-                                                    if (typeof functions.getServerConfig(message.guild.id).blockedUsers !== 'undefined') {
-                                                        let blockCMD = commandFile['blockCMD']
-                                                        let userArray = functions.getServerConfig(message.guild.id).blockedUsers
-                                                        let found = false
-                                                        for (let index = 0; index < userArray.length; index++) {
-                                                            if (userArray[index].id == message.author.id) found = true;
-                                                            continue;
-                                                        }
-                                                        if (typeof blockCMD == 'undefined') blockCMD = false
-                                                        if (found && blockCMD == false) return;
-                                                    }
-                                                    if (cmdRoles !== "") {
-                                                        if (message.member.permissions.has(cmdRoles)) {
-                                                            //console.log(isMod)
-                                                            if (functions.getServerConfig(message.guild.id).bot != message.channel.id && !isMod) return;
-                                                            commandFile['run'](message, prefix, args, client)
-                                                        } else {
-                                                            functions.embed(message.channel, "Error", colourWarn, "You are missing the permission: `" + cmdRoles + "`!")
-                                                        }
-                                                    } else {
-                                                        if (functions.getServerConfig(message.guild.id).bot != message.channel.id && !isMod) return;
-                                                        commandFile['run'](message, prefix, args, client)
-                                                    }
-                                                }
-                                            } else {
-                                                //functions.embed(message.channel, "", colourWarn, "Command does not exist");
-                                            }
-                                        } catch (error) {
-                                            functions.embed(message.channel, "", colourWarn, "An error occured!");
-                                            //error logging
-                                            const colors = require("colours")
-                                            const fs = require('fs')
-                                            const path = require('path');
-
-                                            let error2 = `${error}\n\n${error.stack}`
-
-                                            let date = new Date()
-
-                                            let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-                                            //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
-                                            fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-                                            console.log(colors.red(`An error occured! The error can be found in ./files/log/commandLogs/${finnal}.txt`))
-                                        }
-
-                                    });
                                 } else {
-                                    console.log(err);
-                                    functions.embed(message.channel, "", colourWarn, "An unexpected error has occured. Please contact the bot owner (Simyon#6969)");
+                                    functions.embed(message.channel, "", colourWarn, "Command does not exist");
                                 }
-                            });
-                        });
-                    }
-                } catch (error) {
-                    const colors = require("colours")
-                    const fs = require('fs')
-                    const path = require('path');
-
-                    let error2 = `${error}\n\n${error.stack}`
-
-                    let date = new Date()
-
-                    let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-                    //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
-                    fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-                    console.log(colors.red(`An error occured! The error can be found in ./files/log/${finnal}.txt`))
+                            } catch (error) {
+                                functions.embed(message.channel, "", colourWarn, "An error occured!");
+                                error_handler(err, "Command Error!", `Message: ${message.content}`)
+                            }
+                        } else {
+                            error_handler(err, "Unexpected Error!")
+                            functions.embed(message.channel, "", colourWarn, "An unexpected error has occured. Please contact the bot owner (Simyon#6969)");
+                        }
+                    });
                 }
-
-            });
-        }
+            } catch (err) {
+                error_handler(err, "Unexpected Error!")
+            }
+        });
     }
-} catch (error) {
-    const colors = require("colours")
-    const fs = require('fs')
-    const path = require('path');
-
-    let error2 = `${error}\n\n${error.stack}`
-
-    let date = new Date()
-
-    let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-    //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
-    fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-    console.log(colors.red(`An error occured! The error can be found in ./files/log/${finnal}.txt`))
 }
