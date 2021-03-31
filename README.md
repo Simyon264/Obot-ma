@@ -1,9 +1,9 @@
 # Obot-ma :TM:
-The Bot for JCIgaming's discord
+The Bot for JCIgaming's Discord
 ## Description
 
-The bot for JCIgaming's discord with features such as kick,ban,warn. You never know what will happen next. This project is closed source but some people have access to it.
-Obot-ma is based on the interstellar bot and i still call it Interstellar sometimes lmao.
+The bot for JCIgaming's Discord server with features such as kicking, baning and warning users. You never know what will happen next. This project is closed source but some people have access to it.
+Obot-ma is based on the interstellar bot and I still call it Interstellar sometimes lmao.
 
 ## How to install.
 1. Make sure you have Node.js installed.
@@ -13,11 +13,11 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 5. You are done!
 
 ## Making a new command or eventhandler.
-Did you ever want to make a new command or something like that? Well im going to teach you that!
+Have you ever wanted to make a new command or something similar? Read the instructions below.
 
 #### Making a command.
-To make a new **command** you need to put a *JS* file into the commands folder. Like `hello.js`. The file name is the command name, so if you name it `hello.js` the command will execute when the user inputs (*NOTE The prefix in our example being '!'*) `!hello` the command will execute. If there is a file that does not have the `.js` it will error.
-Once the file is made you need to put a few things in it so it doesn't error while searching for the aliases or while running it. Still confused? Let me just give you an example: 
+To make a new **command** you need to put a *JavaScript* file into the `commands` directory. Like `hello.js`. The filename is the name of the command, so if you name it `hello.js`, the user would need to type (*NOTE: The prefix in our example is '!'*) `!hello` for the command to execute. If there are files in the `commands` directory that are not JavaScript files, an error will occur.
+Once you create the JavaScript file, you need to structure your file in a way that will work correctly with other code used by the bot. Provided is the command file structure, with the example being a `hello` command. 
 ```javascript
 module.exports = {
     name: 'hello', // This is the title when you run the help command.
@@ -45,34 +45,33 @@ You may wonder: What is getting passed so you know what you can use. Well...
 - prefix - The prefix that the command was executed with. I dont even know why its there but it is.
 - args - The args the command was executed with. (It's an array btw)
 
-#### Making a eventhandler.
-First off: These eventhandlers need a special error handler or they will just kill the bot.
-So... How do you make a eventhandler? Well its just like making a command... just without the command stuff... Well you start with a simple `module.exports` and a `run`.
-The run function only needs the client parameter as that is the only thing passed from bot.js. You then need to run the events you want to run... Where do you put the file?
-Well in the `eventhandlers` folder! The file name also does not matter at all, you can name it like you want.
-*NOTE: Anything that isn't a JS file and doesn't have the run export will error the bot.*
-Oh and if you need an example: 
+#### Making an event handler.
+First off: Event handlers need a special error handler or they will just kill the bot.
+So... how do you make a event handler? Well, the process is similar to making a command... with a few exceptions. You start with a simple `module.exports` and a `run`.
+The `run` function only requires the `client` parameter. For the event to be run, you must ensure the event handler file is in the  `eventhandlers` folder. The file name also does not matter, you can name it like you want.
+*NOTE: Anything that isn't a JavaScript file and doesn't have the `run` export attribute will cause an error.*
+An example would be: 
 ```javascript
 const discord = require('discord.js');
 module.exports = {
     run: function (client) {
         client.once('ready', () => {
-            console.log("I'm ALIVE!!!!!!!!!")
+            console.log("Hello World")
         });
     }
 }
 ```
-This will print 'I'm ALIVE!!!!!!!!' into the console when the bot is logged in.
+This will print 'Hello World' into the console when the bot logs in.
 
-So what did we learn today?
-- [x] How to make new commands
-- [x] How to make new eventhandlers
-- [ ] Making bread
+So what did we do today?
+- [x] Make new commands
+- [x] Make new event handlers
+- [ ] Colonise 1/2 of the globe
 
 ## All commands.
 
 - 8ball
-    > You ask a qeustion, the 8ball will give you an answer.
+    > You ask a question, the 8ball will give you an answer.
     > **Usage** `8ball <question>`
 - About
     > Outputs a general 'about' page
@@ -89,7 +88,7 @@ So what did we learn today?
     > Check how cap something is
     > **Usage** `cap [anything]`
 - Config
-    > Changes or reads a config
+    > Modifies or reads a config
     > **Usage** `config <read <config>>`
 - Dice
     > Roll the dice.
