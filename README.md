@@ -12,7 +12,64 @@ Obot-ma is based on the interstellar bot and i still call it Interstellar someti
 4. Type in your bot token.
 5. You are done!
 
-## All commands 
+## Making a new command or eventhandler.
+Did you ever want to make a new command or something like that? Well im going to teach you that!
+
+#### Making a command.
+To make a new **command** you need to put a *JS* file into the commands folder. Like `hello.js`. The file name is the command name, so if you name it `hello.js` the command will execute when the user inputs (*NOTE The prefix in our example being '!'*) `!hello` the command will execute. If there is a file that does not have the `.js` it will error.
+Once the file is made you need to put a few things in it so it doesn't error while searching for the aliases or while running it. Still confused? Let me just give you an example: 
+```javascript
+module.exports = {
+    name: 'hello', // This is the title when you run the help command.
+    description: 'Hello... World...', // This is the description displayed when you run the help command.
+    category: 'general', // This is the category displayed when you run the help command.
+    modcommand: false, // If this is true, this command can be executed in a non bot channel.
+    blockCMD: false, // If this is true, the command can be executed even if blocked. (This is not needed for the bot to not error when running the command)
+    usage: 'hello', // The usage displayed when you run the help command.
+    perms: '', // A permission check line. The bot will check this line and run a permission check. (Example permission: 'MANAGE_GUILD')
+    alias: ["world"], // Aliases checked by message.js.
+    cooldown: 1, // Cooldown in seconds.
+    run: function (message, prefix, args, client) { 
+        // This code will execute once the command executes
+        // message => the message object.
+        // message.channel => the channel object.
+        // message.channel.send() => A function that sends a message to the channel
+        message.channel.send("World!") // This sends 'World!' into the channel that the command was executed in.
+    }
+}
+```
+#### What gets passed on when the command is run.
+You may wonder: What is getting passed so you know what you can use. Well...
+- client - This is the client object. With this you can get stuff like the ping. (client.ws.ping)
+- message - The message object. Used for getting the channel or the author etc.
+- prefix - The prefix that the command was executed with. I dont even know why its there but it is.
+- args - The args the command was executed with. (It's an array btw)
+
+#### Making a eventhandler.
+First off: These eventhandlers need a special error handler or they will just kill the bot.
+So... How do you make a eventhandler? Well its just like making a command... just without the command stuff... Well you start with a simple `module.exports` and a `run`.
+The run function only needs the client parameter as that is the only thing passed from bot.js. You then need to run the events you want to run... Where do you put the file?
+Well in the `eventhandlers` folder! The file name also does not matter at all, you can name it like you want.
+*NOTE: Anything that isn't a JS file and doesn't have the run export will error the bot.*
+Oh and if you need an example: 
+```javascript
+const discord = require('discord.js');
+module.exports = {
+    run: function (client) {
+        client.once('ready', () => {
+            console.log("I'm ALIVE!!!!!!!!!")
+        });
+    }
+}
+```
+This will print 'I'm ALIVE!!!!!!!!' into the console when the bot is logged in.
+
+So what did we learn today?
+- [x] How to make new commands
+- [x] How to make new eventhandlers
+- [ ] Making bread
+
+## All commands.
 
 - 8ball
     > You ask a qeustion, the 8ball will give you an answer.
