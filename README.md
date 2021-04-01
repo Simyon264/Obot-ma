@@ -101,6 +101,46 @@ So what did we do today?
 - [X] Learn how the functions work.
 - [ ] Colonise 1/2 of the globe
 
+## Rules
+The rules are stored in `/files/important files/rules.txt` the code loops and every time there is a `^` in the rules file, it sends the previous text as a embed. 
+Still confused? Well heres an example:
+```
+embed one!
+^
+embed two!
+^
+```
+![Rule example](/files/images/Rules.png)
+
+## Server Configs
+The Server Configs work in a special way. The Configs are stored in the `./files/serverConfigs/` The Config file name is the guild ID of the server.
+There is no real limit of what you can put in them since they are in a JSON format. An example config: 
+```json
+{
+   "prefix":"?",
+   "logging":"702274434207318181",
+   "bot":"702242808081154082",
+   "rules":"702242808081154082",
+   "ruleMessages":[
+      "827244232410267730",
+      "827244233412444160"
+   ],
+   "blockedUsers":[
+      {
+         "id":"266965577799565312",
+         "adminBlock":false
+      }
+   ]
+}
+```
+The general template is:
+```json
+{
+    "prefix": "!",
+    "logging": ""
+}
+```
+
 ## All commands.
 
 - 8ball
