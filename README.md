@@ -46,7 +46,20 @@ You may wonder: What is getting passed so you know what you can use. Well...
 - args - The args the command was executed with. (It's an array btw)
 
 #### Making an event handler.
-First off: Event handlers need a special error handler or they will just kill the bot.
+First off: Event handlers need a special error handler or they will just kill the bot. They look like this:
+```javascript
+try {
+    // Code goes here
+} catch (err) {
+    let error = `${err}\n\n${err.stack}`
+    let date = new Date()
+    let iso_date = date.toISOString()
+    let log_filename = `${iso_date}_${module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3)}`
+
+    fs.writeFileSync(`./files/log/${log_filename}.txt`, error)
+    console.log(colors.red(`An error occured! The error can be found in /files/log/${log_filename}.txt`))
+}
+```
 So... how do you make a event handler? Well, the process is similar to making a command... with a few exceptions. You start with a simple `module.exports` and a `run`.
 The `run` function only requires the `client` parameter. For the event to be run, you must ensure the event handler file is in the  `eventhandlers` folder. The file name also does not matter, you can name it like you want.
 *NOTE: Anything that isn't a JavaScript file and doesn't have the `run` export attribute will cause an error.*
@@ -63,9 +76,29 @@ module.exports = {
 ```
 This will print 'Hello World' into the console when the bot logs in.
 
+#### Useful functions.
+Stuff like making an embed sure sucks but i made some functions to do the heavy lifting for us! So... What do we have? Well we have:
+##### **embed** (channel, title, colour, message, returnEmbedOnly)
+This makes and sends an embed or returns it.
+`Channel` (*Chanel Object*): The channel the message gets send to.
+`Title` (*String*): The title of the embed.
+`colour` (*Number*): The colour of the embed.
+`message` (*String*): The description of the embed.
+`returnEmbedOnly` (*Boolean* and optional): If this is true, the function returns the embed object and does not send the message.
+##### **getServerConfig** (guildID) 
+This returns the server config for the guildID provided.
+`guildID` (*String*): The guildID for the server config.
+##### **randomInt** (min,max)
+This returns a random number with the vaules specified.
+`min` (*Int*): The minimum number.
+`max` (*Int*): The maximum number.
+##### **config** ()
+Returns the bot config.
+
 So what did we do today?
 - [x] Make new commands
 - [x] Make new event handlers
+- [X] Learn how the functions work.
 - [ ] Colonise 1/2 of the globe
 
 ## All commands.
@@ -88,8 +121,8 @@ So what did we do today?
     > Check how cap something is
     > **Usage** `cap [anything]`
 - Config
-    > Modifies or reads a config
-    > **Usage** `config <read <config>>`
+    > Reads a config
+    > **Usage** `config <config>`
 - Dice
     > Roll the dice.
     > **Usage** `dice [min],[max]`
