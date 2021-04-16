@@ -117,7 +117,7 @@ module.exports = {
 						embed.addField("Cooldown", cooldown + " Second(s)" || "*none*")
 						embed.addField("Aliases", final || "*none*")
 						embed.setDescription(`\`[]\` means optional and \`<>\` is required. The bot prefix is \`${prefix}\``)
-						
+
 						message.channel.send(embed)
 					} else {
 						functions.embed(message.channel, "", colourWarn, "Specified command does not exist");

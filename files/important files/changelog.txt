@@ -1,6 +1,2 @@
-Version 1.4.6!
-- Added the uptime command
-- Removed ut and uptime alias from the ping command
-- Eval is now a block command
-- New message for cooldown
-- Fixed some other shit
+Version 2.4.6!
+- Complete rewrite!

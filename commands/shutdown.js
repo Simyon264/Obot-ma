@@ -17,8 +17,7 @@ module.exports = {
         if (message.author.id == functions.config().special.owner) {
             message.channel.send("Shutting down! :clap:").then(function () {
                 console.log("Discord command: Shutdown")
-                console.log("Shutting down...")
-                process.exit(0)
+                process.emit('SIGINT')
             });
         } else {
             functions.embed(message.channel, "Error", colourWarn, "You do not have the Permission to execute this command!")

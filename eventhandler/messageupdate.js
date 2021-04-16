@@ -2,8 +2,8 @@ try {
     const functions = require("../functions.js");
     const discord = require("discord.js");
 
-    var colourInfo = functions.config().messageColours.info;
-    var colourWarn = functions.config().messageColours.warn;
+    const colourInfo = functions.config().messageColours.info;
+    const colourWarn = functions.config().messageColours.warn;
 
     module.exports = {
         run: function (client) {

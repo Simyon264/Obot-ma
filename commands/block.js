@@ -11,11 +11,11 @@ module.exports = {
     description: 'Block someone from using a command.',
     category: 'moderation',
     modcommand: true,
-    blockCMD: true,
+    //blockCMD: true,
     usage: 'block <user> <admin block(true,false)>',
     perms: 'MANAGE_GUILD',
     alias: [],
-    cooldown: 10, 
+    cooldown: 10,
     run: function (message, prefix, args, client) {
         if (args.length >= 2) {
             let admin = false
@@ -44,7 +44,10 @@ module.exports = {
                         message.channel.send("uwu i already found this user in my database along with ur long-")
                         return;
                     }
-                    file.blockedUsers.push({id: `${user}`,adminBlock: admin})
+                    file.blockedUsers.push({
+                        id: `${user}`,
+                        adminBlock: admin
+                    })
                     fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(file))
                     message.channel.send(`daddy i blocked <@${user}>!!!! now pwease punch me!!!!!!!`)
                 } else {
@@ -69,7 +72,7 @@ module.exports = {
             } else {
                 message.channel.send("haha very funni but pleae specify a user by mentioning him/her")
             }
-        } else{
+        } else {
             message.channel.send("who tf do you want me to block?")
         }
     }
