@@ -1,0 +1,27 @@
+{
+  "name": "obot-ma",
+  "version": "1.0.0-alpha",
+  "description": "The best-in-class Discord bot.",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Simyon264/Obot-ma.git"
+  },
+  "keywords": [
+    "Discord",
+    "Bot",
+    "Obot-ma"
+  ],
+  "author": "Joshua Zacek, Simyon264",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Simyon264/Obot-ma/issues"
+  },
+  "homepage": "https://github.com/Simyon264/Obot-ma#readme",
+  "dependencies": {
+    "discord.js": "12.5.3"
+  }
+}
