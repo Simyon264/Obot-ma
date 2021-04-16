@@ -6,3 +6,5 @@ token.txt
 /files/log/*.txt
 !/files/serverConfigs/template.json
 .DS_store
+/files/cache/evalreturn.txt
+/files/log/latest.log
