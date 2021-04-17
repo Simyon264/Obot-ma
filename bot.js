@@ -73,7 +73,6 @@ function start() {
         } catch (err) {
             // If the error is not a token invalid error, throw it
             if (err.code !== "TOKEN_INVALID") throw err;
-
             console.log(colors.red("Error: ") + "The token provided is invalid!")
             token()
         }
@@ -81,7 +80,6 @@ function start() {
     } catch (err) {
         // If the error is not a file not found error, throw it
         if (err.code !== "ENOENT") throw err;
-
         console.log(colors.red("Error: ") + "token is missing!")
         token();
     }
@@ -95,27 +93,15 @@ start();
 // I'll work hard to try and remove this - Joshua
 // And I will work hard to keep this in! - Simon
 process.on("unhandledRejection", (err) => {
-    if (devMode) {
-        console.error(`\nunhandledRejection!\n${err}\n\n${err.stack}`)
-    }
-    if (writeLog) {
-        file = fs.readFileSync('./files/log/latest.log', 'utf-8')
-
-        file = file + `\nunhandledRejection!\n${err}\n\n${err.stack}`
-        fs.writeFileSync('./files/log/latest.log', file)
-    }
+    f.log(`\nunhandledRejection!\n${err}\n\n${err.stack}`)
 });
 
 process.on('uncaughtException', (err) => {
-    if (devMode) {
-        console.error(`\nuncaughtException!\n${err}\n\n${err.stack}`)
-    }
-    if (writeLog) {
-        file = fs.readFileSync('./files/log/latest.log', 'utf-8')
+    f.log(`\nuncaughtException!\n${err}\n\n${err.stack}`)
+})
 
-        file = file + `\nuncaughtException!\n${err}\n\n${err.stack}`
-        fs.writeFileSync('./files/log/latest.log', file)
-    }
+process.on('message', (msg) => {
+    f.log(msg)
 })
 
 function exit(code) {
@@ -123,9 +109,9 @@ function exit(code) {
     console.log('Destroying client...')
     f.log('Exiting...')
     client.destroy()
-    process.exit(0)
+    process.exit(code)
 }
 
 process.on('SIGINT', () => {
-    exit()
+    exit(0)
 })
