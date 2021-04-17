@@ -14,7 +14,9 @@ module.exports = {
                     })
                     .then(() => {
                         console.log('Client connected!')
+                        console.log('Authed for user', client.user.username);
                         f.log('Client connected.')
+                        f.log(`Authed for user ${client.user.username}`)
                     });
             });
             client.on('shardDisconnect', () => {
@@ -24,7 +26,7 @@ module.exports = {
                 f.log('Client reconnecting...')
             })
         } catch (error) {
-            f.error(error, 'ws.js', true)
+            f.error(error, 'WShandler.js', true)
         }
 
     }
