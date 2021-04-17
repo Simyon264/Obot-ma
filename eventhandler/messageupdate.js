@@ -1,61 +1,38 @@
-try {
-    const functions = require("../functions.js");
-    const discord = require("discord.js");
+const f = require("../functions.js");
+const discord = require("discord.js");
 
-    const colourInfo = functions.config().messageColours.info;
-    const colourWarn = functions.config().messageColours.warn;
+const colourInfo = f.config().messageColours.info;
+const colourWarn = f.config().messageColours.warn;
 
-    module.exports = {
-        run: function (client) {
-            client.on('messageUpdate', (oldMessage, newMessage) => {
-                try {
-                    if (newMessage.author.bot) return;
-                    if (oldMessage.content == newMessage.content) return;
-                    let guild = newMessage.guild
-                    if (!guild.available) return;
+module.exports = {
+    run: function (client) {
+        client.on('messageUpdate', (oldMessage, newMessage) => {
+            try {
+                f.log("Message was updated.")
+                if (newMessage.author.bot) return f.log("Message author is a bot."); // Check if message author is a bot.
+                if (oldMessage.content == newMessage.content) return f.log("Message content hasn't been updated."); // Check if message content has been updated.
+                let guild = newMessage.guild
+                if (!guild.available) return f.log("Guild is unavailable.");
+                // Generate the embed.
+                var embed = new discord.MessageEmbed()
+                    .setTitle("Message Edited")
+                    .setColor(colourInfo)
+                    .addField("User", `${newMessage.author} \`${newMessage.author.tag}\``)
+                    .addField("Channel", newMessage.channel)
+                    .addField("Old Content", `\`\`\`${oldMessage.content || "*none*"}\`\`\``)
+                    .addField("New Content", `\`\`\`${newMessage.content || "*none*"}\`\`\``)
+                    .setThumbnail(newMessage.author.displayAvatarURL);
 
-                    var embed = new discord.MessageEmbed()
-                        .setTitle("Message Edited")
-                        .setColor(colourInfo)
-                        .addField("User", `${newMessage.author} \`${newMessage.author.tag}\``)
-                        .addField("Channel", newMessage.channel)
-                        .addField("Old Content", `\`\`\`${oldMessage.content || "*none*"}\`\`\``)
-                        .addField("New Content", `\`\`\`${newMessage.content || "*none*"}\`\`\``)
-                        .setThumbnail(newMessage.author.displayAvatarURL);
-
-                    newMessage.guild.channels.cache.find((channel) => {
-                        if (channel.id == functions.getServerConfig(guild.id).logging) {
-                            channel.send(embed)
-                        }
-                    });
-                } catch (error) {
-                    const colors = require("colours")
-                    const fs = require('fs')
-                    const path = require('path');
-
-                    let error2 = `${error}\n\n${error.stack}`
-
-                    let date = new Date()
-
-                    let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-                    //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
-                    fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-                    console.log(colors.red(`An error occured! The error can be found in ./files/log/${finnal}.txt`))
-                }
-            });
-        }
+                // Find the log channel.
+                newMessage.guild.channels.cache.find((channel) => {
+                    if (channel.id == f.getServerConfig(guild.id).logging) {
+                        // Send the embed
+                        channel.send(embed)
+                    }
+                });
+            } catch (error) {
+                f.error(error, "messageupdate.js", true)
+            }
+        });
     }
-} catch (error) {
-    const colors = require("colours")
-    const fs = require('fs')
-    const path = require('path');
-
-    let error2 = `${error}\n\n${error.stack}`
-
-    let date = new Date()
-
-    let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-    //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
-    fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-    console.log(colors.red(`An error occured! The error can be found in ./files/log/${finnal}.txt`))
 }
