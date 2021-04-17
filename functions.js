@@ -57,17 +57,20 @@ exports.embed = function (channel, title, colour, message, returnEmbedOnly) {
 }
 
 exports.error = function (err, customFileName, sendConsoleLog) {
-    let error = `\n${err.code}\n\n${err}\n\n${err.stack}` // Get the error and the error stacktrace
-    let date = new Date() // The date when the error occured
-    let iso_date = date.toISOString() // Gets the iso date
-    let log_filename = `error_${iso_date}` // Generate the file name
-    iso_date.replace(':', '.') // Replaces : with . so its a valid format
-    if (customFileName) {
-        log_filename = `error_${iso_date}_${customFileName}`
+    try {
+        let error = `\n${err.code}\n\n${err.stack}` // Get the error and the error stacktrace
+        let date = new Date() // The date when the error occured
+        let iso_date = date.toISOString() // Gets the iso date
+        let log_filename = `error_${iso_date}` // Generate the file name
+        if (typeof customFileName == 'string') log_filename = `error_${iso_date}_${customFileName}`;
+        log_filename = log_filename.replace(/\:/g, '.') // Replaces : with . so its a valid format
+
+        fs.writeFileSync(`./files/log/${log_filename}.txt`, error) // Write the file
+        if (sendConsoleLog) console.log(colors.red(`An error occured! The error can be found in ./files/log/${log_filename}.txt`)) // Console log that a error occured
+        f.log(err, 3)
+    } catch (error) {
+        console.log('The error handler had a error.\n\n', error)
     }
-    fs.writeFileSync(`./files/log/${log_filename}.txt`, error) // Write the file
-    if (sendConsoleLog) console.log(colors.red(`An error occured! The error can be found in /files/log/${log_filename}.txt`)) // Console log that a error occured
-    f.log(error)
 }
 
 exports.log = function (log, customStackNum) {
@@ -78,7 +81,7 @@ exports.log = function (log, customStackNum) {
     lineNumber = lineNumber.replace(')', '')
     lineNumber = lineNumber.replace('(', '')
 
-    if (devMode) console.log(`${functionName}:${lineNumber} ${log}`)
+    if (devMode) console.log(`${lineNumber} > ${log}`)
     if (writeLog) {
         file = fs.readFileSync('./files/log/latest.log', 'utf-8')
 
