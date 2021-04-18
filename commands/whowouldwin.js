@@ -1,8 +1,4 @@
 const functions = require('../functions.js');
-const discord = require('discord.js');
-
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
 
 module.exports = {
     name: 'whowouldwin',
@@ -14,7 +10,7 @@ module.exports = {
     alias: ["www"],
     cooldown: 2,
     run: function (message, prefix, args, client) {
-        if (args.length >= 2) {
+        if (args.length == 2) {
             const randomNumber = Math.floor(Math.random() * 2)
             let arg = args
             arg.splice(0, 1);

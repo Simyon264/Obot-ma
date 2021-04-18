@@ -2,8 +2,7 @@ const functions = require('../functions.js');
 const discord = require('discord.js');
 const fs = require('fs')
 
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
+const colourWarn = functions.config().messageColours.warn;
 
 module.exports = {
     name: 'eval',
@@ -17,6 +16,7 @@ module.exports = {
     cooldown: 1,
     run: function (message, prefix, args, client) {
         if (message.author.id == functions.config().special.owner) {
+            // I have no idea how this works
             const args = message.content.split(" ").slice(1);
             const clean = text => {
                 if (typeof (text) === "string")
@@ -31,8 +31,6 @@ module.exports = {
                     let evaled = eval(code);
                     const stop = process.hrtime(start)
 
-                    let sp = "`"
-                    
                     if (typeof evaled !== "string")
                         evaled = require("util").inspect(evaled);
 
@@ -43,8 +41,6 @@ module.exports = {
                         .setColor(colourWarn)
                     message.channel.send(embed)
                         .catch(function () {
-                            //functions.embed(message.channel,"Error",colourWarn,"The eval return vaule could not be displayed because the eval return vaule was over 1024 characters!")
-                            
                             let embed = new discord.MessageEmbed()
                                 .addField("`EVAL`", "```xl\n" + "The eval return vaule could not be displayed because the eval return vaule was over 1024 characters! Im going to send the return as its own file!" + "\n```")
                                 .addField("`TIME`", "`" + (((stop[0] * 1e9) + stop[1])) / 1e6 + " ms.`")
@@ -69,8 +65,6 @@ module.exports = {
                 }
             });
 
-        } else {
-            functions.embed(message.channel, "Error", colourWarn, "You do not have the Permission to execute this command!")
-        }
+        } else message.channel.send('you really think im that stopid?')
     }
 }

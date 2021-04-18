@@ -1,8 +1,7 @@
 const functions = require('../functions.js');
 const discord = require('discord.js');
 
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
+const colourInfo = functions.config().messageColours.info;
 
 module.exports = {
     name: 'server',
@@ -14,12 +13,12 @@ module.exports = {
     alias: ["sinfo", "server", "server-info"],
     cooldown: 3,
     run: function (message, prefix, args, client) {
-        let guild = message.guild
+        let guild = message.guild // Get the guild
 
         let normalEmojis = 0
         let animatedEmojis = 0
 
-    
+        // Getting the emoji count
         let guildEmojiCache = guild.emojis.cache.array()
         for (let index = 0; index < guildEmojiCache.length; index++) {
             if (guildEmojiCache[index].animated == true) animatedEmojis++;
@@ -29,12 +28,14 @@ module.exports = {
         let humans = 0
         let robots = 0
 
+        // Getting the member counts
         let guildMemberArr = guild.members.cache.array()
         for (let index = 0; index < guildMemberArr.length; index++) {
             if (guildMemberArr[index].user.bot) robots++;
             if (guildMemberArr[index].user.bot == false) humans++;
         }
 
+        //cAt = createdAt
         let cAt = guild.createdAt
 
         let fields = [{
@@ -47,6 +48,7 @@ module.exports = {
             inline: true
         }]
 
+        // Generating embed and sending it
         let embed = new discord.MessageEmbed()
             .setThumbnail(guild.iconURL({
                 dynamic: true,

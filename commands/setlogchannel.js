@@ -2,9 +2,7 @@ const functions = require('../functions.js');
 const discord = require('discord.js');
 const fs = require('fs')
 
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
-let colourDone = functions.config().messageColours.done;
+const colourDone = functions.config().messageColours.done;
 
 module.exports = {
     name: 'setLogChannel',
@@ -18,7 +16,7 @@ module.exports = {
     run: function (message, prefix, args, client) {
         let file = JSON.parse(fs.readFileSync(`./files/serverConfigs/${message.guild.id}.json`))
         if (args.length !== 2) {
-            functions.embed(message.channel, "Error", colourWarn, "Please specify the log channel!")
+            message.channel.send("Please specify the new log channel!")
         } else {
             try {
                 let channelID = message.mentions.channels.first().id
@@ -28,10 +26,10 @@ module.exports = {
                     fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(file))
                     functions.embed(message.channel, "Done!  :clap:", colourDone, `The log channel on ${s}${message.guild.name}${s} is now ${s}${message.mentions.channels.first().name}${s}!`)
                 } else {
-                    functions.embed(message.channel, "Error", colourWarn, "Please specify the log channel!")
+                    message.channel.send("Please specify the new log channel!")
                 }
             } catch (error) {
-                functions.embed(message.channel, "Error", colourWarn, "Please specify the log channel!")
+                message.channel.send("Please specify the new log channel!")
             }
         }
     }

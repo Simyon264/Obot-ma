@@ -12,13 +12,13 @@ module.exports = {
     cooldown: 1,
     run: function (message, prefix, args, client) {
         f.log('Checking for owner...')
-        if (message.author.id == f.config().special.owner) {
+        if (message.author.id == f.config().special.owner) { // Check for owner
             f.log('Check passed.')
-            if (args.length >= 2) {
-                const argsN = message.content.split(" ").slice(1);
-                //if (args[1] == "execute") return message.channel.send("no");
+            if (args.length >= 2) { // The if a command to execute was specifed
+                const argsN = message.content.split(" ").slice(1); // Get the new args to pass onto the command
+                if (args[1] == "execute") return message.channel.send("no"); // If the command you are trying to execute is this one, dont execute it
                 message.channel.send('ok fam i gotchu')
-                let returnCode = f.execute(args[1], message, client, prefix, argsN)
+                let returnCode = f.execute(args[1], message, client, prefix, argsN) // Execute the command
                 switch (returnCode.code) {
                     case 0:
                         message.channel.send('yeah fam i did it')

@@ -15,13 +15,13 @@ module.exports = {
     cooldown: 2,
     run: function (message, prefix, args, client) {
         if (args.length <= 1) {
-            const randomNumber = Math.floor(Math.random() * 101)
-            const randomColor = Math.floor(Math.random() * 16777215).toString(16)
-            if (randomNumber == 100) {
+            const randomNumber = Math.floor(Math.random() * 101) // Generate random number
+            const randomColor = Math.floor(Math.random() * 16777215).toString(16) // Generate random color
+            if (randomNumber == 100) { // If the random number is 100, the person is very gay
                 message.channel.send("100% gay, you like Valorant.")
             } else {
                 functions.embed(message.channel, "", randomColor, `${message.author.username} is ${randomNumber}% gay`)
-            }   
+            }
         } else {
             const randomNumber = Math.floor(Math.random() * 101)
             const randomColor = Math.floor(Math.random() * 16777215).toString(16)

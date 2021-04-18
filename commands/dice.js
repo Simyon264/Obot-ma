@@ -1,8 +1,4 @@
-const functions = require('../functions.js');
-const discord = require('discord.js');
-
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
+const f = require('../functions.js');
 
 module.exports = {
     name: 'dice',
@@ -14,24 +10,19 @@ module.exports = {
     alias: ["randomnumber", "rn"],
     cooldown: 1,
     run: function (message, prefix, args, client) {
-        function getRandomInt(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-        if (args.length == 2) {
-            let arg = args
-            arg.splice(0, 1);
-            const argsJoined = arg.join(' ');
-            arg = argsJoined.split(',');
-            args = arg
+        if (args.length == 2) { // Check if a custom number was mentioned
+            let arg = args // Copy args
+            arg.splice(0, 1); // Remove first args
+            const argsJoined = arg.join(' '); // Join it again
+            arg = argsJoined.split(','); // Split it based on ,
+            args = arg // Set args to arg
             if (typeof args[1] !== 'undefined') {
-                const randomNumber = getRandomInt(args[0], args[1])
+                const randomNumber = f.randomInt(args[0], args[1])
                 message.channel.send(`:game_die: ${randomNumber}`)
             } else {
                 const randomNumber = Math.floor(Math.random() * 6)
                 message.channel.send(`:game_die: ${randomNumber}`)
-            }  
+            }
         } else {
             const randomNumber = Math.floor(Math.random() * 6)
             message.channel.send(`:game_die: ${randomNumber}`)

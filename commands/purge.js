@@ -1,9 +1,8 @@
 const functions = require('../functions.js');
 const discord = require('discord.js');
 
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
-let colourDone = functions.config().messageColours.done;
+const colourWarn = functions.config().messageColours.warn;
+const colourDone = functions.config().messageColours.done;
 
 module.exports = {
     name: 'purge',
@@ -15,8 +14,14 @@ module.exports = {
     alias: ["clear", "massdelete"],
     cooldown: 25,
     run: function (message, prefix, args, client) {
-        client.guilds.fetch(message.guild.id).then((guild) => {
-            if (guild.me.permissions.has("MANAGE_MESSAGES")) {
+        /*/
+        /-----------------------------------------------\
+        | I have no idea how to make this better lmao   |
+        |                     hf                        |
+        \-----------------------------------------------/
+        /*/
+        client.guilds.fetch(message.guild.id).then((guild) => { // Get the guild
+            if (guild.me.permissions.has("MANAGE_MESSAGES")) { // Check if the bot has enough perms
                 if (args.length == 2) {
                     if (!isNaN(args[1])) {
                         if (args[1] < 1) {

@@ -1,8 +1,4 @@
 const functions = require('../functions.js');
-const discord = require('discord.js');
-
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
 
 module.exports = {
     name: 'simp',
@@ -11,12 +7,12 @@ module.exports = {
     modcommand: false,
     usage: 'simp [anything]',
     perms: '',
-    alias: ["smp", "howsimp","hs"],
+    alias: ["smp", "howsimp", "hs"],
     cooldown: 2,
     run: function (message, prefix, args, client) {
         if (args.length <= 1) {
-            const randomNumber = Math.floor(Math.random() * 101)
-            const randomColor = Math.floor(Math.random() * 16777215).toString(16)
+            const randomNumber = Math.floor(Math.random() * 101) // Generate random number
+            const randomColor = Math.floor(Math.random() * 16777215).toString(16) // Generate random color
             if (randomNumber == 100) {
                 message.channel.send("100% simp, you like Okool.")
             } else {

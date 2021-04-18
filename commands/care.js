@@ -39,20 +39,19 @@ module.exports = {
                                                     sendMessage.edit(`${person} got ${randomNumber} cares`)
                                                 }
                                             }
-                                        },randomInteger(600,900))
+                                        }, randomInteger(600, 900))
                                     });
-                                },randomInteger(1000,1900))
-                            },randomInteger(700,900))
-                        },randomInteger(600,1300))
+                                }, randomInteger(1000, 1900))
+                            }, randomInteger(700, 900))
+                        }, randomInteger(600, 1300))
                     });
-                }, randomInteger(1000,2000));
-                
+                }, randomInteger(1000, 2000));
             });
         }
         if (args.length > 1) {
             checkCares(args[1])
         } else {
-            checkCares(message.author.username,true)
+            checkCares(message.author.username, true)
         }
     }
 }

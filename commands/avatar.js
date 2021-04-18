@@ -1,8 +1,5 @@
-const functions = require('../functions.js');
+const f = require('../functions.js');
 const discord = require('discord.js');
-
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
 
 module.exports = {
     name: 'avatar',
@@ -14,33 +11,35 @@ module.exports = {
     alias: ["av", "pfp", "profilepicture"],
     cooldown: 1,
     run: function (message, prefix, args, client) {
-        if (args.length == 2) {
-            let user = message.mentions.users.first();
-            if (!user) {
+        if (args.length == 2) { // If a user could be pinged
+            let user = message.mentions.users.first(); // Get the ping
+            if (!user) { // If a user was pinged
                 try {
-                    user = client.users.cache.get(args[1])
+                    user = client.users.cache.get(args[1]) // Get user object from ping
                 } catch (e) {
-                    functions.embed(message.channel, "Error", colourWarn, "Please specify a user!")
-                    return;
+                    return f.embed('Please specify a user.');
                 }
-                
+
             }
+            // Generate the embed
             let embed = new discord.MessageEmbed()
                 .setImage(user.avatarURL({
                     dynamic: true,
                     size: 4096
                 }))
                 .setTitle(`${user.username}'s avatar`)
-            message.channel.send(embed)
-        } else {
-            let user = message.author;
+            message.channel.send(embed) // Send the embed
+        } else { // If no user could be pinged
+            let user = message.author; //  Get the user object
+
+            // Generate the embed
             let embed = new discord.MessageEmbed()
                 .setImage(user.avatarURL({
                     dynamic: true,
                     size: 4096
                 }))
                 .setTitle(`${user.username}'s avatar`)
-            message.channel.send(embed)
+            message.channel.send(embed) // Send the embed
         }
     }
 }

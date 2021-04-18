@@ -1,9 +1,3 @@
-const functions = require('../functions.js');
-const discord = require('discord.js');
-
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
-
 module.exports = {
     name: 'say',
     description: 'Make the bot say something',
@@ -12,10 +6,10 @@ module.exports = {
     usage: 'say <what you want the bot to say>',
     perms: '',
     alias: [],
-    cooldown: 5,
+    cooldown: 3,
     run: function (message, prefix, args, client) {
         let messageToSay = args;
-        messageToSay.splice(0, 1);
+        messageToSay.splice(0, 1); // Remove command from message
 
         // Join the array into a string
         messageToSay = messageToSay.join(" ");
@@ -28,6 +22,6 @@ module.exports = {
         } else {
             message.channel.send("UwU daddy i wanted to say that but its too long just like your-")
         }
-        
+
     }
 }

@@ -1,10 +1,9 @@
-const functions = require('../functions.js');
-const discord = require('discord.js');
+const f = require('../functions.js');
 const fs = require('fs')
 
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
-let colourDone = functions.config().messageColours.done;
+const colourInfo = f.config().messageColours.info;
+const colourWarn = f.config().messageColours.warn;
+const colourDone = f.config().messageColours.done;
 
 module.exports = {
     name: 'rule',
@@ -16,36 +15,43 @@ module.exports = {
     alias: ["rules"],
     cooldown: 5,
     run: function (message, prefix, args, client) {
-        let file = fs.readFileSync(`./files/important files/rules.txt`,'utf-8')
-        let lines = file.split("\n");
-        let config = JSON.parse(fs.readFileSync(`./files/serverConfigs/${message.guild.id}.json`))
-        try {      
-            config.ruleMessages.forEach(element => {    
-                client.channels.cache.get(functions.getServerConfig(message.guild.id).rules).messages.fetch(element).then(message => message.delete())
+        let file = fs.readFileSync(`./files/important files/rules.txt`, 'utf-8') // Get the rules
+        let lines = file.split("\n"); // Put every line into a array
+        let config = f.getServerConfig(message.guild.id) // Get the server config
+        try {
+            config.ruleMessages.forEach(element => {
+                client.channels.cache.get(f.getServerConfig(message.guild.id).rules).messages.fetch(element).then(message => message.delete())
             });
         } catch (error) {
             //console.log(error)   
         }
-        config.ruleMessages = []
+        config.ruleMessages = [] // Reset the rule message array
         let cache = ""
+        let nochannel = false
+        /*/
+        | This loops through the entire rule array and puts every line into a cache. Once it reaches a ^ char it sends an
+        | Embed with the cache and clears it. If the cahnnel is not definded it sends nothing.
+        | gay
+        /*/
         for (i in lines) {
             if (lines[i].includes('^')) {
-                const query = client.channels.cache.find(channel => channel.id === functions.getServerConfig(message.guild.id).rules)
+                const query = client.channels.cache.find(channel => channel.id === f.getServerConfig(message.guild.id).rules)
                 if (typeof query !== 'undefined' && query) {
-                    let embed = functions.embed('', '', colourInfo, cache, true)
+                    let embed = f.embed('', '', colourInfo, cache, true)
                     cache = ""
                     query.send(embed).then((sentMessage) => {
                         config.ruleMessages.push(`${sentMessage.id}`)
-                        fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(config)) 
+                        fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(config))
                     });
                 } else {
-                    functions.embed(message.channel, "Error", colourWarn, "The rule channel is not defined.")   
+                    nochannel = true
                 }
             } else {
-                cache = cache + `${lines[i]}\n`  
-            }   
+                cache = cache + `${lines[i]}\n`
+            }
         }
-        fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(config))
-        functions.embed(message.channel, "Done :clap:", colourDone, "I send the messages you wanted me to send!")
+        fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(config)) // Write the file
+        if (nochannel) f.embed(message.channel, "Error", colourWarn, "The rule channel is not defined.")
+        if (!nochannel) f.embed(message.channel, "Done :clap:", colourDone, "I send the messages you wanted me to send!")
     }
 }
