@@ -12,6 +12,21 @@ Obot-ma is based on the interstellar bot and I still call it Interstellar someti
 4. Type in your bot token.
 5. You are done!
 
+## Launch options
+Wanna disable the console? Or have no colours? Well, we have launch options!
+`npm start` will launch the option `logconsole` enabled. But I will first tell you what we have:
+- `noconsole` - Disables all console output.
+- `debug` - Will output debug messages to the console.
+- `nowrite` - Disables log file writting. *NOTE:* `logconsole` will override this for it's writes.
+- `logconsole` - Writes all console output into the log file.
+- `showfilestart` - Shows the file start.
+- `nocolour` - Disables colour in the console.
+
+To enable one of these just have it in the args when starting the bot. So:
+`node bot.js [launch options]`
+These have to be seperated by spaces. So if we would want to disable colour and have all debug output put into the console we would do:
+`node bot.js nocolour debug`
+
 ## Making a new command or eventhandler.
 Have you ever wanted to make a new command or something similar? Read the instructions below.
 
@@ -94,11 +109,29 @@ This returns a random number with the vaules specified.
 `max` (*Int*): The maximum number.
 ##### **config** ()
 Returns the bot config.
+##### **execute** (command, message, client, prefix, args)
+Executes a command.
+`command` (*String*): The command to execute.
+`message` (*MessageObject*): The message object for the command that will be executed
+`client` (*DJS Client object*): The client for the command.
+`prefix` (*String*): The prefix for the command.
+`args` (*Array*): The args for the command.
+#### **error** (err, customFileName, sendConsoleLog)
+Handles errors for you. So if you have any try catch you need handled, send it to this function!
+`err` (*Error object*): The error
+`customFileName` (*String*): A custom name that will appear in the file
+`sendConsoleLog` (*Boolean*): If this is true, a message will apear in the console.
+#### **log** (log, customStackNum, override, msgOverride)
+Logs something to log file with Time from where it came etc.
+`log` (*String*): The thing to log to the log file
+`customStackNum` (*Int*): The stack number that should be used. *NOTE:* The stacknumber is the location from where the log was called. Like in the stacktrace
+`override` (*Object*): Is logging turned off? Well, just turn it on with this! Use it like this: `{devMode: true, writeLog: true}` This will turn writeLog and devMode on. So writing to the console and writting to the log file.
+`msgOverride` (*String*): Overrides the seperator between the call location and the log message, leave undefined for default (>).
 
 So what did we do today?
 - [x] Make new commands
 - [x] Make new event handlers
-- [X] Learn how the functions work.
+- [x] Learn how the functions work.
 - [ ] Colonise 1/2 of the globe
 
 ## Rules
@@ -142,6 +175,7 @@ The general template is:
 ```
 
 ## All commands.
+`<>` means its required, `[]` means its optional.
 
 - 8ball
     > You ask a question, the 8ball will give you an answer.
@@ -170,6 +204,9 @@ The general template is:
     > Gives you the most recent changelog.
 - Eval
     > Executes JavaScript. *NOTE: Only the owner can use this command. Define the owner in the config file.*
+- Execute
+    > Executes a command. *NOTE: Only the owner can use this command. Define the owner in the config file.*
+    **Usage** `execute <command> [args]`
 - Help
     > Gives you a list of all commands or help for a specific command.
     > **Usage** `help [command]`
