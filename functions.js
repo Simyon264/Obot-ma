@@ -39,6 +39,28 @@ exports.config = function (config) {
     }
 }
 
+exports.execute = function (command, message, client, prefix, args) {
+    try {
+        const commandFile = require(`./commands/${command}.js`) // Get the command file
+        f.log(`Command execution reqeusted. Command: ${commandFile['name']}`)
+        commandFile['run'](message, prefix, args, client) // Run the command
+        f.log(`Command executed: ${commandFile['name']}`)
+        return {
+            code: 0
+        };
+    } catch (error) {
+        f.log('Command execution failed.')
+        if (error.code == 'MODULE_NOT_FOUND') return {
+            code: 1,
+            error: error
+        };
+        return {
+            code: 2,
+            error: error
+        };
+    }
+}
+
 exports.embed = function (channel, title, colour, message, returnEmbedOnly) {
     if (!returnEmbedOnly) {
         var embed = new discord.MessageEmbed()
@@ -74,13 +96,14 @@ exports.error = function (err, customFileName, sendConsoleLog) {
 }
 
 exports.log = function (log, customStackNum, override, msgOverride) {
-
     let stackNum = 2
     if (customStackNum) stackNum = customStackNum;
     let lineNumber = new Error().stack.split("at ")[stackNum].trim()
     lineNumber = path.basename(lineNumber)
     lineNumber = lineNumber.replace(')', '')
     lineNumber = lineNumber.replace('(', '')
+    const d = new Date()
+    lineNumber = `[${d.getHours()}:${d.getMinutes()}.${d.getMilliseconds()}] - ${lineNumber}`
 
     if (typeof msgOverride != 'string') msgOverride = ">"
     if (logconsole == false) {
