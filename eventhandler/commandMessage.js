@@ -102,7 +102,7 @@ function runCMD(commandFile, guildConfig, message, colourWarn, prefix, args, cli
 
 module.exports = {
     run: function (client) {
-        client.on('message', (message) => {
+        client.on('message', async (message) => {
             try {
                 f.log(`Message recieved: ${message}`)
                 if (!message.guild) return f.log("Message is in a DM channel..."); // Check if a message is a guild, and ignores it
