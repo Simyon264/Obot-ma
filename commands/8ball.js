@@ -1,7 +1,4 @@
-const functions = require('../functions.js');
-const discord = require('discord.js');
-
-const colourInfo = functions.config().messageColours.info;
+const f = require('../functions.js');
 
 module.exports = {
     name: '8ball',
@@ -13,6 +10,10 @@ module.exports = {
     alias: ["8b", "ball"],
     cooldown: 2,
     run: function (message, prefix, args, client) {
+        // Get the colour info
+        const colourInfo = f.config().messageColours.info;
+        f.log(`Got info colour, ${colourInfo}`)
+
         if (args.length >= 2) {
             // Define the answers arr
             const arr = ["Don’t count on it.",
@@ -46,9 +47,11 @@ module.exports = {
             ]
             // Get a random answer
             const randomNumber = Math.floor(Math.random() * arr.length)
+            f.log(`Random number generated, ${randomNumber}`)
             // Send the answer
-            functions.embed(message.channel, ":8ball: says:", colourInfo, arr[randomNumber])
+            f.embed(message.channel, ":8ball: says:", colourInfo, arr[randomNumber])
         } else {
+            f.log(`User didn't specify a another user.`)
             message.channel.send("bro you are 100% cringe... What do you even want to be answered???")
         }
     }

@@ -73,7 +73,8 @@ exports.error = function (err, customFileName, sendConsoleLog) {
     }
 }
 
-exports.log = function (log, customStackNum) {
+exports.log = function (log, customStackNum, override, msgOverride) {
+
     let stackNum = 2
     if (customStackNum) stackNum = customStackNum;
     let lineNumber = new Error().stack.split("at ")[stackNum].trim()
@@ -81,11 +82,15 @@ exports.log = function (log, customStackNum) {
     lineNumber = lineNumber.replace(')', '')
     lineNumber = lineNumber.replace('(', '')
 
-    if (devMode) console.log(`${lineNumber} > ${log}`)
-    if (writeLog) {
+    if (typeof msgOverride != 'string') msgOverride = ">"
+    if (logconsole == false) {
+        if (devMode || override.devMode) console.log(`${lineNumber} ${msgOverride} ${log}`)
+    }
+
+    if (writeLog || override.writeLog) {
         file = fs.readFileSync('./files/log/latest.log', 'utf-8')
 
-        file = file + `\n${lineNumber} > ${log}`
+        file = file + `\n${lineNumber} ${msgOverride} ${log}`
         fs.writeFileSync('./files/log/latest.log', file)
     }
 }

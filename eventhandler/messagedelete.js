@@ -1,55 +1,30 @@
-try {
-    const functions = require("../functions.js")
-    const discord = require('discord.js');
+const f = require("../functions.js")
+const discord = require('discord.js');
 
-    var colourInfo = functions.config().messageColours.info;
-    var colourWarn = functions.config().messageColours.warn;
+module.exports = {
+    run: function (client) {
+        client.on('messageDelete', (message) => {
+            try {
+                f.log('Message was deleted.')
+                const colourInfo = f.config().messageColours.info; // Getting the info color
 
-    module.exports = {
-        run: function (client) {
-            client.on('messageDelete', (message) => {
-                try {
-                    //if (message.author.bot) return;
+                // Generating the embed
+                let embed = new discord.MessageEmbed()
+                    .setTitle("Message Deleted")
+                    .setColor(colourInfo)
+                    .addField("User", `${message.author} \`${message.author.tag}\``)
+                    .addField("Channel", message.channel)
+                    .addField("Content", `\`\`\`${message.content || "*none*"}\`\`\``)
+                    .setThumbnail(message.author.displayAvatarURL);
 
-                    var embed = new discord.MessageEmbed()
-                        .setTitle("Message Deleted")
-                        .setColor(colourInfo)
-                        .addField("User", `${message.author} \`${message.author.tag}\``)
-                        .addField("Channel", message.channel)
-                        .addField("Content", `\`\`\`${message.content || "*none*"}\`\`\``)
-                        .setThumbnail(message.author.displayAvatarURL);
-
-                    if (typeof message.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(message.guild.id).logging) !== 'undefined' && message.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(message.guild.id).logging)) {
-                        message.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(message.guild.id).logging).send(embed);
-                    }
-                } catch (error) {
-                    const colors = require("colours")
-                    const fs = require('fs')
-                    const path = require('path');
-
-                    let error2 = `${error}\n\n${error.stack}`
-
-                    let date = new Date()
-
-                    let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-                    //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
-                    fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-                    console.log(colors.red(`An error occured! The error can be found in ./files/log/${finnal}.txt`))
-                }
-            });
-        }
+                // Sending the message
+                if (typeof message.guild.channels.cache.find(channel => channel.id == f.getServerConfig(message.guild.id).logging) !== 'undefined' && message.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(message.guild.id).logging)) {
+                    message.guild.channels.cache.find(channel => channel.id == f.getServerConfig(message.guild.id).logging).send(embed);
+                    f.log("Message was sent.")
+                } else f.log("Message was not sent, log channel not definded.")
+            } catch (error) {
+                f.error(error, "messagedelete.js", true)
+            }
+        });
     }
-} catch (error) {
-    const colors = require("colours")
-    const fs = require('fs')
-    const path = require('path');
-
-    let error2 = `${error}\n\n${error.stack}`
-
-    let date = new Date()
-
-    let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-    //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
-    fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-    console.log(colors.red(`An error occured! The error can be found in ./files/log/${finnal}.txt`))
 }

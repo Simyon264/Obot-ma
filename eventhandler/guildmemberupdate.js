@@ -1,63 +1,42 @@
-try {
-    const functions = require("../functions.js")
-    const discord = require('discord.js');
+const f = require("../functions.js")
+const discord = require('discord.js');
 
-    var colourInfo = functions.config().messageColours.info;
-    var colourWarn = functions.config().messageColours.warn;
+var colourInfo = f.config().messageColours.info;
 
-    module.exports = {
-        run: function (client) {
-            client.on('guildMemberUpdate', (oldMember, newMember) => {
-                try {
-                    if (oldMember.nickname != newMember.nickname) {
-                        let memberName = newMember.user.tag;
-                        let oldNickname = oldMember.nickname || "*none*";
-                        let newNickname = newMember.nickname || "*none*";
+module.exports = {
+    run: function (client) {
+        client.on('guildMemberUpdate', (oldMember, newMember) => {
+            try {
+                f.log('Member has been updated.')
+                if (oldMember.nickname != newMember.nickname) { // Check if nick was changed.
+                    let memberName = newMember.user.username; // Get the member name
+                    f.log(`Member: ${memberName}`)
 
-                        var embed = new discord.MessageEmbed()
-                            .setTitle("Nickname Changed")
-                            .setColor(colourInfo)
-                            .addField("User", `${newMember} \`${newMember.user.tag}\``)
-                            .addField("Old Nickname", oldNickname)
-                            .addField("New Nickname", newNickname)
-                            .setFooter(`User ID: ${newMember.user.id}`)
-                            .setThumbnail(newMember.user.displayAvatarURL);
+                    // Get the old and new nick
+                    let oldNickname = oldMember.nickname || "*none*";
+                    let newNickname = newMember.nickname || "*none*";
 
-                        
-                        const query = newMember.guild.channels.cache.find(channel => channel.id == functions.getServerConfig(newMember.guild.id).logging)
-                        if (typeof query !== 'undefined' && query) {
-                            query.send(embed)
-                        }
+                    // Generate the embed
+                    let embed = new discord.MessageEmbed()
+                        .setTitle("Nickname Changed")
+                        .setColor(colourInfo)
+                        .addField("User", `${newMember} \`${newMember.user.tag}\``)
+                        .addField("Old Nickname", oldNickname)
+                        .addField("New Nickname", newNickname)
+                        .setFooter(`User ID: ${newMember.user.id}`)
+                        .setThumbnail(newMember.user.displayAvatarURL);
 
-                    }
-                } catch (error) {
-                    const colors = require("colours")
-                    const fs = require('fs')
-                    const path = require('path');
+                    // Sending the message
+                    const query = newMember.guild.channels.cache.find(channel => channel.id == f.getServerConfig(newMember.guild.id).logging)
+                    if (typeof query !== 'undefined' && query) {
+                        query.send(embed)
+                        f.log("Message was sent.")
+                    } else f.log("Message was not sent, log channel not definded.")
 
-                    let error2 = `${error}\n\n${error.stack}`
-
-                    let date = new Date()
-
-                    let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-                    //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
-                    fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-                    console.log(colors.red(`An error occured! The error can be found in ./files/log/${finnal}.txt`))
-                }
-            });
-        }
+                } else f.log('Member nick has not been changed.')
+            } catch (error) {
+                false
+            }
+        });
     }
-} catch (error) {
-    const colors = require("colours")
-    const fs = require('fs')
-    const path = require('path');
-
-    let error2 = `${error}\n\n${error.stack}`
-
-    let date = new Date()
-
-    let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-    //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
-    fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-    console.log(colors.red(`An error occured! The error can be found in ./files/log/${finnal}.txt`))
 }

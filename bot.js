@@ -4,9 +4,37 @@ const discord = require("discord.js") // discord.js.... you should know this
 const colors = require('colours') // used to print custom colours in the terminal
 const readline = require("readline") // used for user to input bot token
 const f = require('./functions.js')
-// Defining general vars
+
+// Defining global vars
 global.devMode = false;
-global.writeLog = false;
+global.writeLog = true;
+global.logconsole = false;
+global.noconsole = false;
+global.showfilestart = false;
+global.consolelog = [];
+global.nocolour = false;
+
+// Redefining the console
+console.log = function (d) {
+    let newString = d.split('') // Put the array into a string with the sepperator being that weird char
+    if (newString.length != 1) { // If the array is one long dont do anything cause then it will have no formatting
+        // Loop through everything and remove the first 4 chars so the formatting is removed
+        for (let index = 0; index < newString.length; index++) {
+            newString[index] = newString[index].substring(4)
+        }
+    }
+    // Put the new array into a string
+    newString = newString.join('')
+
+    if (logconsole) { // If the console should be logged
+        consolelog.push(newString); // Push the formatted string into a array for latter use 
+        f.log(newString, 3, { // Log the console message
+            writeLog: true
+        }, "CONSOLE >");
+    }
+    if (nocolour) d = newString;
+    if (!noconsole) process.stdout.write(d + '\n'); // If the console is enabled write to the console.
+};
 
 // Get args from the command that was used to start the bot
 const args = process.argv.slice(2);
@@ -14,13 +42,29 @@ const args = process.argv.slice(2);
 for (let index = 0; index < args.length; index++) {
     //This will just set some vars to true 
     switch (args[index]) {
-        case "dev":
-            devMode = true;
-            console.log(colors.magenta("Debug mode") + " is now enabled")
+        case "noconsole":
+            noconsole = true;
+            console.log(colors.magenta("Debug: no console") + " is now enabled")
             break;
-        case "write":
-            writeLog = true;
-            console.log(colors.magenta("Debug write") + " is now enabled")
+        case "debug":
+            devMode = true;
+            console.log(colors.magenta("Debug: mode") + " is now enabled")
+            break;
+        case "nowrite":
+            writeLog = false;
+            console.log(colors.magenta("Debug: no write") + " is now enabled")
+            break;
+        case "logconsole":
+            logconsole = true;
+            console.log(colors.magenta("Debug: log console") + " is now enabled")
+            break;
+        case "showfilestart":
+            showfilestart = true;
+            console.log(colors.magenta("Debug: show file start") + " is now enabled")
+            break;
+        case "nocolour":
+            nocolour = true;
+            console.log(colors.magenta("Debug: no colour") + " is now enabled")
             break;
         default:
             console.log(colors.red(`Argument `) + colors.yellow(args[index]) + colors.red(" is not supported."))
@@ -30,6 +74,7 @@ for (let index = 0; index < args.length; index++) {
 
 if (writeLog) console.log("The debug log can be found in /log/latest.log")
 
+console.log("Look into the readme for launch options!")
 console.log("Starting bot...")
 const client = new discord.Client(); // discord client
 
@@ -52,13 +97,13 @@ function start() {
     try {
         let token = fs.readFileSync("./files/important files/token.txt", "utf-8")
 
-        console.log("Starting files!")
+        console.log(colors.yellow("Starting files!"))
         let files = fs.readdirSync("./eventhandler/")
 
         // Start event handlers
         for (let i = 0; i < files.length; i++) {
             let event = require(`./eventhandler/${files[i]}`);
-            console.log(colors.yellow(`Started: ${files[i]}`));
+            if (showfilestart) console.log(colors.yellow(`Started: ${files[i]}`));
             event['run'](client);
         }
         console.log(colors.green("All files started, logging in!"))

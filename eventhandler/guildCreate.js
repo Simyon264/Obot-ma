@@ -1,41 +1,16 @@
-try {
-    const fs = require("fs");
-    const functions = require("../functions.js")
+const fs = require("fs");
+const f = require("../functions.js")
 
-    module.exports = {
-        run: function (client) {
-            client.on('guildCreate', (guild) => {
-                try {
-                    if (!guild.available) return;
-                    fs.writeFileSync(`../files/serverConfigs/${guild.id}.json`, JSON.stringify(fs.readFileSync("../files/serverConfigs/template.json")))
-                } catch (error) {
-                    const colors = require("colours")
-                    const fs = require('fs')
-                    const path = require('path');
-
-                    let error2 = `${error}\n\n${error.stack}`
-
-                    let date = new Date()
-
-                    let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-                    //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
-                    fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-                    console.log(colors.red(`An error occured! The error can be found in ./files/log/${finnal}.txt`))
-                }
-            });
-        }
+module.exports = {
+    run: function (client) {
+        client.on('guildCreate', (guild) => {
+            try {
+                f.log('The bot joined a new guild!')
+                if (!guild.available) return f.log('Guild is not available, returning.');
+                fs.writeFileSync(`../files/serverConfigs/${guild.id}.json`, JSON.stringify(fs.readFileSync("../files/serverConfigs/template.json")))
+            } catch (error) {
+                f.error(error, "guildcreate.js", true)
+            }
+        });
     }
-} catch (error) {
-    const colors = require("colours")
-    const fs = require('fs')
-    const path = require('path');
-
-    let error2 = `${error}\n\n${error.stack}`
-
-    let date = new Date()
-
-    let finnal = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + "_" + date.getSeconds() + "_" + module.filename.slice(__filename.lastIndexOf(path.sep) + 1, module.filename.length - 3);
-    //let finnal = `${date.getDate}_${date.getMonth}_${date.getFullYear}:${date.getSeconds}:${module.filename}.txt`
-    fs.writeFileSync(`./files/log/${finnal}.txt`, error2)
-    console.log(colors.red(`An error occured! The error can be found in ./files/log/${finnal}.txt`))
 }
