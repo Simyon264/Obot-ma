@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Simyon264/Obot-ma#readme",
   "dependencies": {
     "discord.js": "12.5.3",
-    "dotenv": "8.2.0"
+    "dotenv": "8.2.0",
+    "pg": "8.6.0"
   }
 }
