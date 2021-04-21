@@ -2,3 +2,6 @@ node_modules/
 
 # Environment file containing secrets
 .env
+
+# OS files
+.DS_Store
