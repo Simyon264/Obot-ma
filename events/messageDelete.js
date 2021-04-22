@@ -15,14 +15,14 @@ module.exports = {
                 .addField('Member', message.author)
                 .addField('Channel', message.channel)
                 .addField('Message', `\`\`\`${message.content || "* no content *"}\`\`\``)
-                .setThumbnail(member.author.displayAvatarURL({
+                .setThumbnail(message.author.displayAvatarURL({
                     type: 'png',
                     dynamic: true
                 }))
 
             try {
                 // Query the db to find the logging channel of the guild
-                let res = await db.query("SELECT (log_channel) FROM guilds WHERE guild_id=$1", [member.guild.id])
+                let res = await db.query("SELECT (log_channel) FROM guilds WHERE guild_id=$1", [message.guild.id])
 
                 // If the log channel was set
                 if (res.rowCount) {

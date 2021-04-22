@@ -28,7 +28,7 @@ module.exports = {
 
             try {
                 // Query the db to find the logging channel of the guild
-                let res = await db.query("SELECT (log_channel) FROM guilds WHERE guild_id=$1", [member.guild.id])
+                let res = await db.query("SELECT (log_channel) FROM guilds WHERE guild_id=$1", [newMessage.guild.id])
 
                 // If the log channel was set
                 if (res.rowCount) {

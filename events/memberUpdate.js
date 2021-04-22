@@ -10,20 +10,20 @@ module.exports = {
             // Check for nickname changes
             if (oldMember.nickname != newMember.nickname) {
                 let updatedNicknameEmbed = new discord.MessageEmbed()
-                    .setTitle("Nickname changed!")
+                    .setTitle("Nickname Changed")
                     .setColor(infoColor)
                     .addField("Member", newMember)
-                    .addField("Old", oldMember.nickname)
-                    .addField("New", newMember.nickname)
+                    .addField("Old", oldMember.nickname || oldMember.user.username)
+                    .addField("New", newMember.nickname || newMember.user.username)
                     .setFooter(`ID: ${newMember.user.id}`)
-                    .setThumbnail(member.user.displayAvatarURL({
+                    .setThumbnail(newMember.user.displayAvatarURL({
                         type: 'png',
                         dynamic: true
                     }))
                 
                     try {
                         // Query the db to find the logging channel of the guild
-                        let res = await db.query("SELECT (log_channel) FROM guilds WHERE guild_id=$1", [member.guild.id])
+                        let res = await db.query("SELECT (log_channel) FROM guilds WHERE guild_id=$1", [newMember.guild.id])
 
                         // If the log channel was set
                         if (res.rowCount) {
