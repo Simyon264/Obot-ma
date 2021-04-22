@@ -2,8 +2,6 @@ const config = require("../config.json")
 const discord = require("discord.js")
 const db = require("../db")
 
-let infoColor = config.messageColors.info
-let warnColor = config.messageColors.warn
 let memberColor = config.messageColors.member
 
 module.exports = {
@@ -12,11 +10,11 @@ module.exports = {
             // Get the time
             let today = new Date().toString()
 
-            // Create joined message embed
-            let joinedMessageEmbed = new discord.MessageEmbed()
+            // Create leave message embed
+            let leaveMessageEmbed = new discord.MessageEmbed()
                 .setTitle(`Goodbye, ${member.user.username}`)
                 .setColor(memberColor)
-                .addField('Member', `${member}`)
+                .addField('Member', member)
                 .addField('Left', today)
                 .setFooter(`ID: ${member.user.id}`)
                 .setThumbnail(member.user.displayAvatarURL({
@@ -35,7 +33,7 @@ module.exports = {
                         // Search for the channel to a. send a message in it and b. check if it still exists
                         let channel = client.channels.cache.find(channel => channel.id == logging_channel)
                         if (channel) {
-                            channel.send(joinedMessageEmbed)
+                            channel.send(leaveMessageEmbed)
                         }
                     }
                 }

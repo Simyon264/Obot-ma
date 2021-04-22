@@ -19,6 +19,7 @@ const query = async (text, params) => {
 module.exports = {
     query: query,
     create_db: () => {
+        // This function in the future will be able to automatically create the whole obotma database, with tables and so on...
         console.log("This is where the db is created")
     }
 }

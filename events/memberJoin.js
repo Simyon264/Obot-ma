@@ -2,8 +2,6 @@ const config = require("../config.json")
 const discord = require("discord.js")
 const db = require("../db")
 
-let infoColor = config.messageColors.info
-let warnColor = config.messageColors.warn
 let memberColor = config.messageColors.member
 
 module.exports = {
@@ -16,7 +14,7 @@ module.exports = {
             let joinedMessageEmbed = new discord.MessageEmbed()
                 .setTitle(`Hello, ${member.user.username}`)
                 .setColor(memberColor)
-                .addField('Member', `${member}`)
+                .addField('Member', member)
                 .addField('Joined', today)
                 .addField('Created', member.user.createdAt)
                 .setFooter(`ID: ${member.user.id}`)
