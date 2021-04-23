@@ -7,6 +7,7 @@ module.exports = {
     about: "Recieve a list of commands, or read documentation about a specific command.",
     usage: "help [command]",
     category: "General",
+    cooldown: 500, // Milliseconds
     run: (client, message, args) => {
         message.channel.send("Soon:tm:")
     }
