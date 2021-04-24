@@ -5,5 +5,10 @@
         "done": "0x00ff95",
         "mod": "0xeb9b34",
         "member": "0x923afc"
-    }
+    },
+    "categories": [
+        "general",
+        "moderation",
+        "server"
+    ]
 }

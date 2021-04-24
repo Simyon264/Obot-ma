@@ -69,77 +69,77 @@ module.exports = {
         }
 
         client.on("message", async (message) => {
-            // Query the database for the guild config
-            let guild;
             try {
+                // Filter out DMs and own messages
+                if (!message.guild || message.author.bot) {
+                    return;
+                }
+
+                // Query the database for the guild config
+                let guild;
                 // Look for guild in the db by it's id
-                let res = await db.query("SELECT * FROM guilds WHERE guild_id=$1", [message.guild.id])
+                let guildDatabase = await db.query("SELECT * FROM guilds WHERE guild_id=$1", [message.guild.id])
                 // If it exists in the db
-                if (res.rowCount) {
-                    guild = res.rows[0]
+                if (guildDatabase.rowCount) {
+                    guild = guildDatabase.rows[0]
                 } else {
                     // Create the guild in the db
-                    let res = await db.query("INSERT INTO guilds(guild_id) VALUES ($1) RETURNING *", [message.guild.id])
-                    guild = res
+                    let guildDatabase = await db.query("INSERT INTO guilds(guild_id) VALUES ($1) RETURNING *", [message.guild.id])
+                    guild = guildDatabase
                 }
-            } catch (err) {
-                throw err; //Logging can be done here
-            }
 
-            // Filter out DMs and own messages
-            if (!message.guild || message.author.bot) {
-                return;
-            }
-
-            // Check if user is blocked. If they are, do nothing
-            let res = await db.query("SELECT * FROM blocks WHERE user_id=$1 AND guild_id=$2", [message.author.id, message.guild.id])
-            if (res.rowCount != 0) {
-                return;
-            }
-
-            let content = message.content
-
-            // Respond to messages containing the word rigged
-            if (content.includes("rigged")) {
-                let random_number = Math.floor((Math.random() * 100))
-                if (random_number == 69) {
-                    message.channel.send("It's rigged")
-                } else {
-                    message.channel.send("It's not rigged")
+                // Check if user is blocked. If they are, do nothing
+                let blockDatabase = await db.query("SELECT * FROM blocks WHERE user_id=$1 AND guild_id=$2", [message.author.id, message.guild.id])
+                if (blockDatabase.rowCount != 0) {
+                    return;
                 }
-            }
 
-            // Get guild prefix. If none exists, then use the default prefix
-            let prefix = guild.prefix ? guild.prefix : "!"
+                let content = message.content
 
-            // Reply when the bot is pinged
-            if (client.user == message.mentions.users.first()) {
-                message.channel.send(`My prefix here is: ${prefix}`)
-            }
-
-            // If the first few characters in a messages are equal to the guild prefix
-            if (content.slice(0, prefix.length).toLowerCase() == prefix) {
-                let splitMessage = content.split(' ') // Split the message using spaces
-                let command = splitMessage[0].slice(prefix.length) // Get the first element in the slipt message (the command), and remove the prefix
-                let commandArgs = splitMessage.slice(1).join(' ') // Get the split message, remove the first element (command), and join the split message with spaces            
-
-                try {
-                    // Run the command
-                    let commandFile = require(`../commands/${command}`) // Check if the command file exists in the commands directory
-                    runCommand(command, commandArgs, message, client)
-                } catch (err) {
-                    if (err.code == "MODULE_NOT_FOUND") {
-                        // Search for command aliases
-                        let commandName = aliasSearch(command)
-                        if (commandName) {
-                            runCommand(commandName, commandArgs, message, client)
-                        } else {
-                            message.channel.send("Command not found")
-                        }
+                // Respond to messages containing the word rigged
+                if (content.includes("rigged")) {
+                    let random_number = Math.floor((Math.random() * 100))
+                    if (random_number == 69) {
+                        message.channel.send("It's rigged")
                     } else {
-                        throw err;
+                        message.channel.send("It's not rigged")
                     }
                 }
+
+                // Get guild prefix. If none exists, then use the default prefix
+                let prefix = guild.prefix ? guild.prefix : "!"
+
+                // Reply when the bot is pinged
+                if (client.user == message.mentions.users.first()) {
+                    message.channel.send(`My prefix here is: ${prefix}`)
+                }
+
+                // If the first few characters in a messages are equal to the guild prefix
+                if (content.slice(0, prefix.length).toLowerCase() == prefix) {
+                    let splitMessage = content.split(' ') // Split the message using spaces
+                    let command = splitMessage[0].slice(prefix.length) // Get the first element in the slipt message (the command), and remove the prefix
+                    let commandArgs = splitMessage.slice(1).join(' ') // Get the split message, remove the first element (command), and join the split message with spaces            
+
+                    try {
+                        // Run the command
+                        let commandFile = require(`../commands/${command}`) // Check if the command file exists in the commands directory
+                        runCommand(command, commandArgs, message, client)
+                    } catch (err) {
+                        if (err.code == "MODULE_NOT_FOUND") {
+                            // Search for command aliases
+                            let commandName = aliasSearch(command)
+                            if (commandName) {
+                                runCommand(commandName, commandArgs, message, client)
+                            } else {
+                                message.channel.send("Command not found")
+                            }
+                        } else {
+                            throw err;
+                        }
+                    }
+                }
+            } catch (err) {
+                message.channel.send(`Error: ${err.message}`)
             }
         })
     }
