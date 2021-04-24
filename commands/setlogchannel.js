@@ -1,38 +1,30 @@
-const functions = require('../functions.js');
-const discord = require('discord.js');
-const fs = require('fs')
-
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
-let colourDone = functions.config().messageColours.done;
+const discord = require("discord.js")
+const db = require("../db");
 
 module.exports = {
-    name: 'setLogChannel',
-    description: 'Sets the log channel for the server!',
-    category: 'server',
-    modcommand: true,
-    usage: 'setlogchannel <channel>',
-    perms: 'MANAGE_GUILD',
-    alias: ["slc", "logchannel"],
-    cooldown: 1,
-    run: function (message, prefix, args, client) {
-        let file = JSON.parse(fs.readFileSync(`./files/serverConfigs/${message.guild.id}.json`))
-        if (args.length !== 2) {
-            functions.embed(message.channel, "Error", colourWarn, "Please specify the log channel!")
-        } else {
-            try {
-                let channelID = message.mentions.channels.first().id
-                if (channelID) {
-                    let s = "`"
-                    file.logging = channelID;
-                    fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(file))
-                    functions.embed(message.channel, "Done!  :clap:", colourDone, `The log channel on ${s}${message.guild.name}${s} is now ${s}${message.mentions.channels.first().name}${s}!`)
-                } else {
-                    functions.embed(message.channel, "Error", colourWarn, "Please specify the log channel!")
-                }
-            } catch (error) {
-                functions.embed(message.channel, "Error", colourWarn, "Please specify the log channel!")
-            }
+    aliases: ['slc', 'setlog', 'log'],
+    bypass_block: false,
+    name: 'setlogchannel',
+    about: "Set the channel where the bot will log members joining/leaving, messages deleted/edited and memebers changing nicknames. Note: the channel argument must be a Discord channel e.g. #logs",
+    usage: "setlogchannel <channel>",
+    category: "Server",
+    perms: 'ADMINISTRATOR',
+    cooldown: 1000, // Milliseconds
+    run: async (client, message, args) => {
+        // Check if the channel was given
+        if (!args) {
+            message.channel.send("Missing argument: **channel**")
+            return;
         }
+
+        // Check if the args passed was a channel
+        let channel = message.mentions.channels.first().id
+        if (!channel) {
+            message.channel.send(`Invalid argument: **${args}**. Please enter a valid Discord channel.`)
+            return;
+        }
+
+        await db.query("UPDATE guilds SET log_channel=$1 WHERE guild_id=$2", [channel, message.guild.id])
+        message.channel.send(`The logging channel is now set to **${message.mentions.channels.first().name}**`)
     }
 }

@@ -1,18 +1,29 @@
 {
-  "name": "interstellar",
-  "version": "1.0.0",
-  "description": "",
+  "name": "obot-ma",
+  "version": "1.0.0-alpha",
+  "description": "The best-in-class Discord bot.",
   "main": "bot.js",
   "scripts": {
-    "start": "node bot.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "Simyon, Joshua zacek",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Simyon264/Obot-ma.git"
+  },
+  "keywords": [
+    "Discord",
+    "Bot",
+    "Obot-ma"
+  ],
+  "author": "Joshua Zacek, Simyon264",
   "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Simyon264/Obot-ma/issues"
+  },
+  "homepage": "https://github.com/Simyon264/Obot-ma#readme",
   "dependencies": {
-    "colours": "^0.6.0-2",
-    "discord.js": "^12.4.1",
-    "random-bunny": "^1.1.0",
-    "random-puppy": "^1.1.0"
+    "discord.js": "12.5.3",
+    "dotenv": "8.2.0",
+    "pg": "8.6.0"
   }
 }

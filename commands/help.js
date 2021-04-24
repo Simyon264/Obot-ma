@@ -1,133 +1,107 @@
-const functions = require('../functions.js');
-const fs = require('fs');
-const discord = require('discord.js');
+const discord = require("discord.js")
+const config = require("../config.json")
+const fs = require("fs")
 
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
+const infoColor = config.messageColors.info
+
+function capitaliseFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Search for aliases
+function aliasSearch(alias) {
+    let commandsDir = fs.readdirSync("./commands/")
+
+    for (let i = 0; i < commandsDir.length; i++) {
+        let commandFile = require(`../commands/${commandsDir[i]}`)
+        if (commandFile.aliases.includes(alias.toLowerCase())) {
+            return commandsDir[i].slice(0, -3)
+        }
+    }
+}
 
 module.exports = {
-	name: 'help',
-	description: 'Gives a list of commands available in the bot',
-	category: 'general',
-	modcommand: false,
-	usage: 'help [command]',
-	perms: '',
-	alias: ["h"],
-	cooldown: 1,
-	run: function (message, prefix, args) {
-		if (args.length == 1) {
-			var categories = functions.config().commands.categories
-			var files = fs.readdirSync('./commands');
+    aliases: ['h'],
+    bypass_block: false,
+    name: 'help',
+    about: "Recieve a list of commands, or read documentation about a specific command.",
+    usage: "help [command]",
+    category: "General",
+    cooldown: 500, // Milliseconds
+    run: (client, message, args) => {
+        // Look to see if there are any arguments passed
+        if (args) {
+            let commandFile;
 
-			var embed = new discord.MessageEmbed()
-				.setTitle("Commands")
-				.setColor(colourInfo)
-				.setDescription("");
+            // See if the argument provided is a command
+            try {
+                commandFile = require(`../commands/${args}`)
+            } catch (err) {
+                if (err.code == "MODULE_NOT_FOUND") {
+                    let commandName = aliasSearch(args)
+                    if (commandName) {
+                        commandFile = require(`../commands/${commandName}`)
+                    } else {
+                        message.channel.send(`Error: Command **${args}** doesn't exist`)
+                    }
+                } else {
+                    message.channel.send("What the... something went wrong")
+                }
+            }
 
-			for (let i = 0; i < categories.length; i++) {
-				var categoryArray = [];
-				var categoryName = categories[i].charAt(0).toUpperCase() + categories[i].substring(1);
+            // Make aliaes look nice in Discord
+            let aliases = commandFile.aliases
+            for (i in aliases) {
+                aliases[i] = `\`${aliases[i]}\``
+            }
+            let aliasesString = aliases.join(' ')
 
-				for (let j = 0; j < files.length; j++) {
-					var file = require(`./${files[j]}`);
+            // The help message for the command
+            let helpEmbed = new discord.MessageEmbed()
+                .setTitle(capitaliseFirstLetter(commandFile.name))
+                .setColor(infoColor)
+                .setDescription("Paramaters wrapped with `[]` are optional, and paramaters wrapped with `<>` are required.")
+                .addField("About", commandFile.about || "*missing info*")
+                .addField("Category", commandFile.category || "none")
+                .addField("Example", commandFile.usage || "*missing info*")
+                .addField("Permsissons", commandFile.perms || "none")
+                .addField("Cooldown", `${commandFile.cooldown / 1000} second(s)` || "none")
+                .addField("Aliases", aliasesString || "none")
+            
+            message.channel.send(helpEmbed)
+        } else {
+            
+            let helpEmbed = new discord.MessageEmbed()
+                .setTitle("Commands")
+                .setColor(infoColor)
 
-					if (file.category == categories[i]) {
-						categoryArray.push(`\`${file.name}\``);
-					}
-				}
+            let commands = fs.readdirSync("./commands")
+            // Sort commands into categories that are in the config file, or put them into the other category
+            let otherCommands = []
+            for (i in config.categories) {
+                let commandsArray = []
 
-				embed.addField(categoryName, categoryArray.join(", "));
-			}
-			embed.addField("Help For Specific Commands", "To get help for any command, do `" + prefix + "help [command name]`")
-			message.channel.send(embed);
-		} else if (args.length >= 2) {
-			fs.stat(`./commands/${args[1]}.js`, function (err, stat) {
-				if (err == null) {
-					var commandFile = require(`./${args[1]}.js`);
+                for (j in commands) {
+                    let commandFile = require(`../commands/${commands[j]}`)
 
-					var cmdName = commandFile['name'];
-					var cmdDesc = commandFile['description'];
-					var cmdCategory = commandFile['category'];
-					var cmdUsage = commandFile['usage'];
-					var cmdRoles = commandFile['perms'];
-					let cooldown = commandFile['cooldown']
-					let aliases = commandFile['alias']
+                    if (commandFile.category.toLowerCase() == config.categories[i].toLowerCase()) {
+                        commandsArray.push(`\`${commandFile.name}\``)
+                    } else {
+                        otherCommands.push(`\`${commandFile.name}\``)
+                    }
+                }
 
-					let final = ""
-					for (let index = 0; index < aliases.length; index++) {
-						final = `${final}\`${aliases[index]}\`,`
-					}
+                let categoryName = capitaliseFirstLetter(config.categories[i])
+                helpEmbed.addField(categoryName, commandsArray.join(' '))
+            }
 
-					cmdName = cmdName.charAt(0).toUpperCase() + cmdName.slice(1);
-					cmdCategory = cmdCategory.charAt(0).toUpperCase() + cmdCategory.slice(1);
-					cmdRoles = cmdRoles.charAt(0).toUpperCase() + cmdRoles.slice(1);
+            // Put commands with no category in an other category
+            if (otherCommands.length) {
+                helpEmbed.addField("Other", otherCommands.join(' '))
+            }
 
-					let embed = new discord.MessageEmbed()
-						.setTitle(cmdName)
-						.setColor(colourInfo)
-						.addField("Description", cmdDesc || "*none*")
-						.addField("Category", cmdCategory || "*none*")
-						.addField("Usage", cmdUsage || "*none*")
-						.addField("Permissions", cmdRoles || "*none*");
-					embed.addField("Cooldown", cooldown + " Second(s)" || "*none*")
-					embed.addField("Aliases", final || "*none*")
-					embed.setDescription(`\`[]\` means optional and \`<>\` is required. The bot prefix is \`${prefix}\``)
-
-					message.channel.send(embed);
-				} else if (err.code === 'ENOENT') {
-					let dir = fs.readdirSync("./commands/")
-					let commandFile2
-					let found = false
-					for (let index = 0; index < dir.length; index++) {
-						commandFile2 = require(`../commands/${dir[index]}`);
-						if (commandFile2['alias'].includes(args[1].toLowerCase())) {
-							found = true;
-							var newCommandFile = index
-							index = dir.length;
-							continue;
-						}
-					}
-					if (found) {
-						let commandFile = require(`../commands/${dir[newCommandFile]}`);
-
-						var cmdName = commandFile['name'];
-						var cmdDesc = commandFile['description'];
-						var cmdCategory = commandFile['category'];
-						var cmdUsage = commandFile['usage'];
-						var cmdRoles = commandFile['perms'];
-						let cooldown = commandFile['cooldown']
-						let aliases = commandFile['alias']
-
-						let final = ""
-						for (let index = 0; index < aliases.length; index++) {
-							final = `${final}\`${aliases[index]}\`,`
-						}
-
-						cmdName = cmdName.charAt(0).toUpperCase() + cmdName.slice(1);
-						cmdCategory = cmdCategory.charAt(0).toUpperCase() + cmdCategory.slice(1);
-						cmdRoles = cmdRoles.charAt(0).toUpperCase() + cmdRoles.slice(1);
-
-						let embed = new discord.MessageEmbed()
-							.setTitle(cmdName)
-							.setColor(colourInfo)
-							.addField("Description", cmdDesc || "*none*")
-							.addField("Category", cmdCategory || "*none*")
-							.addField("Usage", cmdUsage || "*none*")
-							.addField("Permissions", cmdRoles || "*none*");
-						embed.addField("Cooldown", cooldown + " Second(s)" || "*none*")
-						embed.addField("Aliases", final || "*none*")
-						embed.setDescription(`\`[]\` means optional and \`<>\` is required. The bot prefix is \`${prefix}\``)
-						
-						message.channel.send(embed)
-					} else {
-						functions.embed(message.channel, "", colourWarn, "Specified command does not exist");
-					}
-				} else {
-					console.log(err);
-
-					functions.embed(message.channel, "", colourWarn, "An error has occured. It has been logged to fix it.");
-				}
-			});
-		}
-	}
+            helpEmbed.addField("For more detail on specific commands...", "`help [command]`")
+            message.channel.send(helpEmbed)
+        }
+    }
 }

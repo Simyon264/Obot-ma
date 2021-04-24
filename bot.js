@@ -1,90 +1,76 @@
-//defining all needed things
-const fs = require("fs")
-const colors = require('colours')
-const discord = require("discord.js")
-const readline = require("readline")
+// Modules
+const Discord = require("discord.js");
+const client = new Discord.Client();
+const dotenv = require('dotenv');
+const fs = require("fs");
+const config = require("./config.json")
+const db = require("./db")
+const readline = require("readline");
 
-console.log("Starting bot...")
-console.log("Starting client!")
-//defining the client
-const client = new discord.Client();
-//if the token file is there it will just continue booting if not it will ask
-//creating readline interface
+console.log("Obot-ma is starting...")
+
+// Readline
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-//defining a token function
-function token() {
-    rl.question("Token: ", (answer) => {
-        fs.unlinkSync("./files/important files/token.txt")
-        fs.writeFileSync("./files/important files/token.txt", answer)
-        client.login(fs.readFileSync("./files/important files/token.txt", 'utf-8')).then(() => {
-            rl.close()
-        }).catch((error) => {
-            //if it errors
-            if (error.code == "TOKEN_INVALID") {
-                console.log(colors.red("Error: ") + "The token provided is invalid!")
-                token()
-            } else {
-                console.log(colors.red("Unknown error: " + error))
-            }
-        })
-    });
-}
 
-try {
-    fs.readFileSync("./files/important files/token.txt")
-    console.log("Starting files!")
-    let files = fs.readdirSync("./eventhandler/")
-    //starting all files by running through them
-    for (let index = 0; index < files.length; index++) {
-        var commandFile = require(`./eventhandler/${files[index]}`);
-        console.log(colors.yellow(`Started: ${files[index]}`));
-        commandFile['run'](client);
-    }
-    console.log(colors.green("All files started, logging in!"))
-    client.login(fs.readFileSync("./files/important files/token.txt", 'utf-8')).then(() => {
-        rl.close()
-    }).catch((error) => {
-        //if it errors
-        if (error.code == "TOKEN_INVALID") {
-            console.log(colors.red("Error: ") + "The token provided is invalid!")
-            token()
-        } else {
-            console.log(colors.red("Unknown error: " + error))
-        }
+// Load environment variables
+dotenv.config()
+
+// Ask question on readline using promises
+function readlinePromise(message) {
+    return new Promise((resolve, reject) => {
+        rl.question(message, (answer) => {
+            resolve(answer);
+        });
     })
-} catch (error) {
-    console.log(colors.red("Error: ") + "token is missing!")
-
-    //ask the user for the token
-    rl.question("Token: ", (answer) => {
-        //write the token
-        fs.writeFileSync("./files/important files/token.txt", answer)
-        console.log("Starting files!")
-        let files = fs.readdirSync("./eventhandler/")
-        for (let index = 0; index < files.length; index++) {
-            var commandFile = require(`./eventhandler/${files[index]}`);
-            //commandFile['run'](client);
-            console.log(colors.yellow(`Started: ${files[index]}`));
-        }
-        console.log(colors.green("All files started, logging in!"))
-        //log into the client using the token file
-        client.login(fs.readFileSync("./files/important files/token.txt", 'utf-8')).then(() => {
-            rl.close()
-        }).catch((error) => {
-            //if it errors
-            if (error.code == "TOKEN_INVALID") {
-                console.log(colors.red("Error: ") + "The token provided is invalid!")
-                token()
-            } else {
-                console.log(colors.red("Unknown error: " + error))
-            }
-        })
-    });
 }
 
-process.on("unhandledRejection", () => {
+/* This catches errors that where not caught by try catch blocks. 
+This is very important. Without this, the whole bot goes down. */
+process.on('uncaughtException', (err) => {
+    console.log(err)
+})
+process.on('unhandledRejection', async (err) => {
+    if (err.code == "TOKEN_INVALID") {
+        // Ask for a new token, because the old one is no longer valid
+        let token = await readlinePromise("Invalid token. Please enter Bot Token: ")
+        fs.writeFileSync("./.env", `TOKEN="${token}"`)
+        process.env.TOKEN = token
 
+        // Try to start the bot again
+        start()
+    } else {
+        console.log(err)
+    }
+});
+
+async function start() {
+    // Ask for token if it is missing
+    if (!process.env.TOKEN) {
+        let token = await readlinePromise("Token not found. Please enter Bot Token: ")
+        fs.writeFileSync("./.env", `TOKEN="${token}"`)
+        
+        process.env.TOKEN = token
+    }
+
+    // Open Discord event modules
+    let event_files = fs.readdirSync("./events/")
+    for (let i = 0; i < event_files.length; i++) {
+        let event = require(`./events/${event_files[i]}`)
+        event.run(client)
+    }
+
+    // Login the Discord client
+    console.log("Obot-ma is going online!")
+    client.login(process.env.TOKEN)
+}
+
+start()
+
+// When the client successfully logs in
+client.on('ready', () => {
+    console.log(`Obot-ma is online!`);
+    rl.close()
 });
