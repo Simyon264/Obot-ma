@@ -25,7 +25,7 @@ module.exports = {
 
         // Check if user is already blocked
         let res = await db.query("SELECT * FROM blocks WHERE user_id=$1 AND guild_id=$2", [user.id, message.guild.id])
-        if (res.rowCount == 0) {
+        if (!res.rowCount) {
             message.channel.send(`${user} is already unblocked.`)
             return;
         }
