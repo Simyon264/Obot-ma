@@ -38,8 +38,16 @@ function cooldown(command, message, time) {
 }
 
 // Run a command
-function runCommand(command, commandArgs, message, client) {
+async function runCommand(command, commandArgs, message, client) {
     let commandFile = require(`../commands/${command}`)
+
+    // Check if user is blocked and if the command allows blocked users to run it. If they are, do nothing
+    let blockDatabase = await db.query("SELECT * FROM blocks WHERE user_id=$1 AND guild_id=$2", [message.author.id, message.guild.id])
+    if (blockDatabase.rowCount != 0) {
+        if (!commandFile.bypass_block) {
+            return;
+        }
+    }
 
     // Perms check
     let commandPerms = commandFile.perms
@@ -75,6 +83,7 @@ module.exports = {
                     return;
                 }
 
+
                 // Query the database for the guild config
                 let guild;
                 // Look for guild in the db by it's id
@@ -86,12 +95,6 @@ module.exports = {
                     // Create the guild in the db
                     let guildDatabase = await db.query("INSERT INTO guilds(guild_id) VALUES ($1) RETURNING *", [message.guild.id])
                     guild = guildDatabase
-                }
-
-                // Check if user is blocked. If they are, do nothing
-                let blockDatabase = await db.query("SELECT * FROM blocks WHERE user_id=$1 AND guild_id=$2", [message.author.id, message.guild.id])
-                if (blockDatabase.rowCount != 0) {
-                    return;
                 }
 
                 let content = message.content
@@ -123,6 +126,7 @@ module.exports = {
                     try {
                         // Run the command
                         let commandFile = require(`../commands/${command}`) // Check if the command file exists in the commands directory
+
                         runCommand(command, commandArgs, message, client)
                     } catch (err) {
                         if (err.code == "MODULE_NOT_FOUND") {
