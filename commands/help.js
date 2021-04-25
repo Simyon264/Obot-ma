@@ -115,8 +115,11 @@ module.exports = {
             }
 
             // Add category fields
+            let hidden = [] // To hide certain categories, just add them in this array
             for (i in categories) {
-                helpEmbed.addField(capitaliseFirstLetter(i), categories[i].join(' '))
+                if (!hidden.includes(i)) {
+                    helpEmbed.addField(capitaliseFirstLetter(i), categories[i].join(' '))
+                }
             }
 
             // Send message

@@ -76,12 +76,6 @@ module.exports = {
                     return;
                 }
 
-                // Check if user is blocked and if the command allows blocked users to run it. If they are, do nothing
-                let blockDatabase = await db.query("SELECT * FROM blocks WHERE user_id=$1 AND guild_id=$2", [message.author.id, message.guild.id])
-                if (blockDatabase.rowCount != 0) {
-                    return;
-                }
-
                 // Query the database for the guild config
                 let guild;
                 // Look for guild in the db by it's id
@@ -97,6 +91,19 @@ module.exports = {
 
                 let content = message.content
 
+                // Get guild prefix. If none exists, then use the default prefix
+                let prefix = guild.prefix ? guild.prefix : "!"
+
+                let splitMessage = content.split(' ') // Split the message using spaces
+                let command = splitMessage[0].slice(prefix.length) // Get the first element in the slipt message (the command), and remove the prefix
+                let commandArgs = splitMessage.slice(1).join(' ') // Get the split message, remove the first element (command), and join the split message with spaces 
+
+                // Check if user is blocked and if the command allows blocked users to run it. If they are, do nothing
+                let blockDatabase = await db.query("SELECT * FROM blocks WHERE user_id=$1 AND guild_id=$2", [message.author.id, message.guild.id])
+                if (blockDatabase.rowCount != 0) {
+                    if (command != "unblock") return;
+                }
+
                 // Respond to messages containing the word rigged
                 if (content.includes("rigged")) {
                     let random_number = Math.floor((Math.random() * 100))
@@ -107,9 +114,6 @@ module.exports = {
                     }
                 }
 
-                // Get guild prefix. If none exists, then use the default prefix
-                let prefix = guild.prefix ? guild.prefix : "!"
-
                 // Reply when the bot is pinged
                 if (client.user == message.mentions.users.first()) {
                     message.channel.send(`My prefix here is: ${prefix}`)
@@ -117,10 +121,6 @@ module.exports = {
 
                 // If the first few characters in a messages are equal to the guild prefix
                 if (content.slice(0, prefix.length).toLowerCase() == prefix) {
-                    let splitMessage = content.split(' ') // Split the message using spaces
-                    let command = splitMessage[0].slice(prefix.length) // Get the first element in the slipt message (the command), and remove the prefix
-                    let commandArgs = splitMessage.slice(1).join(' ') // Get the split message, remove the first element (command), and join the split message with spaces            
-
                     try {
                         // Run the command
                         let commandFile = require(`../commands/${command}`) // Check if the command file exists in the commands directory
