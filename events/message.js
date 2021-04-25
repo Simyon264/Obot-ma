@@ -56,7 +56,7 @@ async function runCommand(command, commandArgs, message, client) {
     if (!cooldownTimeRemaining) {
         commandFile.run(client, message, commandArgs)
     } else {
-        message.channel.send(`Your sending messages too fast! Please wait **${cooldownTimeRemaining}** seconds`)
+        message.channel.send(`You're sending messages too fast! Please wait **${cooldownTimeRemaining}** seconds`)
     }
 }
 

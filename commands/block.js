@@ -23,6 +23,12 @@ module.exports = {
             return;
         }
 
+        // Stop user from blocking themselves
+        if (user.id == message.author.id) {
+            message.channel.send("Error: you cannot block yourself")
+            return;
+        }
+
         // Check if user is already blocked
         let res = await db.query("SELECT * FROM blocks WHERE user_id=$1 AND guild_id=$2", [user.id, message.guild.id])
         if (res.rowCount != 0) {

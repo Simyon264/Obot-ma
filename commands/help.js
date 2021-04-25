@@ -53,10 +53,11 @@ module.exports = {
             // Format aliases
             let aliases;
             if (commandFile.aliases) {
+                aliases = []
                 for (i in commandFile.aliases) {
-                    commandFile.aliases[i] = `\`${commandFile.aliases[i]}\``
+                    aliases[i] = `\`${commandFile.aliases[i]}\``
                 }
-                aliases = commandFile.aliases.join(' ')
+                aliases.join(' ')
             } else {
                 aliases = "*none*"
             }
