@@ -16,9 +16,9 @@ You'll also need to install Node.js. You can download and install Node.js [here]
 
 ### Setup database
 Open your command prompt, type `psql postgres postgres` and you should see something like the command prompt below.<br>
-<img width="50%" src="https://github.com/JoshuaZacek/Obot-ma/blob/database/psql.png?raw=true"><br>
+<img width="50%" src="https://github.com/Simyon264/Obot-ma/blob/database/psql.png?raw=true"><br>
 Run `CREATE DATABASE obotma;`, then type `\q` to exit `psql`<br>
-<img width="50%" src="https://github.com/JoshuaZacek/Obot-ma/blob/database/psql_create_db.png?raw=true"><br>
+<img width="50%" src="https://github.com/Simyon264/Obot-ma/blob/database/psql_create_db.png?raw=true"><br>
 Type `psql obotma postgres` and run:
 ```sql
 CREATE TABLE guilds (
@@ -33,7 +33,7 @@ CREATE TABLE blocks (
     guild_id VARCHAR(255) NOT NULL
 );
 ```
-<img width="50%" src="https://github.com/JoshuaZacek/Obot-ma/blob/database/psql_create_tables.png?raw=true"><br>
+<img width="50%" src="https://github.com/Simyon264/Obot-ma/blob/database/psql_create_tables.png?raw=true"><br>
 Then type `\q` to exit `psql`.
 
 ### Install dependencies
