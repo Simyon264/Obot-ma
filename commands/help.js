@@ -2,7 +2,8 @@ const discord = require("discord.js")
 const config = require("../config.json")
 const fs = require("fs")
 
-const infoColor = config.messageColors.info
+// Auto set color if config is missing
+const infoColor = config.messageColors?.info || "0x0099ff"
 
 function capitaliseFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);

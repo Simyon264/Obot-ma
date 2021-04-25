@@ -2,7 +2,8 @@ const config = require("../config.json")
 const discord = require("discord.js")
 const db = require("../db")
 
-let memberColor = config.messageColors.member
+// Auto set color if config is missing
+const memberColor = config.messageColors?.member || "0x923afc"
 
 module.exports = {
     run: (client) => {

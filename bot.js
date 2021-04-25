@@ -2,10 +2,28 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const dotenv = require('dotenv');
-const fs = require("fs");
-const config = require("./config.json")
+const fs = require("fs/promises"); // Allows async file reading/writing
 const db = require("./db")
 const readline = require("readline");
+
+// Auto write config if missing
+try {
+    const config = require("./config.json")
+} catch (err) {
+    const writeConfig = async () => {
+        let config = {
+            "messageColors": {
+                "info": "0x0099ff",
+                "warn": "0xf54242",
+                "done": "0x00ff95",
+                "mod": "0xeb9b34",
+                "member": "0x923afc"
+            }
+        }
+        await fs.writeFile('./config.json', JSON.stringify(config))
+    }
+    writeConfig()
+}
 
 console.log("Obot-ma is starting...")
 
@@ -36,7 +54,7 @@ process.on('unhandledRejection', async (err) => {
     if (err.code == "TOKEN_INVALID") {
         // Ask for a new token, because the old one is no longer valid
         let token = await readlinePromise("Invalid token. Please enter Bot Token: ")
-        fs.writeFileSync("./.env", `TOKEN="${token}"`)
+        fs.writeFile("./.env", `TOKEN="${token}"`)
         process.env.TOKEN = token
 
         // Try to start the bot again
@@ -50,13 +68,13 @@ async function start() {
     // Ask for token if it is missing
     if (!process.env.TOKEN) {
         let token = await readlinePromise("Token not found. Please enter Bot Token: ")
-        fs.writeFileSync("./.env", `TOKEN="${token}"`)
+        fs.writeFile("./.env", `TOKEN="${token}"`)
         
         process.env.TOKEN = token
     }
 
     // Open Discord event modules
-    let event_files = fs.readdirSync("./events/")
+    let event_files = fs.readdir("./events/")
     for (let i = 0; i < event_files.length; i++) {
         let event = require(`./events/${event_files[i]}`)
         event.run(client)

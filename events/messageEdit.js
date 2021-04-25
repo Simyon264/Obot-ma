@@ -2,7 +2,8 @@ const config = require("../config.json")
 const discord = require("discord.js")
 const db = require("../db")
 
-let infoColor = config.messageColors.info
+// Auto set color if config is missing
+const infoColor = config.messageColors?.info || "0x0099ff"
 
 module.exports = {
     run: (client) => {

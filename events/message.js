@@ -3,8 +3,9 @@ const db = require("../db")
 const fs = require("fs")
 const cooldowns = new Map()
 
-const infoColor = config.messageColors.info
-const warnColor = config.messageColors.warn
+// Auto set color if config is missing
+const infoColor = config.messageColors?.info || "0x0099ff"
+const warnColor = config.messageColors?.warn || "0xf54242"
 
 // Search for aliases
 function aliasSearch(alias) {
