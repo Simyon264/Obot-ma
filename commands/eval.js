@@ -1,3 +1,7 @@
+/* This command was not rewritten by me (Joshua Zacek).
+It was ported directly from Simon's codebase to test command portability.
+(copy le code from GitHub) */
+
 const discord = require('discord.js');
 const fs = require('fs')
 const config = require("../config.json")
