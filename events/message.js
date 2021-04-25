@@ -12,7 +12,7 @@ function aliasSearch(alias) {
 
     for (let i = 0; i < commandsDir.length; i++) {
         let commandFile = require(`../commands/${commandsDir[i]}`)
-        if (commandFile.aliases.includes(alias.toLowerCase())) {
+        if (commandFile.aliases && commandFile.aliases.includes(alias.toLowerCase())) {
             return commandsDir[i].slice(0, -3)
         }
     }
@@ -140,6 +140,7 @@ module.exports = {
                 }
             } catch (err) {
                 message.channel.send(`Error: ${err.message}`)
+                console.log(err)
             }
         })
     }

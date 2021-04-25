@@ -18,13 +18,13 @@ module.exports = {
         }
 
         // Check if the args passed was a channel
-        let channel = message.mentions.channels.first().id
+        let channel = message.mentions.channels.first()
         if (!channel) {
             message.channel.send(`Invalid argument: **${args}**. Please enter a valid Discord channel.`)
             return;
         }
 
-        await db.query("UPDATE guilds SET log_channel=$1 WHERE guild_id=$2", [channel, message.guild.id])
+        await db.query("UPDATE guilds SET log_channel=$1 WHERE guild_id=$2", [channel.id, message.guild.id])
         message.channel.send(`The logging channel is now set to **${message.mentions.channels.first().name}**`)
     }
 }

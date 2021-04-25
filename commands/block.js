@@ -19,7 +19,7 @@ module.exports = {
 
         // Check if the args passed was a Discord mention
         let user = message.mentions.users.first()
-        if (!user.id) {
+        if (!user) {
             message.channel.send(`Invalid argument: **${args}**. Please enter a valid Discord mention.`)
             return;
         }

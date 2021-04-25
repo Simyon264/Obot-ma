@@ -14,7 +14,7 @@ function aliasSearch(alias) {
 
     for (let i = 0; i < commandsDir.length; i++) {
         let commandFile = require(`../commands/${commandsDir[i]}`)
-        if (commandFile.aliases.includes(alias.toLowerCase())) {
+        if (commandFile.aliases && commandFile.aliases.includes(alias.toLowerCase())) {
             return commandsDir[i].slice(0, -3)
         }
     }
@@ -43,6 +43,7 @@ module.exports = {
                         commandFile = require(`../commands/${commandName}`)
                     } else {
                         message.channel.send(`Error: Command **${args}** doesn't exist`)
+                        return;
                     }
                 } else {
                     message.channel.send("What the... something went wrong")
@@ -77,17 +78,19 @@ module.exports = {
 
             let commands = fs.readdirSync("./commands")
             // Sort commands into categories that are in the config file, or put them into the other category
-            let otherCommands = []
+            let uncategorisedCommands = []
             for (i in config.categories) {
                 let commandsArray = []
 
                 for (j in commands) {
                     let commandFile = require(`../commands/${commands[j]}`)
 
-                    if (commandFile.category.toLowerCase() == config.categories[i].toLowerCase()) {
-                        commandsArray.push(`\`${commandFile.name}\``)
-                    } else {
-                        otherCommands.push(`\`${commandFile.name}\``)
+                    if (commandFile.category) {
+                        if (commandFile.category.toLowerCase() == config.categories[i].toLowerCase()) {
+                            commandsArray.push(`\`${commandFile.name}\``)
+                        }
+                    } else if (!uncategorisedCommands.includes(`\`${commandFile.name}\``)) {
+                        uncategorisedCommands.push(`\`${commandFile.name}\``)
                     }
                 }
 
@@ -96,8 +99,8 @@ module.exports = {
             }
 
             // Put commands with no category in an other category
-            if (otherCommands.length) {
-                helpEmbed.addField("Other", otherCommands.join(' '))
+            if (uncategorisedCommands.length) {
+                helpEmbed.addField("Uncategorised", uncategorisedCommands.join(' '))
             }
 
             helpEmbed.addField("For more detail on specific commands...", "`help [command]`")
