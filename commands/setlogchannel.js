@@ -3,7 +3,6 @@ const db = require("../db");
 
 module.exports = {
     aliases: ['slc', 'setlog', 'log'],
-    bypass_block: false,
     name: 'setlogchannel',
     about: "Set the channel where the bot will log members joining/leaving, messages deleted/edited and memebers changing nicknames. Note: the channel argument must be a Discord channel e.g. #logs",
     usage: "setlogchannel <channel>",

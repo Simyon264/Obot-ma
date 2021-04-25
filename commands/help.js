@@ -22,7 +22,6 @@ function aliasSearch(alias) {
 
 module.exports = {
     aliases: ['h'],
-    bypass_block: false,
     name: 'help',
     about: "Recieve a list of commands, or read documentation about a specific command.",
     usage: "help [command]",
@@ -50,59 +49,75 @@ module.exports = {
                 }
             }
 
-            // Make aliaes look nice in Discord
-            let aliases = commandFile.aliases
-            for (i in aliases) {
-                aliases[i] = `\`${aliases[i]}\``
+            // Format aliases
+            let aliases;
+            if (commandFile.aliases) {
+                for (i in commandFile.aliases) {
+                    commandFile.aliases[i] = `\`${commandFile.aliases[i]}\``
+                }
+                aliases = commandFile.aliases.join(' ')
+            } else {
+                aliases = "*none*"
             }
-            let aliasesString = aliases.join(' ')
+
+            // Format cooldown
+            let cooldown;
+            if (commandFile.cooldown) {
+                cooldown = `${commandFile.cooldown / 1000} second(s)`
+            } else {
+                cooldown = '*none*'
+            }
+
+            // Command info
+            let commandName = capitaliseFirstLetter(commandFile.name || "?")
+            let about = commandFile.about || "?"
+            let category = commandFile.category || "Uncategorised"
+            let usage = commandFile.usage || "?"
+            let perms = commandFile.perms || "*none*"
 
             // The help message for the command
             let helpEmbed = new discord.MessageEmbed()
-                .setTitle(capitaliseFirstLetter(commandFile.name))
+                .setTitle(commandName)
                 .setColor(infoColor)
                 .setDescription("Paramaters wrapped with `[]` are optional, and paramaters wrapped with `<>` are required.")
-                .addField("About", commandFile.about || "*missing info*")
-                .addField("Category", commandFile.category || "none")
-                .addField("Example", commandFile.usage || "*missing info*")
-                .addField("Permsissons", commandFile.perms || "none")
-                .addField("Cooldown", `${commandFile.cooldown / 1000} second(s)` || "none")
-                .addField("Aliases", aliasesString || "none")
+                .addField("About", about)
+                .addField("Category", category)
+                .addField("Usage", usage)
+                .addField("Permsissons", perms)
+                .addField("Cooldown", cooldown)
+                .addField("Aliases", aliases)
             
             message.channel.send(helpEmbed)
         } else {
-            
+            //Create help embed
             let helpEmbed = new discord.MessageEmbed()
                 .setTitle("Commands")
                 .setColor(infoColor)
 
             let commands = fs.readdirSync("./commands")
-            // Sort commands into categories that are in the config file, or put them into the other category
-            let uncategorisedCommands = []
-            for (i in config.categories) {
-                let commandsArray = []
+            let categories = {}
 
-                for (j in commands) {
-                    let commandFile = require(`../commands/${commands[j]}`)
+            // Look for every category, create categories, and put commands in categories
+            for (i in commands) {
+                let commandFile = require(`../commands/${commands[i]}`)
 
-                    if (commandFile.category) {
-                        if (commandFile.category.toLowerCase() == config.categories[i].toLowerCase()) {
-                            commandsArray.push(`\`${commandFile.name}\``)
-                        }
-                    } else if (!uncategorisedCommands.includes(`\`${commandFile.name}\``)) {
-                        uncategorisedCommands.push(`\`${commandFile.name}\``)
-                    }
+                let category = (commandFile.category || "uncategorised").toLowerCase()
+                if (!categories[category]) {
+                    let command = `\`${commands[i].slice(0, -3)}\``
+                    categories[category] = []
+                    categories[category].push(command)
+                } else {
+                    let command = `\`${commands[i].slice(0, -3)}\``
+                    categories[category].push(command)
                 }
-
-                let categoryName = capitaliseFirstLetter(config.categories[i])
-                helpEmbed.addField(categoryName, commandsArray.join(' '))
             }
 
-            // Put commands with no category in an other category
-            if (uncategorisedCommands.length) {
-                helpEmbed.addField("Uncategorised", uncategorisedCommands.join(' '))
+            // Add category fields
+            for (i in categories) {
+                helpEmbed.addField(capitaliseFirstLetter(i), categories[i].join(' '))
             }
 
+            // Send message
             helpEmbed.addField("For more detail on specific commands...", "`help [command]`")
             message.channel.send(helpEmbed)
         }

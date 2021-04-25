@@ -3,7 +3,6 @@ const db = require("../db");
 
 module.exports = {
     aliases: [],
-    bypass_block: false,
     name: 'block',
     about: "Prevents a user from using any commands only on this server. Note: The user argument must be a Discord mention e.g. @Joshua_",
     usage: "block <user>",

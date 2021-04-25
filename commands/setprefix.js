@@ -3,7 +3,6 @@ const db = require("../db");
 
 module.exports = {
     aliases: ['prefix'],
-    bypass_block: false,
     name: 'setprefix',
     about: "Set the bot's prefix for the current server. Prefixes must not contain spaces or be larger than 100 characters.",
     usage: "setprefix <prefix>",

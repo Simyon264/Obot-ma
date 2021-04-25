@@ -3,7 +3,6 @@ const db = require("../db");
 
 module.exports = {
     aliases: [],
-    bypass_block: false,
     name: 'unblock',
     about: "Allows a user to use commands again only on this server. Note: The user argument must be a Discord mention e.g. @Joshua_",
     usage: "unblock <user>",

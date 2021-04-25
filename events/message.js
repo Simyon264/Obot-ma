@@ -41,14 +41,6 @@ function cooldown(command, message, time) {
 async function runCommand(command, commandArgs, message, client) {
     let commandFile = require(`../commands/${command}`)
 
-    // Check if user is blocked and if the command allows blocked users to run it. If they are, do nothing
-    let blockDatabase = await db.query("SELECT * FROM blocks WHERE user_id=$1 AND guild_id=$2", [message.author.id, message.guild.id])
-    if (blockDatabase.rowCount != 0) {
-        if (!commandFile.bypass_block) {
-            return;
-        }
-    }
-
     // Perms check
     let commandPerms = commandFile.perms
     if (commandPerms) {
@@ -59,7 +51,7 @@ async function runCommand(command, commandArgs, message, client) {
     }
 
     // Cooldown
-    let cooldownTimeRemaining = cooldown(command, message, commandFile.cooldown)
+    let cooldownTimeRemaining = cooldown(command, message, commandFile.cooldown || 0)
     if (!cooldownTimeRemaining) {
         commandFile.run(client, message, commandArgs)
     } else {
@@ -83,6 +75,11 @@ module.exports = {
                     return;
                 }
 
+                // Check if user is blocked and if the command allows blocked users to run it. If they are, do nothing
+                let blockDatabase = await db.query("SELECT * FROM blocks WHERE user_id=$1 AND guild_id=$2", [message.author.id, message.guild.id])
+                if (blockDatabase.rowCount != 0) {
+                    return;
+                }
 
                 // Query the database for the guild config
                 let guild;
