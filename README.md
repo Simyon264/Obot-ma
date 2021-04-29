@@ -1,7 +1,7 @@
 # Obot-ma
 
 ## Intoduction
-Obot-ma is a Discord bot intended for JCIGaming's Discord server. Originally created by Simyon, it was rebuilt from the ground up by Joshua Zacek, implementing a new database technology and cleaner code.<br>
+Obot-ma is a Discord bot intended for JCIGaming's Discord server. Originally created by Simyon, it was rebuilt from the ground up by Joshua Zacek, implementing a new database technology and ~~cleaner~~worst code.<br>
 By default, it comes with no commands, other than a few basic ones which interface with the database. However, Obot-ma was designed to be as modular as possible, so you can implement your own commands in just a matter of minutes.<br>
 
 ## Before using Obot-ma...
