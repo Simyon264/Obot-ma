@@ -2,7 +2,7 @@
 The Bot for JCIgaming's Discord
 ## Description
 
-The bot for JCIgaming's Discord server with features such as kicking, baning and warning users. You never know what will happen next. This project is closed source but some people have access to it.
+The bot for JCIgaming's Discord server. <br>
 Obot-ma is based on the interstellar bot and I still call it Interstellar sometimes lmao.
 
 ## How to install.
