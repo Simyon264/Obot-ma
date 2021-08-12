@@ -8,3 +8,4 @@ token.txt
 .DS_store
 /files/cache/evalreturn.txt
 /files/log/latest.log
+package-lock.json
