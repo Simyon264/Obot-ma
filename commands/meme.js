@@ -1,21 +1,19 @@
-const functions = require('../functions.js');
+const f = require('../functions.js');
 const discord = require('discord.js');
 const randomBunny = require('random-bunny');
 
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
-
 module.exports = {
     name: 'meme',
-    description: 'Gives you a meme!',
+    description: f.localization("commands","meme","exports").description,
     category: 'fun',
     modcommand: false,
-    usage: 'meme',
+    usage: f.localization("commands","meme","exports").usage,
     perms: '',
     alias: ["m", "xd", "thefunny", "funny"],
     cooldown: 5,
     run: function (message, prefix, args, client) {
-        const subreddits = ["memes",
+        const subreddits = [
+            "memes",
             "dankmemes",
             "funny",
             "ComedyCemetery",
@@ -36,16 +34,16 @@ module.exports = {
             "hot"
         ]
         const randomFilter = filter[Math.floor(Math.random() * filter.length)]
-        const randomNumber = Math.floor(Math.random() * subreddits.length)
-        randomBunny(subreddits[randomNumber], randomFilter, res => {
+        const randomNumber = f.randomInt(0,subreddits.length)
+        randomBunny.randomBunny(subreddits[randomNumber], randomFilter, res => {
             const randomColor = Math.floor(Math.random() * 16777215).toString(16)
             let embed = new discord.MessageEmbed()
-                .setTitle(res.title)
+                .setTitle(res.title.substring(0, 256))
                 .setURL(`https://reddit.com${res.permalink}`)
                 .setImage(res.url)
                 .setColor(randomColor)
-                .setFooter(`This is from r/${subreddits[randomNumber]}`)
-            message.channel.send(embed);
+                .setFooter(f.localization("commands","meme","source",[subreddits[randomNumber]]))
+            message.reply({ embeds: [embed] })
         });
     }
 }

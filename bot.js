@@ -3,7 +3,7 @@ const fs = require("fs") // Filesystem
 const discord = require("discord.js") // discord.js.... you should know this
 const colors = require('colours') // used to print custom colours in the terminal
 const readline = require("readline") // used for user to input bot token
-const f = require('./functions.js')
+const f = require('./functions.js') // general functions
 
 // Defining global vars
 global.devMode = false;
@@ -11,9 +11,23 @@ global.writeLog = true;
 global.logconsole = false;
 global.noconsole = false;
 global.showfilestart = false;
-global.consolelog = [];
 global.nocolour = false;
+global.logQueue = []
 
+//This function executes every 5 seconds
+global.tick = setInterval(function () {
+    //console.log("called")
+    if (logQueue.length > 0) {
+        let file = fs.readFileSync('./files/log/latest.log', 'utf-8')
+        logQueue.forEach(element => {
+            file = file + element
+        });
+        logQueue = []
+        fs.writeFileSync('./files/log/latest.log', file)
+    }
+},5000)
+
+/*/
 // Redefining the console
 console.log = function (d) {
     let newString = d.split('') // Put the array into a string with the sepperator being that weird char
@@ -27,7 +41,6 @@ console.log = function (d) {
     newString = newString.join('')
 
     if (logconsole) { // If the console should be logged
-        consolelog.push(newString); // Push the formatted string into a array for latter use 
         f.log(newString, 3, { // Log the console message
             writeLog: true
         }, "CONSOLE >");
@@ -35,10 +48,11 @@ console.log = function (d) {
     if (nocolour) d = newString;
     if (!noconsole) process.stdout.write(d + '\n'); // If the console is enabled write to the console.
 };
-
+/*/
 // Get args from the command that was used to start the bot
 const args = process.argv.slice(2);
 // Run through every args and execute some code if its a valid args
+const errdelete = true
 for (let index = 0; index < args.length; index++) {
     //This will just set some vars to true 
     switch (args[index]) {
@@ -48,7 +62,7 @@ for (let index = 0; index < args.length; index++) {
             break;
         case "debug":
             devMode = true;
-            console.log(colors.magenta("Debug: mode") + " is now enabled")
+            console.log(colors.magenta("Debug: Debug mode") + " is now enabled")
             break;
         case "nowrite":
             writeLog = false;
@@ -66,6 +80,10 @@ for (let index = 0; index < args.length; index++) {
             nocolour = true;
             console.log(colors.magenta("Debug: no colour") + " is now enabled")
             break;
+        case "disableerrordelete":
+            errdelete = false;
+            console.log(colors.magenta("Debug: don't delete error logs") + " is now enabled")
+            break;
         default:
             console.log(colors.red(`Argument `) + colors.yellow(args[index]) + colors.red(" is not supported."))
             break;
@@ -76,8 +94,24 @@ if (writeLog) console.log("The debug log can be found in /log/latest.log")
 
 console.log("Look into the readme for launch options!")
 console.log("Starting bot...")
-const client = new discord.Client(); // discord client
+const client = new discord.Client({
+    ws: {
+        properties: {
+            $browser: "Discord iOS"
+        }
+    },
+    intents: [discord.Intents.FLAGS.GUILDS,discord.Intents.FLAGS.GUILD_MESSAGES]
+}); // discord client
 
+console.log("Deleting error files...")
+const files = fs.readdirSync('./files/log')
+for (let index = 0; index < files.length; index++) {
+    if (files[index] != "latest.log") {
+        fs.unlinkSync(`./files/log/${files[index]}`)
+        f.log(`Deleted file: ${files[index]}`)
+    }
+    
+}
 // Start readline interface
 const rl = readline.createInterface({
     input: process.stdin,
@@ -145,9 +179,9 @@ process.on('uncaughtException', (err) => {
     f.log(`\nuncaughtException!\n${err}\n\n${err.stack}`)
 })
 
-process.on('message', (msg) => {
-    f.log(msg)
-})
+//process.on('message', (msg) => {
+//    f.log(msg)
+//})
 
 function exit(code) {
     process.stdin.resume(); //so the program will not close instantly

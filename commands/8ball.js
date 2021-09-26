@@ -2,10 +2,10 @@ const f = require('../functions.js');
 
 module.exports = {
     name: '8ball',
-    description: 'Ask a question and the magic 8ball will answer you!',
+    description: f.localization("commands","8ball","exports").description,
     category: 'fun',
     modcommand: false,
-    usage: '8ball <question>',
+    usage: f.localization("commands","8ball","exports").usage,
     perms: '',
     alias: ["8b", "ball"],
     cooldown: 2,
@@ -16,43 +16,15 @@ module.exports = {
 
         if (args.length >= 2) {
             // Define the answers arr
-            const arr = ["Don’t count on it.",
-                "My reply is no.",
-                "My sources say no.",
-                "Outlook not so good.",
-                "Very doubtful.",
-                "Concentrate and ask again.",
-                "Cannot predict now.",
-                "Better not tell you now.",
-                "Ask again later.",
-                "Reply hazy, try again.",
-                "As I see it, yes.", "Most likely.",
-                "Outlook good.",
-                "Yes.",
-                "bro how could that ever be a yes?",
-                "Signs point to no you dumbass how could you oversee that????",
-                "yes chief",
-                "thanos snapped my mind... Wait whaat weher w- we... tallking aboutt---",
-                "computer said no",
-                "gay question try again later",
-                "the bot is offline but imma say that is a yes",
-                "yep",
-                "half of these answers are from wikipedia so im going to assume that this will be a yes",
-                "yesnt",
-                "nosn't",
-                "dont count on it.",
-                "that question is **cringe**",
-                "All signs point to idk.",
-                "JCIgaming approved that this answer is a no"
-            ]
+            const arr = f.localization("commands","8ball","arr")
             // Get a random answer
             const randomNumber = Math.floor(Math.random() * arr.length)
             f.log(`Random number generated, ${randomNumber}`)
             // Send the answer
-            f.embed(message.channel, ":8ball: says:", colourInfo, arr[randomNumber])
+            f.embed(message, f.localization("commands","8ball","8bsays"), colourInfo, arr[randomNumber])
         } else {
             f.log(`User didn't specify a another user.`)
-            message.channel.send("bro you are 100% cringe... What do you even want to be answered???")
+            message.channel.send(f.localization("commands","8ball","deny"))
         }
     }
 }

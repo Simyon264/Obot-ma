@@ -30,10 +30,10 @@ module.exports = {
 				newString = newString.replace('yeeter', author)
 				newString = newString.replace('theYeeted', id)
 			}
-			message.channel.send(newString)
+			message.reply(newString)
 			//functions.embed(message.channel,"YEET",colourInfo,yeetFile[random])
 		} else {
-			functions.embed(message.channel, "Error", colourWarn, "What are you trying to yeet?")
+			message.reply("What are you trying to yeet?")
 		}
 	}
 }

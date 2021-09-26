@@ -19,7 +19,7 @@ module.exports = {
                     .setTitle("Message Edited")
                     .setColor(colourInfo)
                     .addField("User", `${newMessage.author} \`${newMessage.author.tag}\``)
-                    .addField("Channel", newMessage.channel)
+                    .addField("Channel", newMessage.channel.name)
                     .addField("Old Content", `\`\`\`${oldMessage.content || "*none*"}\`\`\``)
                     .addField("New Content", `\`\`\`${newMessage.content || "*none*"}\`\`\``)
                     .setThumbnail(newMessage.author.displayAvatarURL);

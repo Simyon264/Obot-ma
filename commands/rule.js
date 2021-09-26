@@ -7,10 +7,10 @@ const colourDone = f.config().messageColours.done;
 
 module.exports = {
     name: 'rule',
-    description: 'Resends the rules.',
+    description: f.localization("commands","rule","exports").description,
     category: 'server',
     modcommand: true,
-    usage: 'rule',
+    usage: f.localization("commands","rule","exports").usage,
     perms: 'MANAGE_GUILD',
     alias: ["rules"],
     cooldown: 5,

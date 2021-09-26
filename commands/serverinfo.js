@@ -57,6 +57,6 @@ module.exports = {
             .setTitle(`${guild.name}`)
             .addFields(fields)
             .setColor(colourInfo)
-        message.channel.send(embed);
+        message.reply({ embeds: [embed] })
     }
 }

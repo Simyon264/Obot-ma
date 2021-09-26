@@ -2,14 +2,12 @@ const f = require('../functions.js');
 const fs = require('fs');
 const discord = require('discord.js');
 
-
-
 module.exports = {
 	name: 'help',
-	description: 'Gives a list of commands available in the bot',
+	description: f.localization("commands","help","exports").description,
 	category: 'general',
 	modcommand: false,
-	usage: 'help [command]',
+	usage: f.localization("commands","help","exports").usage,
 	perms: '',
 	alias: ["h"],
 	cooldown: 1,
@@ -32,18 +30,20 @@ module.exports = {
 			cmdCategory = cmdCategory.charAt(0).toUpperCase() + cmdCategory.slice(1);
 			cmdRoles = cmdRoles.charAt(0).toUpperCase() + cmdRoles.slice(1);
 
+			const none = f.localization("commands","help","none")
+
 			let embed = new discord.MessageEmbed()
 				.setTitle(cmdName)
 				.setColor(colourInfo)
-				.addField("Description", cmdDesc || "*none*")
-				.addField("Category", cmdCategory || "*none*")
-				.addField("Usage", cmdUsage || "*none*")
-				.addField("Permissions", cmdRoles || "*none*");
-			embed.addField("Cooldown", cooldown + " Second(s)" || "*none*")
-			embed.addField("Aliases", final || "*none*")
-			embed.setDescription(`\`[]\` means optional and \`<>\` is required. The bot prefix is \`${prefix}\``)
+				.addField(f.localization("commands","help","description"), cmdDesc || none)
+				.addField(f.localization("commands","help","category"), cmdCategory || none)
+				.addField(f.localization("commands","help","usage"), cmdUsage || none)
+				.addField(f.localization("commands","help","permissions"), cmdRoles || none);
+			embed.addField(f.localization("commands","help","cooldown"), cooldown + f.localization("commands","help","seconds") || none)
+			embed.addField(f.localization("commands","help","aliases"), final || none)
+			embed.setDescription(f.localization("commands","help","helptext",[prefix]))
 
-			message.channel.send(embed);
+			message.reply({ embeds: [embed] })
 		}
 		const colourInfo = f.config().messageColours.info;
 		const colourWarn = f.config().messageColours.warn;
@@ -54,7 +54,7 @@ module.exports = {
 
 			// Generate the embed
 			let embed = new discord.MessageEmbed()
-				.setTitle("Commands")
+				.setTitle(f.localization("commands","help","helpmenucmd"))
 				.setColor(colourInfo)
 				.setDescription("");
 
@@ -75,8 +75,8 @@ module.exports = {
 					f.log(`Category ${categoryName} has no commands.`)
 				}
 			}
-			embed.addField("Help For Specific Commands", "To get help for any command, do `" + prefix + "help [command name]`")
-			message.channel.send(embed);
+			embed.addField(f.localization("commands","help","helpmenuspcmd"), f.localization("commands","help","helpmenuspbody",[prefix]))
+			message.reply({ embeds: [embed] })
 		} else if (args.length >= 2) {
 			fs.stat(`./commands/${args[1]}.js`, function (err, stat) {
 				if (err == null) {
@@ -99,12 +99,12 @@ module.exports = {
 						let commandFile = require(`../commands/${dir[newCommandFile]}`);
 						sendMsg(commandFile)
 					} else {
-						f.embed(message.channel, "", colourWarn, "Specified command does not exist");
+						f.embed(message, "", colourWarn, f.localization("commands","help","nocommand"));
 					}
 				} else {
 					console.log(err);
 
-					f.embed(message.channel, "", colourWarn, "An error has occured. It has been logged to fix it.");
+					f.embed(message, "", colourWarn, f.localization("commands","help","error"));
 				}
 			});
 		}

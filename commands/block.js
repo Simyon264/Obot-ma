@@ -3,10 +3,10 @@ const fs = require('fs')
 
 module.exports = {
     name: 'block',
-    description: 'Block someone from using a command.',
+    description: f.localization("commands","block","exports").description,
     category: 'moderation',
     modcommand: true,
-    usage: 'block <user> <admin block(true,false)>',
+    usage: f.localization("commands","block","exports").usage,
     perms: 'MANAGE_GUILD',
     alias: [],
     cooldown: 10,
@@ -22,7 +22,7 @@ module.exports = {
                         admin = true
                         f.log('Admin block is now true')
                     }
-                } else return message.channel.send("awww you silly goose!!!! only my owner is able to admin block someone!!!!") // If perms check fails
+                } else return message.reply(f.localization("commands","block","ownerblock")) // If perms check fails
             }
 
             let user = message.mentions.users.first(); // Get user object from ping
@@ -42,7 +42,7 @@ module.exports = {
                         }
                     }
                     // If the user is in the database already, do nothing
-                    if (found) return message.channel.send("uwu i already found this user in my database along with ur long-")
+                    if (found) return message.reply(f.localization("commands","block","alreadyBlocked"))
                     // Push the new user into the arr
                     file.blockedUsers.push({
                         id: `${user}`,
@@ -50,7 +50,7 @@ module.exports = {
                     })
                     // Write the new guild config and send the confirm message
                     fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(file))
-                    message.channel.send(`daddy i blocked <@${user}>!!!! now pwease punch me!!!!!!!`)
+                    message.channel.send(f.localization("commands","block","nowBlocked",[user]))
                 } else {
                     // Set blockedUsers to an array
                     file.blockedUsers = []
@@ -62,10 +62,10 @@ module.exports = {
                     })
                     // Write the new guild config and send the confirm message
                     fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(file))
-                    message.channel.send(`daddy i blocked <@${user}>!!!! now pwease punch me!!!!!!!`)
+                    message.channel.send(f.localization("commands","block","nowBlocked",[user]))
                 }
                 f.log('User was blocked.')
-            } else message.channel.send("haha very funni but pleae specify a user by mentioning him/her") // Send "no ping" message
-        } else message.channel.send("who tf do you want me to block?") // Send "no ping" message
+            } else message.reply(f.localization("commands","block","noMention1")) // Send "no ping" message
+        } else message.reply(f.localization("commands","block","noMention0")) // Send "no ping" message
     }
 }

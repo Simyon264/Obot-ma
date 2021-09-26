@@ -24,7 +24,7 @@ module.exports = {
                     let s = "`"
                     file.bot = channelID;
                     fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(file))
-                    functions.embed(message.channel, "Done!  :clap:", colourDone, `The bot channel is now ${s}${message.mentions.channels.first().name}${s}!`)
+                    functions.embed(message, "Done!  :clap:", colourDone, `The bot channel is now ${s}${message.mentions.channels.first().name}${s}!`)
                 } else {
                     message.channel.send("Please specify the new bot channel!")
                 }

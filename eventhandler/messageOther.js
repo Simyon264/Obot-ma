@@ -8,7 +8,7 @@ const path = require('path'); // Used for the errror handler
 
 module.exports = {
     run: function (client) {
-        client.on('message', (message) => {
+        client.on('messageCreate', async (message) => {
             if (!message.guild) return; // Check if a message is a guild, and ignores it
             if (message.author.bot) return; // Check if message is from a bot, and ignores it
 
@@ -35,7 +35,7 @@ module.exports = {
             //Defining blocked users for ping
             let blockedUsers = guildConfig.blockedUsers
             f.log('Looking if pinged...')
-            if (client.user == message.mentions.users.first()) { // If bot is pinged
+            if (client.user == message.mentions.users.first() && message.content.includes('prefix')) { // If bot is pinged
                 if (typeof blockedUsers !== 'undefined') { //If blocked users is valid
                     for (let i = 0; i < blockedUsers.length; i++) { // For loop for all blocked users, if true: dont send a response
                         if (blockedUsers[i].id == message.author.id) return f.log(`Ping message cancelled, user (${message.author.id}) is blocked.`) // Don't send a repsonse
@@ -43,7 +43,7 @@ module.exports = {
                 }
                 f.log(`Blocked users for ${message.guild.name} is undefined.`)
                 // Sending response
-                f.embed(message.channel, "Hey!", colourInfo, `My prefix is **${guildConfig.prefix}**`)
+                f.embed(message, "Hey!", colourInfo, `My prefix is **${guildConfig.prefix}**`)
                 f.log(`Message response for ${message.content} send.`)
                 return;
             }

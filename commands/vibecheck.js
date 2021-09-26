@@ -1,7 +1,4 @@
 const functions = require('../functions.js');
-const discord = require('discord.js');
-
-const colourInfo = functions.config().messageColours.info;
 const colourWarn = functions.config().messageColours.warn;
 
 function randomInteger(min, max) {
@@ -18,7 +15,7 @@ module.exports = {
     alias: ["vibe","vbc"],
     cooldown: 3,
     run: function (message, prefix, args, client) {
-        function checkVibe(person, selfcare) {
+        function checkVibe(person) {
             message.channel.send(`Checking ${person}'s vibe...`).then((sendMessage) => {
                 setTimeout(function () {
                     const newMessage = ["Accessing the vibe database...", "Asking my friends...", "Checking the bro code...", "Finding evidence...", "Checking interactions...","Looking at past interactions..."]
@@ -43,14 +40,14 @@ module.exports = {
                                                     if (randomInteger(1, 200) == 69) {
                                                         const youAreSpecial = client.emojis.cache.get("788456334852096041").toString()
                                                         sendMessage.edit(`${person} passed the vibe check with xX420Xx%. ${youAreSpecial}`)
+                                                        return
                                                     }
                                                     const pass = client.emojis.cache.get("820956980755693568").toString()
                                                     sendMessage.edit(`${person} passed the vibe check with ${randomNumber}%. ${pass}`)
                                                 }
                                             } else {
                                                 let embed = functions.embed(message.channel, "`🚨WARNING🚨`", colourWarn, `${person}'s Vibe has been identified in the VibeChecker™ database.\n${person} has missed their Vibe Court date multiple times. The Vibe Police will be here shortly.`,true)
-                                                sendMessage.edit(embed)
-                                                sendMessage.edit("")
+                                                sendMessage.edit({content: "** **" ,embeds: [embed] })
                                             }
                                         }, randomInteger(1500, 2300))
                                     });
@@ -65,7 +62,7 @@ module.exports = {
         if (args.length > 1) {
             checkVibe(args[1])
         } else {
-            checkVibe(message.author.username, true)
+            checkVibe(message.author.username)
         }
     }
 }

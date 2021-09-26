@@ -28,7 +28,7 @@ module.exports = {
                     if (found) {
                         if (file.blockedUsers[forindex].adminBlock) {
                             if (message.author.id != functions.config().special.owner) {
-                                message.channel.send("That user is admin blocked and you are not my owner so i cant unblock that user")
+                                message.reply("That user is admin blocked and you are not my owner so i cant unblock that user")
                                 return;
                             }
                         }

@@ -24,7 +24,7 @@ module.exports = {
                     let s = "`"
                     file.logging = channelID;
                     fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(file))
-                    functions.embed(message.channel, "Done!  :clap:", colourDone, `The log channel on ${s}${message.guild.name}${s} is now ${s}${message.mentions.channels.first().name}${s}!`)
+                    functions.embed(message, "Done!  :clap:", colourDone, `The log channel on ${s}${message.guild.name}${s} is now ${s}${message.mentions.channels.first().name}${s}!`)
                 } else {
                     message.channel.send("Please specify the new log channel!")
                 }

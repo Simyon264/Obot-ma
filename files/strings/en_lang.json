@@ -1,0 +1,471 @@
+{
+    "name": "English",
+    "localized_name": "English",
+    "commands": {
+        "8ball": {
+            "exports": {
+                "description": "Ask a question and the magic 8ball will answer you!",
+                "usage": "8ball <qeustion>"
+            },
+            "arr": [
+                "Don’t count on it.",
+                "My reply is no.",
+                "My sources say no.",
+                "Outlook not so good.",
+                "Very doubtful.",
+                "Concentrate and ask again.",
+                "Cannot predict now.",
+                "Better not tell you now.",
+                "Ask again later.",
+                "Reply hazy, try again.",
+                "As I see it, yes.", 
+                "Most likely.",
+                "Outlook good.",
+                "Yes.",
+                "bro how could that ever be a yes?",
+                "Signs point to no you dumbass how could you oversee that????",
+                "yes chief",
+                "thanos snapped my mind... Wait whaat weher w- we... tallking aboutt---",
+                "computer said no",
+                "bad question try again later",
+                "the bot is offline but imma say that is a yes",
+                "yep",
+                "half of these answers are from wikipedia so im going to assume that this will be a yes",
+                "yesnt",
+                "nosn't",
+                "dont count on it.",
+                "that question is **cringe**",
+                "All signs point to idk.",
+                "JCIgaming approved that this answer is a no"
+            ],
+            "deny": "bro you are 100% cringe... What do you even want to be answered???",
+            "8bsays": ":8ball: says:"
+        },
+        "about": {
+            "exports": {
+                "description": "About the bot",
+                "usage": "about"
+            },
+            "about": "About Obot-ma",
+            "version": "Version",
+            "authers": "Authers",
+            "uptime": "Uptime",
+            "description": "The bot for the discord of JCIgaming"
+        },
+        "avatar": {
+            "exports": {
+                "description": "Displays the avatar of the mentioned user",
+                "usage": "avatar [user]"
+            },
+            "deny": "Please specify a user.",
+            "avatar": "%0's avatar"            
+        },
+        "block": {
+            "exports": {
+                "description": "Block someone from using commands",
+                "usage": "block <user> [admin block (ture,false)]"
+            },
+            "ownerBlock": "awww you silly goose!!!! only my owner is able to admin block someone!!!!",
+            "alreadyBlocked": "uwu i already found this user in my database along with ur long-",
+            "nowBlocked": "daddy i blocked <@%0>!!!! now pwease punch me!!!!!!!",
+            "noMention0": "who tf do you want me to block?",
+            "noMention1": "haha very funni but pleae specify a user by mentioning him/her/they/them/fuck me"
+        },
+        "cap": {
+            "exports": {
+                "description": "See how cap something is!",
+                "usage": "cap [anything]"
+            },
+            "customCap": "%0 is %1% cap",
+            "noramlCap": "That is %0% cap"
+        },
+        "care": {
+            "exports": {
+                "description": "Check how many cares something has.",
+                "usage": "care [anything]"
+            },
+            "first": "Checking for %0's cares...",
+            "second": "Accessing the care database...",
+            "third": "Aking frineds...",
+            "forth": "Trying harder to get cares...",
+            "othercare": "%0 got %1 cares",
+            "selfcare": "whoa dude crazy you got like %0 cares!!!!!!",
+            "messages": [
+                "You got like -100 cares jk jk you got 0", 
+                "cringe dude 0 cares????", 
+                "you need more frineds dude", 
+                "Obama didn't even care like bro you have 0 people who care", 
+                "0 cares", 
+                "1 care jk jk im capping you have -100 cares", 
+                "even if you were god 0 people would have cared", 
+                "not even the ping command would return something for you"
+            ]
+        }, 
+        "changelog": {
+            "exports": {
+                "description": "Display the changelog.",
+                "usage": "changelog"
+            },
+            "title": "Changelog"
+        },
+        "dice": {
+            "exports": {
+                "description": "Roll the dice.",
+                "usage": "doce [min],[max]"
+            },
+            "emoji": ":game_die: %0"
+        },
+        "eval": {
+            "exports": {
+                "description": "Does some JS shit.",
+                "usage": "eval <code>"
+            },
+            "start": "Starting EVAL! :gear:",
+            "noperms": "u think that im that stopid?",
+            "fileError": "bruh return was prob over 8mb... bruv wtf were u doing?????",
+            "fileMsg": "The eval return vaule could not be displayed because the eval return vaule was over 1024 characters! Im going to send the return as its own file!"
+        },
+        "execute": {
+            "exports": {
+                "description": "Executes a command.",
+                "usage": "execute <command> [args]"
+            },
+            "noperms": "yo bruh you aint my owner, im not doing that shit 4 u",
+            "noargs": "bruh you need to specify what command i need to execute...",
+            "confirm": "ok fam i gotchu",
+            "commandconfirm": "yeah fam i did it",
+            "nocommand": "that command in not a thing! u stopid or somthing?",
+            "errorknown": "something broke lmao",
+            "default": "unkown code lamo %0",
+            "executemsg": "no"
+        },
+        "help": {
+            "exports": {
+                "description": "Gives a list of commands available in the bot.",
+                "usage": "help [command]"
+            },
+            "none": "*none*",
+            "description": "Description",
+            "category": "Category",
+            "usage": "Usage",
+            "permissions": "Permissions",
+            "cooldown": "Cooldown",
+            "seconds": " Second(s)",
+            "aliases": "Aliases",
+            "helptext": "`[]` means optional and `<>` is required. The bot prefix is `%0`",
+            "helpmenucmd": "Commands",
+            "error": "An error has occured. It has been logged to fix it.",
+            "nocommand": "Specifed command does not exist.",
+            "helpmenuspcmd": "Help For Specific Commands",
+            "helpmenuspbody": "To get help for any command, do `%0help [command name]`"
+        },
+        "howgay": {
+            "exports": {
+                "description": "See how gay something is.",
+                "usage": "howgay [anything]"
+            },
+            "100%self": "100% gay, you like Valorant.",
+            "self": "%0 is %1% gay",
+            "100%other": "%0 likes valorant, 100% gay",
+            "other": "%0 is %1% gay."
+        },
+        "language": {
+            "exports": {
+                "description": "Change the language of the bot.",
+                "usage": "language <lang code like \"de\" for german or \"en\" for english>"
+            },
+            "noargs": "Please specify the new language",
+            "nolang": "No localization found for %0",
+            "langchanged": "Language changed to `%0/%1`!"
+        },
+        "meme": {
+            "exports": {
+                "description": "Gives you a meme",
+                "usage": "meme"
+            },
+            "source": "This is from r/%0"
+        },
+        "memory": {
+            "exports": {
+                "description": "Gives you the used memor.",
+                "usage": "memory"
+            }
+        },
+        "ping": {
+            "exports": {
+                "description": "Gives you the bot ping.",
+                "usage": "ping"
+            },
+            "ping": "〽️ Pinging",
+            "title": "Pong! :ping_pong:",
+            "field1": "Ping:",
+            "ms": "ms",
+            "uptime": "Uptime:",
+            "uptimemsg": "%0d %1h %2m %3m %4s"
+        },
+        "purge": {
+            "exports": {
+                "description": "Deletes a set amount of messages.",
+                "usage": "purge <amount of messages>"
+            },
+            "nopermsbot": "I need `MANAGE_MESSAGES` permission to execute this command.",
+            "noargs": "Please specify the amount of messages to delete (Max is 500)",
+            "done": "Done!",
+            "succ": "Success, %0 messages have been removed!",
+            "error": "Error!"
+        }, 
+        "reload": {
+            "exports": {
+                "description": "Does some JS shit, mostly reloading",
+                "usage": "reload"
+            },
+            "clear": "Clearing chache... Pray that nothing breaks.",
+            "done": "yeah we done",
+            "noperms":"u think that im that stopid?"
+        },
+        "rule": {
+            "exports": {
+                "description": "Resends the rules.",
+                "usage": "rule"
+            },
+            "error": "Error!",
+            "done": "Done :clap:",
+            "errormsg": "The rule channel is not defined.",
+            "donemsg": "I send the messages you wanted me to send!"
+        },
+        "say": {
+            "exports": {
+                "description": "Make the bot say something",
+                "usage": "say <what you want the bot to say>"
+            },
+            "toolong": "UwU daddy i wanted to say that but its too long just like your-",
+            "has@": "UwU you are my favorite owner and i would do anything for you but my creator forbid me from inlcuding @ in my messages!!! :( btw could you please punch me harder oh daddy pls"
+        },
+        "servericon": {
+            "exports": {
+                "description": "Shows the server icon.",
+                "usage": "servericon"
+            },
+            "icon": "Server icon for %0"
+        },
+        "serverinfo": {
+            "exports": {
+                "description": "Displays the server info.",
+                "usage": "serverinfo"
+            },
+            "generaln": "General",
+            "general": "**› Name:** %0\n**› ID:** %1\n**› Owner:** %2\n**› Region:** %3\n**› Boost tier:** Tier %4\n**› Verification Level:** %5\n**› Created at:** %6:%7 %8.%9.%10}\n",
+            "statsn": "Stats",
+            "stats": "**› Role Count:** %0\n**› Emojis:** %1\n**› Animated Emojis:** %2\n**› Member Count:** %3\n**› Humans:** %4\n**› Bots:** %5\n**› Boost Count:** %6\n"
+        },
+        "setbotchannel": {
+            "exports": {
+                "description": "Sets the bot channel for the server!",
+                "usage": "setbotchannel <channel>"
+            },
+            "noargs": "Please specify the new bot channel!",
+            "done":"Done :clap:",
+            "donemsg": "The bot channel is now `%0`"
+        },
+        "setlogchannel": {
+            "exports": {
+                "description": "Sets the log channel for the server!",
+                "usage": "setlogchannel <channel>"
+            },
+            "noargs": "Please specify the new log channel!",
+            "done":"Done :clap:",
+            "donemsg": "The log channel on `%0` is now `%1`!"
+        },
+        "setprefix": {
+            "exports": {
+                "description": "Sets the prefix for the server!",
+                "usage": "prefix <new prefix>"
+            },
+            "error": "Error",
+            "errormsg": "The new prefix can't be over 100 characters.",
+            "noargs": "Please specify the new prefix!",
+            "done":"Done :clap:",
+            "donemsg": "The command prefix on `%0` is now `%1`!"
+        },
+        "setrulechannel": {
+            "exports": {
+                "description": "Sets the rule channel for the server!",
+                "usage": "setrulechannel <channel>"
+            },
+            "noargs": "Please specify the new rule channel!",
+            "done":"Done :clap:",
+            "donemsg": "The rule channel on `%0` is now `%1`!"
+        },
+        "shutdown": {
+            "exports": {
+                "description": "Shuts the bot down.",
+                "usage": "shutdown"
+            },
+            "noperms": "You do not have the Permission to execute this command!"
+        },
+        "simp": {
+            "exports": {
+                "description": "Checks if a user is a simp.",
+                "usage": "simp [anything]"
+            },
+            "100%self": "100% simp, you like Okool.",
+            "self": "%0 is %1% simp",
+            "other": "%0 is %1% simp."
+        },
+        "sus": {
+            "exports": {
+                "description": "Checks if a user is a impostor.",
+                "usage": "sus [anything]"
+            },
+            "100%self": "IMPOSTOR????????",
+            "self": "%0 is %1% sus.",
+            "other": "%0 is %1% sus."
+        },
+        "unblock": {
+            "exports": {
+                "description": "Unblock someone.",
+                "usage": "unblock <user>"
+            },
+            "noargs": "who tf should i unnlock?",
+            "noargsping": "haha very funni but pleae specify a user by mentioning him/her",
+            "noblock": "uwu i couldn't find that user in my config files" ,
+            "adminblock": "That user is admin blocked and you are not my owner so i cant unblock that user",
+            "succ": "daddy i unblocked %0!!!! now pwease punch me!!!!!!!"
+        },
+        "vibecheck": {
+            "exports": {
+                "description": "Check a user's vibe.",
+                "usage": "vibecheck [anything]"
+            },
+            "fmsg": "Checking %0's vibe...",
+            "first": [
+                "Accessing the vibe database...", 
+                "Asking my friends...", 
+                "Checking the bro code...", 
+                "Finding evidence...", 
+                "Checking interactions...",
+                "Looking at past interactions..."
+            ],
+            "second": [
+                "Asking the VibeCheckerClub:tm: for someone named %0...", 
+                "Looking at past DM's...", 
+                "Accesesing bro code violations...",
+                "Asking the Police..."
+            ],
+            "third": [
+                "identifying Vibe...",
+                "Running the obama check...",
+                "Asking the judge...",
+                "Checking the music database...",
+                "Asking the VibeCity people for Vibe..."
+            ], 
+            "failed": "%0 failed the vibe check with %1%.",
+            "special": "%0 passed the vibe check with xX420%Xx. %1",
+            "passed": "%0 passed the vibe check with %1%. %2",
+            "fbiT": "🚨WARNING🚨",
+            "fbi": "%0's vibe has been identified in the VibeChecker™ database.\n%1 has missed their Vibe Court date multiple times. The Vibe Police will be here shortly."
+        },
+        "whoasked": {
+            "exports": {
+                "description": "Check who tf aksed.",
+                "usage": "whoasked"
+            },
+            "first": "%0 asked, allow it ig",
+            "second": [
+                "this mf dumbass Mr.Pluff asked bruh.", 
+                "Spongebob asked. Not really proving anything but he asked.", 
+                "Joe asked. Who is joe? Well its JOE MAMA HAHA GOTEM",
+                "ur mom asked", 
+                "sorry simyon pushed the answer into lava but ig you asked",
+                "i asked",
+                "what?",
+                "ur dad ask- oh right your dad has gone away for milk"
+            ],
+            "third": [
+                "I've contacted the NSA, they're looking for who tf asked.", 
+                "nobody asked.", 
+                "Your ask will be delivered in 5-7 days", 
+                "God couldn't even find out who tf asked.", 
+                "There are like 8 billion poeple on earth and im still looking for someone who asked."
+            ]
+        },
+        "whowouldwin": {
+            "exports": {
+                "description": "Find out who would win between two people.",
+                "usage": "whowouldwin <person1>,<person2>"
+            },
+            "noargs": "Who do you even want to compare?????",
+            "winner": "%0 would win."
+        },
+        "yeet": {
+            "exports": {
+                "description": "Yeet something out of this world.",
+                "usage": "yeet <anything>"
+            },
+            "noargs": "What are you trying to yeet?",
+            "arr": [     
+                "yeeter yeeted theYeeted out of the window",
+                "yeeter you couldn't even yeet a fly with these noddle arms and you think you can yeet theYeeted",
+                "I gotchu bro, imma yeet this fella into orbit",
+                "yeet AND DELETE",
+                "Boris just canceled, theYeeted",
+                "theYeeted used an uno reverse card. yeeter has been yeeted.",
+                "yeetus, fetus, deletus",
+                "yeeter installed windows 10 on theYeeted and it crashed.",
+                "bye bye bich ",
+                "Did you really try to yeet thanos?",
+                "BRUH theYeeted get YEETED LMAOOOOO",
+                "GET OUT OR I WILL USE FORCE",
+                "theYeeted unplugged you while your bios was updating",
+                "The power rangers came and they said that theYeeted cant be yeeted",
+                "imo pineapple on pizza is ok. Obot-ma was yeeted... 0 imposters remain."
+            ]
+        }
+    },
+    "eventhandlers": {
+        "commandMessage": {
+            "error": "An unexpected error has occured. Please contact the bot owner (Simyon#6969)",
+            "cooldown": "You're using **%0** too quickly. Wait another **%1** seconds to use this command again.",
+            "permsErrT": "Error",
+            "permsErr": "You are missing the permission: `%0`",
+            "commandErrorT": "",
+            "commandError": "An error occured!"
+        },
+        "guildMemberAdd": {
+            "title": "Member joined",
+            "field1": "User",
+            "field2": "Created",
+            "footer": "User ID"
+        },
+        "guildMemberRemove": {
+            "title": "Member left",
+            "field1": "User",
+            "field2": "Joined",
+            "footer": "User ID"
+        },
+        "guildMemberUpdate": {
+            "title": "Nickname Changed",
+            "field1": "User",
+            "field2": "Old Nickname",
+            "field3": "New Nickname",
+            "footer": "User ID"
+        },
+        "messageDelete": {
+            "title": "Message Deleted",
+            "field1": "User",
+            "field2": "Channel",
+            "field3": "Conent"
+        },
+        "messageOther": {
+            "notrigged": "its not rigged",
+            "rigged": "its rigged"
+        },
+        "messageUpdate": {
+            "title": "Message Edited",
+            "field1": "User",
+            "field2": "Channel",
+            "field3": "Old Content",
+            "field4": "New Content"
+        }
+    }
+}

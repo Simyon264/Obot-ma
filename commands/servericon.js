@@ -18,6 +18,6 @@ module.exports = {
                 dynamic: true
             }))
             .setColor(randomColor)
-        message.channel.send(embed);
+        message.reply({ embeds: [embed] })
     }
 }

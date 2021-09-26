@@ -1,34 +1,32 @@
-const functions = require('../functions.js');
+const f = require('../functions.js');
 const discord = require('discord.js');
 
-var colourInfo = functions.config().messageColours.info;
-var colourWarn = functions.config().messageColours.warn;
 
 module.exports = {
     name: 'howgay',
-    description: 'See how gay something is!',
+    description: f.localization("commands","howgay","exports").description,
     category: 'fun',
     modcommand: false,
-    usage: 'howgay [anything]',
+    usage: f.localization("commands","howgay","exports").usage,
     perms: '',
     alias: ["hg", "gay"],
     cooldown: 2,
     run: function (message, prefix, args, client) {
         if (args.length <= 1) {
-            const randomNumber = Math.floor(Math.random() * 101) // Generate random number
+            const randomNumber = f.randomInt(0,100) // Generate random number
             const randomColor = Math.floor(Math.random() * 16777215).toString(16) // Generate random color
             if (randomNumber == 100) { // If the random number is 100, the person is very gay
-                message.channel.send("100% gay, you like Valorant.")
+                message.channel.send(f.localization("commands","howgay","100%self"))
             } else {
-                functions.embed(message.channel, "", randomColor, `${message.author.username} is ${randomNumber}% gay`)
+                f.embed(message, "", randomColor, f.localization("commands","howgay","self",[message.author.username,randomNumber]))
             }
         } else {
-            const randomNumber = Math.floor(Math.random() * 101)
+            const randomNumber = f.randomInt(0,100)
             const randomColor = Math.floor(Math.random() * 16777215).toString(16)
             if (randomNumber == 100) {
-                functions.embed(message.channel, "", randomColor, `${args[1]} likes valorant, 100% gay.`)
+                f.embed(message, "", randomColor, f.localization("commands","howgay","100%other",[args[1]]))
             } else {
-                functions.embed(message.channel, "", randomColor, `${args[1]} is ${randomNumber}% gay`)
+                f.embed(message, "", randomColor, f.localization("commands","howgay","other",[args[1],randomNumber]))
             }
         }
     }

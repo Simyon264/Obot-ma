@@ -1,21 +1,21 @@
-const functions = require('../functions.js');
+const f = require('../functions.js');
 const discord = require('discord.js');
 const fs = require('fs')
 
-const colourWarn = functions.config().messageColours.warn;
+const colourWarn = f.config().messageColours.warn;
 
 module.exports = {
     name: 'eval',
-    description: 'Does some JS shit',
+    description: f.localization("commands","eval","exports").description,
     category: 'owner',
     modcommand: true,
     blockCMD: true,
-    usage: '<code>',
+    usage: f.localization("commands","eval","exports").usage,
     perms: '',
     alias: ["e"],
     cooldown: 1,
     run: function (message, prefix, args, client) {
-        if (message.author.id == functions.config().special.owner) {
+        if (message.author.id == f.config().special.owner) {
             // I have no idea how this works
             const args = message.content.split(" ").slice(1);
             const clean = text => {
@@ -24,7 +24,7 @@ module.exports = {
                 else
                     return text;
             }
-            message.channel.send("Starting EVAL! :thumbsup:").then(function () {
+            message.reply(f.localization("commands","eval","start")).then( (msg) => {
                 try {
                     const code = args.join(" ");
                     const start = process.hrtime()
@@ -39,21 +39,21 @@ module.exports = {
                         //.setDescription("`" + clean(evaled), { code: "xl" } + " `")
                         .addField("`TIME`", "`" + (((stop[0] * 1e9) + stop[1])) / 1e6 + " ms.`")
                         .setColor(colourWarn)
-                    message.channel.send(embed)
+                    msg.edit({content: "** **", embeds: [embed] })
                         .catch(function () {
                             let embed = new discord.MessageEmbed()
-                                .addField("`EVAL`", "```xl\n" + "The eval return vaule could not be displayed because the eval return vaule was over 1024 characters! Im going to send the return as its own file!" + "\n```")
+                                .addField("`EVAL`", "```xl\n" + f.localization("commands","eval","fileMsg") + "\n```")
                                 .addField("`TIME`", "`" + (((stop[0] * 1e9) + stop[1])) / 1e6 + " ms.`")
                                 .setColor(colourWarn)
-                            message.channel.send(embed)
+                            msg.edit({ embeds: [embed] })
                             fs.writeFileSync("./files/cache/evalreturn.txt", clean(evaled))
                             message.channel.send({
                                 files: [{
                                     attachment: './files/cache/evalreturn.txt',
-                                    name: 'evalreturn.txt'
+                                    name: 'evalreturn.xl'
                                 }]
                             }).catch(() => {
-                                message.channel.send("Bruhhhh the return was prob over 8mb... bruv wtf were you doing")
+                                message.channel.send(f.localization("commands","eval","fileError"))
                             });
                         });
                 } catch (err) {
@@ -61,10 +61,10 @@ module.exports = {
                         .setTitle("")
                         .setDescription(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)
                         .setColor(colourWarn)
-                    message.channel.send(embed)
+                    message.reply({content: "** **", embeds: [embed] })
                 }
             });
 
-        } else message.channel.send('you really think im that stopid?')
+        } else message.reply(f.localization("commands","eval","noperms"))
     }
 }

@@ -13,7 +13,7 @@ module.exports = {
                     .setTitle("Message Deleted")
                     .setColor(colourInfo)
                     .addField("User", `${message.author} \`${message.author.tag}\``)
-                    .addField("Channel", message.channel)
+                    .addField("Channel", message.channel.name)
                     .addField("Content", `\`\`\`${message.content || "*none*"}\`\`\``)
                     .setThumbnail(message.author.displayAvatarURL);
 

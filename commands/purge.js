@@ -1,15 +1,15 @@
-const functions = require('../functions.js');
+const f = require('../functions.js');
 const discord = require('discord.js');
 
-const colourWarn = functions.config().messageColours.warn;
-const colourDone = functions.config().messageColours.done;
+const colourWarn = f.config().messageColours.warn;
+const colourDone = f.config().messageColours.done;
 
 module.exports = {
     name: 'purge',
-    description: 'Deletes a set amount of messages',
+    description: f.localization("commands","purge","exports").description,
     category: 'moderation',
     modcommand: true,
-    usage: 'purge <amount of messages>',
+    usage: f.localization("commands","purge","exports").usage,
     perms: 'MANAGE_MESSAGES',
     alias: ["clear", "massdelete"],
     cooldown: 25,
@@ -25,17 +25,17 @@ module.exports = {
                 if (args.length == 2) {
                     if (!isNaN(args[1])) {
                         if (args[1] < 1) {
-                            functions.embed(message.channel, "Error", colourWarn, "Please specify the amount of messages to delete (Max is 500)")
+                            f.embed(message, f.localization("commands","purge","error"), colourWarn, f.localization("commands","purge","noargs"))
                         } else {
                             if (args[1] <= 101) {
                                 message.channel.bulkDelete(args[1]).then(() => {
-                                    functions.embed(message.channel, "Done!", colourDone, `Success, ${args[1]} messages have beem removed!`)
+                                    f.embed(message, f.localization("commands", "purge", "done"), colourDone, f.localization("commands", "purge", "succ", [args[1]]))
                                 })
                             } else if (args[1] > 100 && args[1] <= 200) {
                                 message.channel.bulkDelete(100).then(() => {
                                     setTimeout(() => {
                                         message.channel.bulkDelete(args[1] - 100).then(() => {
-                                            functions.embed(message.channel, "Done!", colourDone, `Success, ${args[1]} messages have beem removed!`)
+                                            f.embed(message, f.localization("commands","purge","done"), colourDone, f.localization("commands","purge","succ",[args[1]]))
                                         });
                                     }, 200);
                                 });
@@ -45,7 +45,7 @@ module.exports = {
                                         message.channel.bulkDelete(100).then(() => {
                                             setTimeout(() => {
                                                 message.channel.bulkDelete(args[1] - 200).then(() => {
-                                                    functions.embed(message.channel, "Done!", colourDone, `Success, ${args[1]} messages have beem removed!`)
+                                                    f.embed(message, f.localization("commands","purge","done"), colourDone, f.localization("commands","purge","succ",[args[1]]))
                                                 })
                                             }, 200);
                                         });
@@ -59,7 +59,7 @@ module.exports = {
                                                 message.channel.bulkDelete(100).then(() => {
                                                     setTimeout(() => {
                                                         message.channel.bulkDelete(args[1] - 300).then(() => {
-                                                            functions.embed(message.channel, "Done!", colourDone, `Success, ${args[1]} messages have beem removed!`)
+                                                            f.embed(message, f.localization("commands","purge","done"), colourDone, f.localization("commands","purge","succ",[args[1]]))
                                                         })
                                                     }, 200);
                                                 })
@@ -77,7 +77,7 @@ module.exports = {
                                                         message.channel.bulkDelete(100).then(() => {
                                                             setTimeout(() => {
                                                                 message.channel.bulkDelete(args[1] - 400).then(() => {
-                                                                    functions.embed(message.channel, "Done!", colourDone, `Success, ${args[1]} messages have beem removed!`)
+                                                                    f.embed(message, f.localization("commands","purge","done"), colourDone, f.localization("commands","purge","succ",[args[1]]))
                                                                 })
                                                             }, 200);
                                                         })
@@ -88,17 +88,17 @@ module.exports = {
                                     }, 200);
                                 });
                             } else {
-                                functions.embed(message.channel, "Error", colourWarn, "Please specify the amount of messages to delete (Max is 500)")
+                                f.embed(message, f.localization("commands","purge","error"), colourWarn, f.localization("commands","purge","error"))
                             }
                         }
                     } else {
-                        functions.embed(message.channel, "Error", colourWarn, "Please specify the amount of messages to delete (Max is 500)")
+                        f.embed(message, f.localization("commands","purge","error"), colourWarn, f.localization("commands","purge","noargs"))
                     }
                 } else {
-                    functions.embed(message.channel, "Error", colourWarn, "Please specify the amount of messages to delete (Max is 500)")
+                    f.embed(message, f.localization("commands","purge","error"), colourWarn, f.localization("commands","purge","noargs"))
                 }
             } else {
-                functions.embed(message.channel, "Error", colourWarn, "I need `MANAGE_MESSAGES` permission to execute this command.")
+                f.embed(message,f.localization("commands","purge","error"), colourWarn, f.localization("commands","purge","nopermsbot"))
             }
         })
     }

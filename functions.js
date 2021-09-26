@@ -4,6 +4,54 @@ const f = require('./functions.js')
 const colors = require('colours')
 const path = require("path");
 
+exports.localization = function (category, string, translationString, args) {
+    const lang = f.config().bot.lang
+    const localization = require(`./files/strings/${lang}_lang.json`)
+    try {
+        let cat
+        for(let attributename in localization){
+            if (attributename == category.toLowerCase()) {
+                cat = localization[attributename]
+                break;
+            }
+        }
+        if (!cat) return `INVALID_CAT_${category.toUpperCase()}`
+
+        let translation
+        for (let attributename in cat) {
+            if (attributename == string) {
+                translation = cat[attributename]
+                break;
+            }
+        }
+        if (!translation) return `INVALID_STRING_${string.toUpperCase()}`
+
+        let translate
+        for (let attributename in translation) {
+            if (attributename == translationString) {
+                translate = translation[attributename]
+                break;
+            }
+        }
+        if (translationString == "exports" && typeof translate == "undefined") return {
+            "usage": "NO_EXPORTS",
+            "description": "NO_EXPORTS"
+        }
+        if (!translate) return `NO_TRANSLATION`
+        
+        if (!args) return translate;
+        
+        for (let index = 0; index < args.length; index++) {
+            translate = translate.replace(`%${index}`, args[index])
+        }
+
+        return translate;
+    } catch (error) {
+        f.error(error,"functions.js",true)
+        return "TRANSLATION_ERROR"
+    }
+}
+
 exports.config = function (config) {
     try {
         return (JSON.parse(fs.readFileSync("./files/important files/config.json")))
@@ -60,17 +108,20 @@ exports.execute = function (command, message, client, prefix, args) {
         };
     }
 }
-
+exports.sleep = function(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 exports.embed = function (channel, title, colour, message, returnEmbedOnly) {
     if (!returnEmbedOnly) {
-        var embed = new discord.MessageEmbed()
+        const embed = new discord.MessageEmbed()
             .setTitle(title)
             .setColor(colour)
             .setDescription(message);
-
-        channel.send(embed);
+        channel.reply({
+            embeds: [embed]
+        })
     } else {
-        var embed = new discord.MessageEmbed()
+        const embed = new discord.MessageEmbed()
             .setTitle(title)
             .setColor(colour)
             .setDescription(message);
@@ -107,14 +158,11 @@ exports.log = function (log, customStackNum, override, msgOverride) {
 
     if (typeof msgOverride != 'string') msgOverride = ">"
     if (logconsole == false) {
-        if (devMode || override.devMode) console.log(`${lineNumber} ${msgOverride} ${log}`)
+        if (devMode) console.log(`${lineNumber} ${msgOverride} ${log}`)
     }
 
-    if (writeLog || override.writeLog) {
-        file = fs.readFileSync('./files/log/latest.log', 'utf-8')
-
-        file = file + `\n${lineNumber} ${msgOverride} ${log}`
-        fs.writeFileSync('./files/log/latest.log', file)
+    if (writeLog) {
+        logQueue.push(`\n${lineNumber} ${msgOverride} ${log}`)
     }
 }
 

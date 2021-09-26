@@ -9,3 +9,4 @@ token.txt
 /files/cache/evalreturn.txt
 /files/log/latest.log
 package-lock.json
+/files/cache/*.txt

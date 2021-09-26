@@ -3,10 +3,10 @@ const discord = require('discord.js');
 
 module.exports = {
     name: 'avatar',
-    description: 'Displays the avatar of the mentioned user',
+    description: f.localization("commands","avatar","exports").description,
     category: 'fun',
     modcommand: false,
-    usage: 'avatar <user>',
+    usage: f.localization("commands","avatar","exports").usage,
     perms: '',
     alias: ["av", "pfp", "profilepicture"],
     cooldown: 1,
@@ -14,12 +14,8 @@ module.exports = {
         if (args.length == 2) { // If a user could be pinged
             let user = message.mentions.users.first(); // Get the ping
             if (!user) { // If a user was pinged
-                try {
-                    user = client.users.cache.get(args[1]) // Get user object from ping
-                } catch (e) {
-                    return f.embed('Please specify a user.');
-                }
-
+                user = client.users.cache.get(args[1]) // Get user object from ping
+                if (!user) return f.embed(message,"",f.config().colorInfo,f.localization("commands","avatar","deny"));    
             }
             // Generate the embed
             let embed = new discord.MessageEmbed()
@@ -27,8 +23,8 @@ module.exports = {
                     dynamic: true,
                     size: 4096
                 }))
-                .setTitle(`${user.username}'s avatar`)
-            message.channel.send(embed) // Send the embed
+                .setTitle(f.localization("commands","avatar","avatar",[user.username]))
+            message.reply({ embeds: [embed] }) // Send the embed
         } else { // If no user could be pinged
             let user = message.author; //  Get the user object
 
@@ -38,8 +34,8 @@ module.exports = {
                     dynamic: true,
                     size: 4096
                 }))
-                .setTitle(`${user.username}'s avatar`)
-            message.channel.send(embed) // Send the embed
+                .setTitle(f.localization("commands","avatar","avatar",[user.username]))
+            message.reply({ embeds: [embed] }) // Send the embed
         }
     }
 }

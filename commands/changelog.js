@@ -1,12 +1,13 @@
 const discord = require('discord.js');
 const fs = require("fs")
+const f = require("../functions.js")
 
 module.exports = {
     name: 'changelog',
-    description: 'Displays the changelog',
+    description: f.localization("commands","changelog","exports").description,
     category: 'general',
     modcommand: false,
-    usage: 'changelog',
+    usage: f.localization("commands","changelog","exports").usage,
     perms: '',
     alias: [],
     cooldown: 1,
@@ -14,7 +15,7 @@ module.exports = {
         const colourInfo = f.config().messageColours.info;
 
         let embed = new discord.MessageEmbed()
-            .setTitle("Changelog")
+            .setTitle(f.localization("commands","changelog","title"))
             .setColor(colourInfo)
             .setDescription(fs.readFileSync("./files/important files/changelog.txt", ))
             .setThumbnail(client.user.avatarURL())

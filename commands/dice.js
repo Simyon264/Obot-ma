@@ -2,10 +2,10 @@ const f = require('../functions.js');
 
 module.exports = {
     name: 'dice',
-    description: 'Roll the dice.',
+    description: f.localization("commands","dice","exports").description,
     category: 'fun',
     modcommand: false,
-    usage: 'dice [min],[max]',
+    usage: f.localization("commands","dice","exports").usage,
     perms: '',
     alias: ["randomnumber", "rn"],
     cooldown: 1,
@@ -18,14 +18,14 @@ module.exports = {
             args = arg // Set args to arg
             if (typeof args[1] !== 'undefined') {
                 const randomNumber = f.randomInt(args[0], args[1])
-                message.channel.send(`:game_die: ${randomNumber}`)
+                message.reply(f.localization("commands","dice","emoji",[randomNumber]))
             } else {
                 const randomNumber = Math.floor(Math.random() * 6)
-                message.channel.send(`:game_die: ${randomNumber}`)
+                message.reply(f.localization("commands","dice","emoji",[randomNumber]))
             }
         } else {
             const randomNumber = Math.floor(Math.random() * 6)
-            message.channel.send(`:game_die: ${randomNumber}`)
+            message.reply(f.localization("commands","dice","emoji",[randomNumber]))
         }
     }
 }

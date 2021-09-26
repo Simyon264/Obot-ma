@@ -20,11 +20,11 @@ module.exports = {
         } else {
             let s = "`"
             if (args[1].length > 100) {
-                functions.embed(message.channel, "Error", colourWarn, "The new prefix cant be over 100 characters.")
+                functions.embed(message, "Error", colourWarn, "The new prefix cant be over 100 characters.")
             } else {
                 file.prefix = args[1];
                 fs.writeFileSync(`./files/serverConfigs/${message.guild.id}.json`, JSON.stringify(file))
-                functions.embed(message.channel, "Done!  :clap:", colourDone, `The command prefix on ${s}${message.guild.name}${s} is now ${s}${args[1]}${s}!`)
+                functions.embed(message, "Done!  :clap:", colourDone, `The command prefix on ${s}${message.guild.name}${s} is now ${s}${args[1]}${s}!`)
             }
         }
     }

@@ -4,10 +4,10 @@ const discord = require('discord.js');
 
 module.exports = {
 	name: 'about',
-	description: 'About the bot',
+	description: f.localization("commands","about","exports").description,
 	category: 'general',
 	modcommand: false,
-	usage: 'about',
+	usage: f.localization("commands","about","exports").usage,
 	perms: '',
 	alias: [],
 	cooldown: 1,
@@ -25,15 +25,15 @@ module.exports = {
 
 		// Construct the embed
 		let embed = new discord.MessageEmbed()
-			.setTitle("About")
+			.setTitle(f.localization("commands","about","about"))
 			.setColor(colourInfo)
-			.setDescription(f.config().bot.description)
-			.addField("Version", f.config().bot.version)
-			.addField("Author", f.config().bot.Authors)
+			.setDescription(f.localization("commands","about","description"))
+			.addField(f.localization("commands","about","version"), f.config().bot.version)
+			.addField(f.localization("commands","about","authers"), f.config().bot.Authors)
 			.setThumbnail(client.user.avatarURL())
-			.addField("Uptime", `${days}d ${hours}h ${minutes}m ${seconds}s`)
+			.addField(f.localization("commands","about","uptime"), `${days}d ${hours}h ${minutes}m ${seconds}s`)
 		// Send the embed
 		f.log("Message sent.")
-		message.channel.send(embed);
+		message.reply({ embeds: [embed] })
 	}
 }

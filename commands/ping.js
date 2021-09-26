@@ -1,12 +1,12 @@
-const functions = require('../functions.js');
+const f = require('../functions.js');
 const discord = require('discord.js');
 
 module.exports = {
     name: 'ping',
-    description: 'Gives the bot ping',
+    description: f.localization("commands","ping","exports").description,
     category: 'general',
     modcommand: false,
-    usage: '',
+    usage: f.localization("commands","ping","exports").usage,
     perms: '',
     alias: ["ut"],
     cooldown: 5,
@@ -25,15 +25,14 @@ module.exports = {
         } else {
             colour = 0x26e08d
         }
-        message.channel.send("〽️ Pinging").then((m) => { // Send pinging message and edit it to the embed
+        message.channel.send(f.localization("commands","ping","ping")).then((m) => { // Send pinging message and edit it to the embed
             // Genereate embed
             let embed = new discord.MessageEmbed()
-                .setTitle("Pong! :ping_pong:")
-                .addField("Ping: ", client.ws.ping + "ms")
-                .addField("Uptime: ", `${days}d ${hours}h ${minutes}m ${seconds}s`)
+                .setTitle(f.localization("commands","ping","title"))
+                .addField(f.localization("commands","ping","field1"), client.ws.ping + f.localization("commands","ping","ms"))
+                .addField(f.localization("commands","ping","uptime"), f.localization("commands","ping","uptimemsg",[days,hours,minutes,seconds]))
                 .setColor(colour)
-            m.edit(embed)
-            m.edit("")
+            m.edit({content: "** **", embeds: [embed]})
         }).catch((err) => {
             console.log(err)
         });

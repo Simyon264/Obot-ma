@@ -17,9 +17,6 @@ function error_handler(err, type, message) {
     console.log(colors.red(`An error occured! The error can be found in /files/log/${log_filename}.txt`)) // Console log that a error occured
 }
 
-function cmdContinue(params) {
-
-}
 
 // This is for running a CMD
 function runCMD(commandFile, guildConfig, message, colourWarn, prefix, args, client) {
@@ -73,7 +70,7 @@ function runCMD(commandFile, guildConfig, message, colourWarn, prefix, args, cli
 
             if (!message.member.permissions.has(commandPermissions)) {
                 f.log("User is missing perms")
-                f.embed(message.channel, "Error", colourWarn, `You are missing the permission: ${commandPermissions}`);
+                f.embed(message, "Error", colourWarn, `You are missing the permission: ${commandPermissions}`);
                 return;
             } else f.log('Perm check passed.')
         }
@@ -95,14 +92,14 @@ function runCMD(commandFile, guildConfig, message, colourWarn, prefix, args, cli
         }
     } catch (err) {
         f.log("A command error occured")
-        f.embed(message.channel, "", colourWarn, "An error occured!");
+        f.embed(message, "", colourWarn, "An error occured!");
         error_handler(err, "Command Error!", `Message: ${message.content}`)
     }
 }
 
 module.exports = {
     run: function (client) {
-        client.on('message', async (message) => {
+        client.on('messageCreate', async (message) => {
             try {
                 f.log(`Message recieved: ${message}`)
                 if (!message.guild) return f.log("Message is in a DM channel..."); // Check if a message is a guild, and ignores it
@@ -156,7 +153,7 @@ module.exports = {
                             } else f.log(`The command ${args[0]} requested by ${message.author.username} could not be found.`)
                         } else {
                             error_handler(err, "Unexpected Error!")
-                            f.embed(message.channel, "", colourWarn, "An unexpected error has occured. Please contact the bot owner (Simyon#6969)");
+                            f.embed(message, "", colourWarn, "An unexpected error has occured. Please contact the bot owner (Simyon#6969)");
                         }
                     });
                 } else f.log('Prefix check failed...');
